@@ -6,6 +6,8 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-noarg:$kotlin_version"
     }
 }
 
@@ -14,7 +16,19 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'kotlin-platform-jvm'
+apply plugin: "kotlin-allopen"
+apply plugin: "kotlin-noarg"
 apply plugin: 'war'
+
+allOpen {
+    annotation("javax.ejb.Stateless")
+    annotation("javax.persistence.Entity")
+}
+
+noArg {
+    annotation("javax.ejb.Stateless")
+    annotation("javax.persistence.Entity")
+}
 
 sourceCompatibility = 1.8
 
@@ -24,7 +38,7 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    providedRuntime group: 'javax', name: 'javaee-api', version: '8.0'
+    providedCompile group: 'javax', name: 'javaee-api', version: '8.0'
     testCompile "junit:junit:4.12"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
