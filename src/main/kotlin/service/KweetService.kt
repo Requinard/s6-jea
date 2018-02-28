@@ -2,27 +2,39 @@ package service
 
 import dao.KweetDao
 import domain.Kweet
+import util.now
+import java.sql.Timestamp
+import java.time.Instant
 import javax.inject.Inject
-import javax.ws.rs.GET
-import javax.ws.rs.POST
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
+import javax.ws.rs.*
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
 
 
 @Path("kweets")
-class KweetService {
-    @Inject
-    lateinit var kweetDao: KweetDao
+class KweetService @Inject constructor(
+    val kweetDao: KweetDao
+){
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    fun getAll(): List<Kweet>{
+        return kweetDao.getAll()
+    }
 
     @GET
-    @Produces("text/plain")
-    fun hi(): String = "Hello world"
+    @Path("{id}")
+    fun getById(
+        @PathParam("id") id: Int
+    ): Kweet {
+        return kweetDao.getById(id)
+    }
 
-    @GET
-    @Path("what")
-    @Produces("text/plain")
-    fun makeKweet(): String {
-        kweetDao.create(Kweet(null, "hello world"))
-        return "hello"
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    fun postKweet(kweet: Kweet): Response {
+        kweetDao.create(kweet)
+
+        return Response.accepted(kweet).build()
     }
 }

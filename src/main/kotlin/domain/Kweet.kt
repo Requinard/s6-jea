@@ -1,13 +1,17 @@
 package domain
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
+import java.sql.Timestamp
+import javax.persistence.*
 
-@Entity
+@Entity(name = "kweet")
+@NamedQuery(name = "Kweet.getAll", query = "select k from kweet k")
 data class Kweet(
-        @Id
-        @GeneratedValue()
-        val Id: Int?,
-        val message: String
+    @Id
+    @GeneratedValue()
+    var Id: Int?,
+    var created: Timestamp,
+    var message: String,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
+    var profile: Profile
 )

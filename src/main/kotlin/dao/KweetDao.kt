@@ -11,7 +11,13 @@ class KweetDao() {
     @PersistenceContext(unitName = "haraka")
     lateinit var entityManager: EntityManager
 
-    val it = "hello world"
+    fun getAll(): List<Kweet> {
+        return entityManager.createNamedQuery("Kweet.getAll").resultList as List<Kweet>
+    }
+
+    fun getById(id: Int): Kweet {
+        return entityManager.find(Kweet::class.java, id)
+    }
 
     fun create(kweet: Kweet) {
         entityManager.persist(kweet)
