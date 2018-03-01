@@ -3,9 +3,9 @@ package domain
 import java.sql.Timestamp
 import javax.persistence.*
 
-@Entity
+@Entity(name = "profile")
 @NamedQueries(
-    (NamedQuery(name="Profile.getByScreenName", query="select p from profile p where p.screenname is :screenname"))
+    (NamedQuery(name="Profile.getByScreenName", query="select p from profile p where p.screenname LIKE :screenname"))
 )
 data class Profile(
     @Id

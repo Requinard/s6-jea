@@ -12,7 +12,7 @@ class ProfileDao {
 
     fun getById(id: Int) = em.find(Profile::class.java, id)
 
-    fun getByScreenname(name: String) = em.createNamedQuery("Profile.getByScreenName")
+    fun getByScreenname(name: String) = em.createNamedQuery("Profile.getByScreenName", Profile::class.java)
         .setParameter("screenname", name)
         .resultList
         .firstOrNull()
