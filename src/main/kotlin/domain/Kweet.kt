@@ -13,5 +13,7 @@ data class Kweet(
     var message: String,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
-    var profile: Profile
+    var profile: Profile,
+    @ManyToMany(mappedBy = "likes")
+    var likedBy: List<Profile>
 )
