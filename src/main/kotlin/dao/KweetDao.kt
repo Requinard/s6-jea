@@ -1,25 +1,39 @@
 package dao
 
 import domain.Kweet
+import domain.Profile
 import javax.ejb.Stateless
-import javax.enterprise.context.ApplicationScoped
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
 @Stateless
-class KweetDao() {
+class KweetDao {
     @PersistenceContext(unitName = "haraka")
-    lateinit var entityManager: EntityManager
+    lateinit var em: EntityManager
 
     fun getAll(): List<Kweet> {
-        return entityManager.createNamedQuery("Kweet.getAll").resultList as List<Kweet>
+        return em.createNamedQuery("Kweet.getAll").resultList as List<Kweet>
     }
 
     fun getById(id: Int): Kweet {
-        return entityManager.find(Kweet::class.java, id)
+        return em.find(Kweet::class.java, id)
     }
 
     fun create(kweet: Kweet) {
-        entityManager.persist(kweet)
+        em.persist(kweet)
+    }
+
+    fun like(kweet: Kweet, profile: Profile){
+        kweet.likedBy += profile
+        profile.likes += kweet
+        em.persist(kweet)
+        em.persist(profile)
+    }
+
+    fun like(kweet: Kweet, profileId: Int){
+        return like(
+            kweet,
+            em.find(Profile::class.java, profileId)
+        )
     }
 }

@@ -4,6 +4,9 @@ import java.sql.Timestamp
 import javax.persistence.*
 
 @Entity
+@NamedQueries(
+    (NamedQuery(name="Profile.getByScreenName", query="select p from profile p where p.screenname is :screenname"))
+)
 data class Profile(
     @Id
     @GeneratedValue
