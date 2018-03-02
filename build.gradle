@@ -39,6 +39,7 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
+    compile group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
     providedCompile group: 'javax', name: 'javaee-api', version: '8.0'
     testCompile "junit:junit:4.12"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
