@@ -5,5 +5,4 @@ before_script:
   - gradle assemble
 script:
   - gradle test
-  - gradle lintKotlin
 
