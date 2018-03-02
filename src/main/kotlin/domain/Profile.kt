@@ -1,6 +1,7 @@
 package domain
 
 import java.sql.Timestamp
+import javax.json.bind.annotation.JsonbTransient
 import javax.persistence.*
 
 @Entity(name = "profile")
@@ -13,12 +14,16 @@ data class Profile(
     var id: Int,
     var screenname: String,
     var created: Timestamp,
+    @OneToMany(mappedBy = "profile")
+    var kweets: List<Kweet>
+    ,
     @ManyToMany
     @JoinTable(
         name="liked_kweets",
         joinColumns = [(JoinColumn(name = "profile_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "kweet_id", referencedColumnName = "id"))]
     )
+    @JsonbTransient
     var likes: List<Kweet>,
     @ManyToMany
     @JoinTable(
