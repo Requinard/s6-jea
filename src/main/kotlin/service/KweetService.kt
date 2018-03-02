@@ -2,22 +2,18 @@ package service
 
 import dao.KweetDao
 import domain.Kweet
-import util.now
-import java.sql.Timestamp
-import java.time.Instant
 import javax.inject.Inject
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
-
 @Path("kweets")
 class KweetService @Inject constructor(
     val kweetDao: KweetDao
-){
+) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun getAll(): List<Kweet>{
+    fun getAll(): List<Kweet> {
         return kweetDao.getAll()
     }
 

@@ -19,7 +19,7 @@ class ProfileDao {
 
     fun create(profile: Profile) = em.persist(profile)
 
-    fun follow(follower: Profile, leader:Profile) {
+    fun follow(follower: Profile, leader: Profile) {
         follower.follows += leader
         leader.followers += follower
         em.persist(follower)

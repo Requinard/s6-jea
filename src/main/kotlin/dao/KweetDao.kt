@@ -23,14 +23,14 @@ class KweetDao {
         em.persist(kweet)
     }
 
-    fun like(kweet: Kweet, profile: Profile){
+    fun like(kweet: Kweet, profile: Profile) {
         kweet.likedBy += profile
         profile.likes += kweet
         em.persist(kweet)
         em.persist(profile)
     }
 
-    fun like(kweet: Kweet, profileId: Int){
+    fun like(kweet: Kweet, profileId: Int) {
         return like(
             kweet,
             em.find(Profile::class.java, profileId)

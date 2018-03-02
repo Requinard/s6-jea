@@ -33,5 +33,4 @@ class AuthenticationDao {
         BCrypt.hashpw(password, salt),
         emptyList()
     )
-
 }

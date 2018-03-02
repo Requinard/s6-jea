@@ -1,4 +1,3 @@
 package domain
 
-class Hashtag {
-}
+class Hashtag

@@ -12,5 +12,4 @@ class RestApplication : Application() {
             add(KweetService::class.java)
             add(ProfileService::class.java)
         }
-
 }
