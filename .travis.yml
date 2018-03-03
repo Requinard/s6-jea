@@ -4,5 +4,6 @@ jdk:
 before_script:
   - gradle assemble
 script:
+  - gradle ktlint
   - gradle test
 

@@ -15,8 +15,8 @@ import javax.inject.Inject
 class DbPopulator @Inject constructor(
     val profileDao: ProfileDao,
     val kweetDao: KweetDao
-){
-    val john =  Profile(
+) {
+    val john = Profile(
         screenname = "john",
         created = now()
     )
@@ -33,10 +33,10 @@ class DbPopulator @Inject constructor(
     )
 
     @PostConstruct
-    fun startup(){
+    fun startup() {
         val profiles = profileDao.getAll()
 
-        if(profiles.isNotEmpty()) return
+        if (profiles.isNotEmpty()) return
 
         profileDao.create(john)
         profileDao.create(hank)

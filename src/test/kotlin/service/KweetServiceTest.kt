@@ -15,8 +15,8 @@ internal class KweetServiceTest {
 
     @Before
     fun setup() {
-        val emMock = mock<KweetDao>{
-            on {getAll()} doReturn listOf(Kweet(
+        val emMock = mock<KweetDao> {
+            on { getAll() } doReturn listOf(Kweet(
                 created = now(),
                 message = "Hi john",
                 profile = Profile(

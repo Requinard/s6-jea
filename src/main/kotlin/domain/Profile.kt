@@ -2,7 +2,7 @@ package domain
 
 import java.sql.Timestamp
 import javax.json.bind.annotation.JsonbTransient
-import javax.persistence.*
+import javax.persistence.* // ktlint-disable no-wildcard-imports
 
 @Entity(name = "profile")
 @NamedQueries(

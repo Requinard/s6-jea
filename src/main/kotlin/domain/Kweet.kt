@@ -1,7 +1,7 @@
 package domain
 
 import java.sql.Timestamp
-import javax.persistence.*
+import javax.persistence.* // ktlint-disable no-wildcard-imports
 
 @Entity(name = "kweet")
 @NamedQuery(name = "Kweet.getAll", query = "select k from kweet k")

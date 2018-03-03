@@ -15,8 +15,8 @@ internal class KweetDaoTest {
 
     @Before
     fun setup() {
-        val mockQuery = mock<TypedQuery<*>>(){
-            on {resultList} doReturn emptyList<Kweet>()
+        val mockQuery = mock<TypedQuery<*>>() {
+            on { resultList } doReturn emptyList<Kweet>()
         }
 
         val mock = mock<EntityManager> {
