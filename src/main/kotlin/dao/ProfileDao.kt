@@ -12,6 +12,8 @@ class ProfileDao {
 
     fun getById(id: Int) = em.find(Profile::class.java, id)
 
+    fun getAll(): List<Profile> = em.createNamedQuery("Profile.getAll", Profile::class.java).resultList
+
     fun getByScreenname(name: String) = em.createNamedQuery("Profile.getByScreenName", Profile::class.java)
         .setParameter("screenname", name)
         .resultList

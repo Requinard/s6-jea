@@ -23,11 +23,13 @@ apply plugin: 'war'
 allOpen {
     annotation("javax.ejb.Stateless")
     annotation("javax.persistence.Entity")
+    annotation("javax.ejb.Singleton")
 }
 
 noArg {
     annotation("javax.ejb.Stateless")
     annotation("javax.persistence.Entity")
+    annotation("javax.ejb.Singleton")
 }
 
 sourceCompatibility = 1.8
