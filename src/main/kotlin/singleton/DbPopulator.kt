@@ -17,31 +17,19 @@ class DbPopulator @Inject constructor(
     val kweetDao: KweetDao
 ){
     val john =  Profile(
-        null,
-        "john",
-        now(),
-        emptyList(),
-        emptyList(),
-        emptyList(),
-        emptyList()
+        screenname = "john",
+        created = now()
     )
 
     val hank = Profile(
-        null,
-        "hank",
-        now(),
-        emptyList(),
-        emptyList(),
-        emptyList(),
-        emptyList()
+        screenname = "hank",
+        created = now()
     )
 
     val kweet = Kweet(
-        null,
-        now(),
-        "Hello World",
-        hank,
-        emptyList()
+        created = now(),
+        profile = hank,
+        message = "Automated entry message"
     )
 
     @PostConstruct

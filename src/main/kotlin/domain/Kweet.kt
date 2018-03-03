@@ -8,12 +8,12 @@ import javax.persistence.*
 data class Kweet(
     @Id
     @GeneratedValue()
-    var Id: Int?,
+    var Id: Int? = null,
     var created: Timestamp,
     var message: String,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
     var profile: Profile,
     @ManyToMany(mappedBy = "likes")
-    var likedBy: List<Profile>
+    var likedBy: List<Profile> = emptyList()
 )

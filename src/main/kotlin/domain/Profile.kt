@@ -12,11 +12,11 @@ import javax.persistence.*
 data class Profile(
     @Id
     @GeneratedValue
-    var id: Int?,
+    var id: Int? = null,
     var screenname: String,
     var created: Timestamp,
     @OneToMany(mappedBy = "profile")
-    var kweets: List<Kweet>
+    var kweets: List<Kweet> = emptyList()
     ,
     @ManyToMany
     @JoinTable(
