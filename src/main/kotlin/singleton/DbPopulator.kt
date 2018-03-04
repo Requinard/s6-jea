@@ -41,9 +41,10 @@ class DbPopulator @Inject constructor(
 
     val kweet = Kweet(
         created = now(),
-        profile = hank,
         message = "Automated entry message"
-    )
+    ).apply {
+        profile = hank
+    }
 
     @PostConstruct
     fun startup() {

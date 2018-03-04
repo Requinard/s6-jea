@@ -1,10 +1,8 @@
 package domain
 
-import com.fasterxml.jackson.annotation.JsonBackReference
-import com.fasterxml.jackson.annotation.JsonManagedReference
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.sql.Timestamp
-import javax.json.bind.annotation.JsonbTransient
-import javax.persistence.* // ktlint-disable no-wildcard-imports
+import javax.persistence.*
 
 @Entity(name = "profile")
 @NamedQueries(
@@ -15,27 +13,31 @@ data class Profile(
     @Id
     @GeneratedValue
     var id: Int? = null,
+
     var screenname: String,
-    var created: Timestamp,
-    @OneToMany(mappedBy = "profile")
-    var kweets: List<Kweet> = emptyList(),
-    @ManyToMany(fetch = FetchType.LAZY)
+
+    var created: Timestamp
+) {
+
+    @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
+    var kweets: List<Kweet> = emptyList()
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
     @JoinTable(
         name = "liked_kweets",
         joinColumns = [(JoinColumn(name = "profile_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "kweet_id", referencedColumnName = "id"))]
     )
-    @JsonBackReference
-    var likes: List<Kweet> = emptyList(),
-    @ManyToMany(fetch = FetchType.LAZY)
+    var likes: List<Kweet> = emptyList()
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
     @JoinTable(
         name = "follows",
         joinColumns = [(JoinColumn(name = "follower_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "followed_id", referencedColumnName = "id"))]
     )
-    @JsonManagedReference
-    var follows: List<Profile> = emptyList(),
-    @ManyToMany(mappedBy = "follows", fetch = FetchType.LAZY)
-    @JsonBackReference
+    var follows: List<Profile> = emptyList()
+
+    @ManyToMany(mappedBy = "follows", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
     var followers: List<Profile> = emptyList()
-)
+}
