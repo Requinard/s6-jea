@@ -2,7 +2,10 @@ package service
 
 import dao.ProfileDao
 import domain.Profile
+import javax.annotation.security.DeclareRoles
+import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
+import javax.resource.spi.SecurityPermission
 import javax.ws.rs.* // ktlint-disable no-wildcard-imports
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
@@ -25,6 +28,7 @@ class ProfileService @Inject constructor(
     @GET
     @Path("{screenname}/kweets")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("USER")
     fun getKweetsByScreenName(
         @PathParam("screenname") screenname: String
     ) = profileDao.getByScreenname(screenname)?.kweets

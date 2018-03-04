@@ -2,7 +2,10 @@ package singleton
 
 import dao.KweetDao
 import dao.ProfileDao
+import dao.UserDao
 import domain.Kweet
+import domain.KwetterGroup
+import domain.KwetterUser
 import domain.Profile
 import util.now
 import javax.annotation.PostConstruct
@@ -14,8 +17,17 @@ import javax.inject.Inject
 @Startup
 class DbPopulator @Inject constructor(
     val profileDao: ProfileDao,
-    val kweetDao: KweetDao
+    val kweetDao: KweetDao,
+    val userDao: UserDao
 ) {
+    val user1 = KwetterUser(
+        username = "steve",
+        password = "3a902a19b6f9f8df5c9f5eefe9749662d1defd6f420af2d416edc1d97a72180a"
+    )
+    val group1 = KwetterGroup(
+        groupName = "regulars"
+    )
+
     val john = Profile(
         screenname = "john",
         created = now()
@@ -45,5 +57,24 @@ class DbPopulator @Inject constructor(
 
         kweetDao.create(kweet)
         kweetDao.like(kweet, john)
+
+        userDao.createGroup(group1)
+        userDao.createUser(user1)
+        userDao.addToGroup(user1, group1)
+
+        verify()
+    }
+
+    /**
+     * Grab the relations and test them
+     */
+    fun verify() {
+        val p1 = profileDao.getById(1)
+        val p2 = profileDao.getById(2)
+
+        assert(p1.follows.isNotEmpty())
+        assert(p1.likes.isNotEmpty())
+        assert(p2.followers.isNotEmpty())
+        assert(p2.kweets.isNotEmpty())
     }
 }

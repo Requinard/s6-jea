@@ -1,5 +1,7 @@
 package domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import java.sql.Timestamp
 import javax.json.bind.annotation.JsonbTransient
 import javax.persistence.* // ktlint-disable no-wildcard-imports
@@ -16,23 +18,24 @@ data class Profile(
     var screenname: String,
     var created: Timestamp,
     @OneToMany(mappedBy = "profile")
-    var kweets: List<Kweet> = emptyList()
-    ,
-    @ManyToMany
+    var kweets: List<Kweet> = emptyList(),
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "liked_kweets",
         joinColumns = [(JoinColumn(name = "profile_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "kweet_id", referencedColumnName = "id"))]
     )
-    @JsonbTransient
+    @JsonBackReference
     var likes: List<Kweet> = emptyList(),
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "follows",
         joinColumns = [(JoinColumn(name = "follower_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "followed_id", referencedColumnName = "id"))]
     )
+    @JsonManagedReference
     var follows: List<Profile> = emptyList(),
-    @ManyToMany(mappedBy = "follows")
+    @ManyToMany(mappedBy = "follows", fetch = FetchType.LAZY)
+    @JsonBackReference
     var followers: List<Profile> = emptyList()
 )
