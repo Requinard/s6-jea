@@ -8,6 +8,7 @@ import domain.KwetterGroup
 import domain.KwetterUser
 import domain.Profile
 import util.now
+import util.sha256
 import javax.annotation.PostConstruct
 import javax.ejb.Singleton
 import javax.ejb.Startup
@@ -22,10 +23,10 @@ class DbPopulator @Inject constructor(
 ) {
     val user1 = KwetterUser(
         username = "steve",
-        password = "3a902a19b6f9f8df5c9f5eefe9749662d1defd6f420af2d416edc1d97a72180a"
+        password = sha256("steve")
     )
     val group1 = KwetterGroup(
-        groupName = "regulars"
+        groupname = "regulars"
     )
 
     val john = Profile(

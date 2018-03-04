@@ -5,12 +5,12 @@ import javax.persistence.*
 @Entity
 data class KwetterGroup (
     @Id
-    var groupName: String,
+    var groupname: String,
     @ManyToMany
     @JoinTable(
         name= "user_group",
-        joinColumns = [(JoinColumn(name ="groupName", referencedColumnName = "groupName"))],
-        inverseJoinColumns = [(JoinColumn(name="userName", referencedColumnName = "username"))]
+        joinColumns = [(JoinColumn(name ="groupname", referencedColumnName = "groupname"))],
+        inverseJoinColumns = [(JoinColumn(name="username", referencedColumnName = "username"))]
     )
     var users: List<KwetterUser> = emptyList()
 )
