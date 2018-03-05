@@ -9,6 +9,8 @@ import domain.KwetterUser
 import domain.Profile
 import util.now
 import util.sha256
+import java.sql.Timestamp
+import java.time.Instant
 import javax.annotation.PostConstruct
 import javax.ejb.Singleton
 import javax.ejb.Startup
@@ -50,6 +52,11 @@ class DbPopulator @Inject constructor(
         message = "Automated entry message"
     )
 
+    val olderTweet = Kweet(
+        created = Timestamp.from(Instant.MAX),
+        message = "deze moet bovenaan staan"
+    )
+
     @PostConstruct
     fun startup() {
         val profiles = profileDao.getAll()
@@ -65,8 +72,10 @@ class DbPopulator @Inject constructor(
         userDao.createUser(hankUser, hank)
         userDao.addToGroup(hankUser, group1)
 
-        kweetDao.create(kweet, hank)
-        kweetDao.like(kweet, john)
+        profileDao.follow(hank, john)
+
+        kweetDao.create(kweet, john)
+        kweetDao.like(kweet, hank)
 
         verify()
     }

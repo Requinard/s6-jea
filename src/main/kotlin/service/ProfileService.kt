@@ -4,7 +4,6 @@ import dao.ProfileDao
 import dao.UserDao
 import domain.Profile
 import dto.ProfileFacade
-import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
 import javax.ws.rs.*
 import javax.ws.rs.core.Context
@@ -24,7 +23,7 @@ class ProfileService @Inject constructor(
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun get(): Profile? = profileDao.getByScreenname("john")
+    fun get() = ProfileFacade(profileDao.getByScreenname("john")!!)
 
     @GET
     @Path("{screenname}")
@@ -42,7 +41,6 @@ class ProfileService @Inject constructor(
     @GET
     @Path("{screenname}/kweets")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("USER")
     fun getKweetsByScreenName(
         @PathParam("screenname") screenname: String
     ) = profileDao.getByScreenname(screenname)?.kweets

@@ -3,6 +3,9 @@ package service
 import dao.KweetDao
 import dao.UserDao
 import domain.Kweet
+import domain.KwetterUser
+import dto.SimpleKweetFacade
+import util.now
 import javax.inject.Inject
 import javax.ws.rs.* // ktlint-disable no-wildcard-imports
 import javax.ws.rs.core.Context
@@ -18,19 +21,38 @@ class KweetService @Inject constructor(
     @Context
     lateinit var sc: SecurityContext
 
+    val user: KwetterUser get() = userDao.getUser(sc.userPrincipal.name)!!
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun getAll(): List<Kweet> {
-        return kweetDao.getAll()
+    fun getAll(): Collection<SimpleKweetFacade> {
+        return user.profile!!.follows.flatMap { it.kweets }
+            .sortedByDescending { it.created }
+            .map { SimpleKweetFacade(it) }
+    }
+
+    @POST
+    @Path("{message}")
+    @Produces(MediaType.APPLICATION_JSON)
+    fun postMessage(
+        @PathParam("message") message: String
+    ): Response {
+        val kweet = Kweet(
+            created = now(),
+            message = message
+        )
+
+        kweetDao.create(kweet, user.profile!!)
+
+        return Response.ok(SimpleKweetFacade(kweet)).build()
     }
 
     @GET
     @Path("{id}")
     fun getById(
         @PathParam("id") id: Int
-    ): Kweet {
-        return kweetDao.getById(id)
-    }
+    ) = SimpleKweetFacade(kweetDao.getById(id))
+
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -40,6 +62,6 @@ class KweetService @Inject constructor(
 
         kweetDao.create(kweet, user.profile!!)
 
-        return Response.accepted(kweet).build()
+        return Response.accepted(SimpleKweetFacade(kweet)).build()
     }
 }
