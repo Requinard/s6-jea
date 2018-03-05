@@ -1,11 +1,11 @@
 package domain
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.ManyToMany
+import javax.persistence.*
 
-@Entity
+@Entity(name = "kwetteruser")
+@NamedQueries(
+    NamedQuery(name = "User.getByUsername", query = "select u from kwetteruser u where u.username LIKE :username")
+)
 data class KwetterUser(
     @Id
     @GeneratedValue
@@ -14,4 +14,8 @@ data class KwetterUser(
     var password: String,
     @ManyToMany(mappedBy = "users")
     var groups: List<KwetterGroup> = emptyList()
-)
+) {
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "profile_id", nullable = true)
+    var profile: Profile? = null
+}

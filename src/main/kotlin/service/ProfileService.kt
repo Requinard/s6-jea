@@ -1,18 +1,27 @@
 package service
 
 import dao.ProfileDao
+import dao.UserDao
 import domain.Profile
 import dto.ProfileFacade
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
-import javax.ws.rs.* // ktlint-disable no-wildcard-imports
+import javax.ws.rs.*
+import javax.ws.rs.core.Context
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
+import javax.ws.rs.core.SecurityContext
 
 @Path("profiles")
 class ProfileService @Inject constructor(
     val profileDao: ProfileDao
 ) {
+    @Inject
+    lateinit var userDao: UserDao
+
+    @Context
+    lateinit var sc: SecurityContext
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun get(): Profile? = profileDao.getByScreenname("john")
@@ -44,11 +53,16 @@ class ProfileService @Inject constructor(
     fun postFollowScreenname(
         @PathParam("screenname") screenname: String
     ): Response {
+        val follower = userDao.getUser(sc.userPrincipal.name).profile
+
         val leader: Profile = profileDao.getByScreenname(screenname) ?: return Response.status(404, "Did not find leader").build()
 
-        profileDao.follow(leader, leader)
+        if (follower == null) return Response.noContent().build()
+        if (follower.follows.contains(leader)) return Response.notModified("You already follow this user!").build()
 
-        return Response.ok(leader)
+        profileDao.follow(follower, leader)
+
+        return Response.ok(ProfileFacade(follower))
             .build()
     }
 }

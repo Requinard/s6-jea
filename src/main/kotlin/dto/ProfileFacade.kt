@@ -26,4 +26,8 @@ class ProfileFacade(
     var created: Timestamp
         get() = profile.created
         set(value) = Unit
+
+    var userId: Long?
+        get() = profile.user?.id
+        set(value) = Unit
 }

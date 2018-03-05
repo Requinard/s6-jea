@@ -24,7 +24,6 @@ class ProfileDao {
     fun follow(follower: Profile, leader: Profile) {
         follower.follows += leader
         leader.followers += follower
-        em.persist(follower)
-        em.persist(leader)
+        em.merge(follower)
     }
 }

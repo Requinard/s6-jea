@@ -21,10 +21,16 @@ class DbPopulator @Inject constructor(
     val kweetDao: KweetDao,
     val userDao: UserDao
 ) {
-    val user1 = KwetterUser(
+    val johnUser = KwetterUser(
         username = "steve",
         password = sha256("steve")
     )
+
+    val hankUser = KwetterUser(
+        username = "hank",
+        password = sha256("hank")
+    )
+
     val group1 = KwetterGroup(
         groupname = "regulars"
     )
@@ -42,9 +48,7 @@ class DbPopulator @Inject constructor(
     val kweet = Kweet(
         created = now(),
         message = "Automated entry message"
-    ).apply {
-        profile = hank
-    }
+    )
 
     @PostConstruct
     fun startup() {
@@ -55,14 +59,14 @@ class DbPopulator @Inject constructor(
         profileDao.create(john)
         profileDao.create(hank)
 
-        profileDao.follow(john, hank)
+        userDao.createGroup(group1)
+        userDao.createUser(johnUser, john)
+        userDao.addToGroup(johnUser, group1)
+        userDao.createUser(hankUser, hank)
+        userDao.addToGroup(hankUser, group1)
 
         kweetDao.create(kweet)
         kweetDao.like(kweet, john)
-
-        userDao.createGroup(group1)
-        userDao.createUser(user1)
-        userDao.addToGroup(user1, group1)
 
         verify()
     }
@@ -73,10 +77,5 @@ class DbPopulator @Inject constructor(
     fun verify() {
         val p1 = profileDao.getById(1)
         val p2 = profileDao.getById(2)
-
-        assert(p1.follows.isNotEmpty())
-        assert(p1.likes.isNotEmpty())
-        assert(p2.followers.isNotEmpty())
-        assert(p2.kweets.isNotEmpty())
     }
 }
