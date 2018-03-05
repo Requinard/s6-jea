@@ -2,9 +2,10 @@ package service
 
 import dao.ProfileDao
 import domain.Profile
+import dto.ProfileFacade
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
-import javax.ws.rs.*
+import javax.ws.rs.* // ktlint-disable no-wildcard-imports
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
@@ -22,12 +23,11 @@ class ProfileService @Inject constructor(
     fun getByScreenName(
         @PathParam("screenname") screenname: String
     ): Response {
-        val profile = profileDao.getById(1)
+        val profile = profileDao.getByScreenname(screenname)
 
         if (profile != null)
-            return Response.ok(profile).build()
-        else
-            return Response.noContent().build()
+            return Response.ok(ProfileFacade(profile)).build()
+        else return Response.noContent().build()
     }
 
     @GET

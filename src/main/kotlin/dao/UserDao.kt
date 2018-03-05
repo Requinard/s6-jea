@@ -23,5 +23,4 @@ class UserDao {
         em.persist(group)
         em.persist(user)
     }
-
 }

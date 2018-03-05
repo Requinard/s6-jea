@@ -2,7 +2,7 @@ package domain
 
 import com.fasterxml.jackson.annotation.JsonBackReference
 import java.sql.Timestamp
-import javax.persistence.*
+import javax.persistence.* // ktlint-disable no-wildcard-imports
 
 @Entity(name = "kweet")
 @NamedQuery(name = "Kweet.getAll", query = "select k from kweet k")
@@ -20,7 +20,7 @@ data class Kweet(
 
     @ManyToMany(mappedBy = "likes", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
     @JsonBackReference
-    var likedBy: List<Profile> = emptyList()
+    var likedBy: Collection<Profile> = emptyList()
 
     override fun toString(): String = "Field(id:$Id,message:$message"
 }

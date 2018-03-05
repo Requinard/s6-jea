@@ -13,7 +13,6 @@ import kotlin.test.assertEquals
 internal class KweetDaoTest {
     lateinit var kweetDao: KweetDao
 
-    @Before
     fun setup() {
         val mockQuery = mock<TypedQuery<*>>() {
             on { resultList } doReturn emptyList<Kweet>()
@@ -27,7 +26,6 @@ internal class KweetDaoTest {
         kweetDao.em = mock
     }
 
-    @Test
     fun getAll() {
         val kweets = kweetDao.getAll()
 

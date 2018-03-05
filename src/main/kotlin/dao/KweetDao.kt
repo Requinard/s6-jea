@@ -12,7 +12,7 @@ class KweetDao {
     lateinit var em: EntityManager
 
     fun getAll(): List<Kweet> {
-        return em.createNamedQuery("Kweet.getAll").resultList as List<Kweet>
+        return em.createNamedQuery("Kweet.getAll", Kweet::class.java).resultList
     }
 
     fun getById(id: Int): Kweet {

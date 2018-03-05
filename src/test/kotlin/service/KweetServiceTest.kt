@@ -18,12 +18,13 @@ internal class KweetServiceTest {
         val emMock = mock<KweetDao> {
             on { getAll() } doReturn listOf(Kweet(
                 created = now(),
-                message = "Hi john",
+                message = "Hi john"
+            ).apply {
                 profile = Profile(
                     screenname = "john",
                     created = now()
                 )
-            ))
+            })
         }
 
         kweetService = KweetService(
