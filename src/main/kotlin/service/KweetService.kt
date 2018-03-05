@@ -21,7 +21,7 @@ class KweetService @Inject constructor(
     @Context
     lateinit var sc: SecurityContext
 
-    val user: KwetterUser get() = userDao.getUser(sc.userPrincipal.name)!!
+    private val user: KwetterUser get() = userDao.getUser(sc.userPrincipal.name)!!
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -51,17 +51,21 @@ class KweetService @Inject constructor(
     @Path("{id}")
     fun getById(
         @PathParam("id") id: Int
-    ) = SimpleKweetFacade(kweetDao.getById(id))
+    ): Response {
+        val kweet = kweetDao.getById(id) ?: return Response.noContent().build()
 
+        return Response.ok(SimpleKweetFacade(kweet)).build()
+    }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    fun postKweet(kweet: Kweet): Response {
-        var user = userDao.getUser(sc.userPrincipal.name)
+    @Path("{id}")
+    fun likeTweetById(
+        @PathParam("id") id: Int
+    ): Response {
+        val kweet = kweetDao.getById(id) ?: return Response.noContent().build()
 
-        kweetDao.create(kweet, user.profile!!)
+        kweetDao.like(kweet, user.profile!!)
 
-        return Response.accepted(SimpleKweetFacade(kweet)).build()
+        return Response.ok(kweet).build()
     }
 }

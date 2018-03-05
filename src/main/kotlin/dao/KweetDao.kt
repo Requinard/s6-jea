@@ -15,9 +15,8 @@ class KweetDao {
         return em.createNamedQuery("Kweet.getAll", Kweet::class.java).resultList
     }
 
-    fun getById(id: Int): Kweet {
-        return em.find(Kweet::class.java, id)
-    }
+    fun getById(id: Int): Kweet? = em.find(Kweet::class.java, id)
+
 
     fun create(kweet: Kweet, profile:Profile) {
         kweet.profile = profile
