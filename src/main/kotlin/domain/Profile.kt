@@ -1,8 +1,7 @@
 package domain
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import java.sql.Timestamp
-import javax.persistence.* // ktlint-disable no-wildcard-imports
+import javax.persistence.*
 
 @Entity(name = "profile")
 @NamedQueries(
@@ -16,9 +15,18 @@ data class Profile(
     var screenname: String,
     var created: Timestamp
 ) {
+    @Column(length = 160)
+    var bio: String = ""
+
+    var location: String = "Kwetter!"
+
+    var website: String = "www.kwetter.nl"
+
+    @Lob
+    @Column(nullable = true)
+    var profileImage: ByteArray? = null
 
     @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
-    @JsonIgnore
     var kweets: Collection<Kweet> = emptyList()
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
@@ -27,7 +35,6 @@ data class Profile(
         joinColumns = [(JoinColumn(name = "profile_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "kweet_id", referencedColumnName = "id"))]
     )
-    @JsonIgnore
     var likes: Collection<Kweet> = emptyList()
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
@@ -36,11 +43,9 @@ data class Profile(
         joinColumns = [(JoinColumn(name = "follower_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "followed_id", referencedColumnName = "id"))]
     )
-    @JsonIgnore
     var follows: Collection<Profile> = emptyList()
 
     @ManyToMany(mappedBy = "follows", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
-    @JsonIgnore
     var followers: Collection<Profile> = emptyList()
 
     @OneToOne(mappedBy = "profile")

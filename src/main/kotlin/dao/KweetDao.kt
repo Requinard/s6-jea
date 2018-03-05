@@ -36,4 +36,8 @@ class KweetDao {
             em.find(Profile::class.java, profileId)
         )
     }
+
+    fun search(query: String) = em.createNamedQuery("Kweet.search", Kweet::class.java)
+        .setParameter("query", "%$query%")
+        .resultList
 }

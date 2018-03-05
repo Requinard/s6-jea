@@ -2,10 +2,11 @@ package dto
 
 import domain.Kweet
 import util.Open
+import java.io.Serializable
 import java.sql.Timestamp
 
 @Open
-class KweetFacade(private val kweet: Kweet) {
+class KweetFacade(private val kweet: Kweet): Serializable {
     var message: String
         get() = kweet.message
         set(value) = Unit
@@ -24,7 +25,7 @@ class KweetFacade(private val kweet: Kweet) {
 }
 
 @Open
-class SimpleKweetFacade(private val kweet: Kweet) {
+class SimpleKweetFacade(private val kweet: Kweet): Serializable {
     var message: String
         get() = kweet.message
         set(value) = Unit

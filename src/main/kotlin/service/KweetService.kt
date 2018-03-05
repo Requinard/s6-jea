@@ -7,11 +7,12 @@ import domain.KwetterUser
 import dto.KweetFacade
 import util.now
 import javax.inject.Inject
-import javax.ws.rs.* // ktlint-disable no-wildcard-imports
+import javax.ws.rs.*
 import javax.ws.rs.core.Context
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 import javax.ws.rs.core.SecurityContext
+
 
 @Path("kweets")
 class KweetService @Inject constructor(
@@ -49,6 +50,7 @@ class KweetService @Inject constructor(
 
     @GET
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
     fun getById(
         @PathParam("id") id: Int
     ): Response {
@@ -56,6 +58,16 @@ class KweetService @Inject constructor(
 
         return Response.ok(KweetFacade(kweet)).build()
     }
+
+    @GET
+    @Path("search/{query}")
+    @Produces(MediaType.APPLICATION_JSON)
+    fun getByQuery(
+        @PathParam("query") query: String
+    ) = kweetDao.search(query)
+        .map { KweetFacade(it) }
+        .toList()
+
 
     @POST
     @Path("{id}")
@@ -68,4 +80,6 @@ class KweetService @Inject constructor(
 
         return Response.ok(KweetFacade(kweet)).build()
     }
+
+
 }
