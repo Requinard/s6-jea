@@ -11,9 +11,7 @@ class KweetDao {
     @PersistenceContext(unitName = "haraka")
     lateinit var em: EntityManager
 
-    fun getAll(): List<Kweet> {
-        return em.createNamedQuery("Kweet.getAll", Kweet::class.java).resultList
-    }
+    fun getAll(): List<Kweet> = em.createNamedQuery("Kweet.getAll", Kweet::class.java).resultList
 
     fun getById(id: Int): Kweet? = em.find(Kweet::class.java, id)
 
