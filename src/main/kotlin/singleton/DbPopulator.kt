@@ -65,7 +65,7 @@ class DbPopulator @Inject constructor(
         userDao.createUser(hankUser, hank)
         userDao.addToGroup(hankUser, group1)
 
-        kweetDao.create(kweet)
+        kweetDao.create(kweet, hank)
         kweetDao.like(kweet, john)
 
         verify()

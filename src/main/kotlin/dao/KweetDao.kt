@@ -19,7 +19,9 @@ class KweetDao {
         return em.find(Kweet::class.java, id)
     }
 
-    fun create(kweet: Kweet) {
+    fun create(kweet: Kweet, profile:Profile) {
+        kweet.profile = profile
+        profile.kweets += kweet
         em.persist(kweet)
     }
 
