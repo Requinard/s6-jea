@@ -14,7 +14,8 @@ data class Profile(
     @GeneratedValue
     var id: Int? = null,
     var screenname: String,
-    var created: Timestamp) {
+    var created: Timestamp
+) {
 
     @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
     @JsonIgnore

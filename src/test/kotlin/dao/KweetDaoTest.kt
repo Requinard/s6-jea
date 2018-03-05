@@ -4,8 +4,6 @@ import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import domain.Kweet
-import org.junit.Before
-import org.junit.Test
 import javax.persistence.EntityManager
 import javax.persistence.TypedQuery
 import kotlin.test.assertEquals

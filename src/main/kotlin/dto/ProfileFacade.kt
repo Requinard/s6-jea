@@ -19,6 +19,10 @@ class ProfileFacade(
         get() = profile.kweets.map { SimpleKweetFacade(it) }
         set(value) = Unit
 
+    var likedTweets: List<SimpleKweetFacade>
+        get() = profile.likes.map { SimpleKweetFacade(it) }
+        set(value) = Unit
+
     var follows: List<String>
         get() = profile.follows.map { it.screenname }
         set(value) = Unit
@@ -30,4 +34,13 @@ class ProfileFacade(
     var userId: Long?
         get() = profile.user?.id
         set(value) = Unit
+}
+
+@Open
+class SimpleProfileFacade(private val profile: Profile) {
+    var screenname: String
+        get() = profile.screenname
+        set(value) {
+            profile.screenname = value
+        }
 }

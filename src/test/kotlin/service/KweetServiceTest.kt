@@ -3,17 +3,17 @@ package service
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import dao.KweetDao
+import dao.UserDao
 import domain.Kweet
 import domain.Profile
-import org.junit.Before
-import org.junit.Test
 import util.now
+import java.nio.file.attribute.UserPrincipal
+import javax.ws.rs.core.SecurityContext
 import kotlin.test.assertEquals
 
 internal class KweetServiceTest {
     lateinit var kweetService: KweetService
 
-    @Before
     fun setup() {
         val emMock = mock<KweetDao> {
             on { getAll() } doReturn listOf(Kweet(
@@ -27,12 +27,22 @@ internal class KweetServiceTest {
             })
         }
 
+        val userDaoMock = mock<UserDao> {
+        }
+        val userPrincipalMock = mock<UserPrincipal> {
+            on { name } doReturn "john"
+        }
+
         kweetService = KweetService(
-            emMock
+            emMock,
+            userDaoMock
         )
+
+        kweetService.sc = mock<SecurityContext> {
+            on { userPrincipal } doReturn userPrincipalMock
+        }
     }
 
-    @Test
     fun getAll() {
         var kweets = kweetService.getAll()
 

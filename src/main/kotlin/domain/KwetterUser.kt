@@ -1,6 +1,6 @@
 package domain
 
-import javax.persistence.*
+import javax.persistence.* // ktlint-disable no-wildcard-imports
 
 @Entity(name = "kwetteruser")
 @NamedQueries(

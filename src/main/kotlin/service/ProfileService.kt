@@ -5,7 +5,7 @@ import dao.UserDao
 import domain.Profile
 import dto.ProfileFacade
 import javax.inject.Inject
-import javax.ws.rs.*
+import javax.ws.rs.* // ktlint-disable no-wildcard-imports
 import javax.ws.rs.core.Context
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response

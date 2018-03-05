@@ -4,7 +4,7 @@ import dao.KweetDao
 import dao.UserDao
 import domain.Kweet
 import domain.KwetterUser
-import dto.SimpleKweetFacade
+import dto.KweetFacade
 import util.now
 import javax.inject.Inject
 import javax.ws.rs.* // ktlint-disable no-wildcard-imports
@@ -25,10 +25,10 @@ class KweetService @Inject constructor(
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun getAll(): Collection<SimpleKweetFacade> {
+    fun getAll(): List<KweetFacade> {
         return user.profile!!.follows.flatMap { it.kweets }
             .sortedByDescending { it.created }
-            .map { SimpleKweetFacade(it) }
+            .map { KweetFacade(it) }
     }
 
     @POST
@@ -44,7 +44,7 @@ class KweetService @Inject constructor(
 
         kweetDao.create(kweet, user.profile!!)
 
-        return Response.ok(SimpleKweetFacade(kweet)).build()
+        return Response.ok(KweetFacade(kweet)).build()
     }
 
     @GET
@@ -54,7 +54,7 @@ class KweetService @Inject constructor(
     ): Response {
         val kweet = kweetDao.getById(id) ?: return Response.noContent().build()
 
-        return Response.ok(SimpleKweetFacade(kweet)).build()
+        return Response.ok(KweetFacade(kweet)).build()
     }
 
     @POST
@@ -66,6 +66,6 @@ class KweetService @Inject constructor(
 
         kweetDao.like(kweet, user.profile!!)
 
-        return Response.ok(kweet).build()
+        return Response.ok(KweetFacade(kweet)).build()
     }
 }
