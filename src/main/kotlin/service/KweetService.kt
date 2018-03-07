@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 import javax.ws.rs.core.SecurityContext
 
-
 @Path("kweets")
 class KweetService @Inject constructor(
     val kweetDao: KweetDao,
@@ -68,7 +67,6 @@ class KweetService @Inject constructor(
         .map { KweetFacade(it) }
         .toList()
 
-
     @POST
     @Path("{id}")
     fun likeTweetById(
@@ -80,6 +78,4 @@ class KweetService @Inject constructor(
 
         return Response.ok(KweetFacade(kweet)).build()
     }
-
-
 }

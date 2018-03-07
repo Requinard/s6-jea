@@ -37,7 +37,7 @@ class ProfileFacade(
 }
 
 @Open
-class SimpleProfileFacade(private val profile: Profile): Serializable {
+class SimpleProfileFacade(private val profile: Profile) : Serializable {
     var screenname: String
         get() = profile.screenname
         set(value) {

@@ -6,7 +6,7 @@ import java.io.Serializable
 import java.sql.Timestamp
 
 @Open
-class KweetFacade(private val kweet: Kweet): Serializable {
+class KweetFacade(private val kweet: Kweet) : Serializable {
     var message: String
         get() = kweet.message
         set(value) = Unit
@@ -25,7 +25,7 @@ class KweetFacade(private val kweet: Kweet): Serializable {
 }
 
 @Open
-class SimpleKweetFacade(private val kweet: Kweet): Serializable {
+class SimpleKweetFacade(private val kweet: Kweet) : Serializable {
     var message: String
         get() = kweet.message
         set(value) = Unit
