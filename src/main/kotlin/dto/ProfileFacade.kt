@@ -11,9 +11,7 @@ class ProfileFacade(
 ) : Serializable {
     var screenname: String
         get() = profile.screenname
-        set(value) {
-            profile.screenname = value
-        }
+        set(value) = Unit
 
     var kweets: List<SimpleKweetFacade>
         get() = profile.kweets.map { SimpleKweetFacade(it) }
@@ -40,7 +38,5 @@ class ProfileFacade(
 class SimpleProfileFacade(private val profile: Profile) : Serializable {
     var screenname: String
         get() = profile.screenname
-        set(value) {
-            profile.screenname = value
-        }
+        set(value) = Unit
 }

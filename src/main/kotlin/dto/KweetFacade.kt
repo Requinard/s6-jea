@@ -30,8 +30,8 @@ class SimpleKweetFacade(private val kweet: Kweet) : Serializable {
         get() = kweet.message
         set(value) = Unit
 
-    var profile: Int
-        get() = kweet.profile.id!!
+    var profile: String
+        get() = kweet.profile.screenname
         set(value) = Unit
 
     var created: Timestamp

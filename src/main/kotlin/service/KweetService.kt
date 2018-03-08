@@ -27,7 +27,7 @@ class KweetService @Inject constructor(
     @Produces(MediaType.APPLICATION_JSON)
     fun getAll(): List<KweetFacade> {
         return user.profile!!.follows.flatMap { it.kweets }
-            .sortedByDescending { it.created }
+            .sortedBy { it.created }
             .map { KweetFacade(it) }
     }
 
