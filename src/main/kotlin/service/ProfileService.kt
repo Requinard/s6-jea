@@ -5,22 +5,19 @@ import dao.UserDao
 import domain.Profile
 import dto.ProfileFacade
 import javax.inject.Inject
-import javax.ws.rs.* // ktlint-disable no-wildcard-imports
-import javax.ws.rs.core.Context
+import javax.ws.rs.GET
+import javax.ws.rs.POST
+import javax.ws.rs.Path
+import javax.ws.rs.PathParam
+import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
-import javax.ws.rs.core.SecurityContext
 
 @Path("profiles")
 class ProfileService @Inject constructor(
-    val profileDao: ProfileDao
-) {
-    @Inject
-    lateinit var userDao: UserDao
-
-    @Context
-    lateinit var sc: SecurityContext
-
+    val profileDao: ProfileDao,
+    userDao: UserDao
+) : BaseService(userDao) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun get() = ProfileFacade(profileDao.getByScreenname("john")!!)
@@ -51,7 +48,7 @@ class ProfileService @Inject constructor(
     fun postFollowScreenname(
         @PathParam("screenname") screenname: String
     ): Response {
-        val follower = userDao.getUser(sc.userPrincipal.name).profile
+        val follower = user.profile
 
         val leader: Profile = profileDao.getByScreenname(screenname) ?: return Response.status(404, "Did not find leader").build()
 
