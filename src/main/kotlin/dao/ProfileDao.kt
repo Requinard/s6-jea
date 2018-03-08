@@ -2,13 +2,9 @@ package dao
 
 import domain.Profile
 import javax.ejb.Stateless
-import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
 
 @Stateless
-class ProfileDao {
-    @PersistenceContext
-    lateinit var em: EntityManager
+class ProfileDao : BaseDao() {
 
     fun getById(id: Int) = em.find(Profile::class.java, id)
 

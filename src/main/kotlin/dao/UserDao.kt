@@ -4,14 +4,9 @@ import domain.KwetterGroup
 import domain.KwetterUser
 import domain.Profile
 import javax.ejb.Stateless
-import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
 
 @Stateless
-class UserDao {
-    @PersistenceContext
-    lateinit var em: EntityManager
-
+class UserDao : BaseDao() {
     fun getUser(username: String) = em.createNamedQuery("User.getByUsername", KwetterUser::class.java)
         .setParameter("username", username)
         .singleResult

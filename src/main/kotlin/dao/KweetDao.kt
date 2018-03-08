@@ -4,14 +4,9 @@ import domain.Hashtag
 import domain.Kweet
 import domain.Profile
 import javax.ejb.Stateless
-import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
 
 @Stateless
-class KweetDao {
-    @PersistenceContext(unitName = "haraka")
-    lateinit var em: EntityManager
-
+class KweetDao : BaseDao() {
     val hashtagRegex = Regex("""\s(#\w+)""")
 
     fun getAll(): List<Kweet> = em.createNamedQuery("Kweet.getAll", Kweet::class.java).resultList
