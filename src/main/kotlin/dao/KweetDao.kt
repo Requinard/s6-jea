@@ -63,4 +63,6 @@ class KweetDao {
     fun search(query: String) = em.createNamedQuery("Kweet.search", Kweet::class.java)
         .setParameter("query", "%$query%")
         .resultList
+
+    fun delete(kweet: Kweet) = em.remove(kweet)
 }

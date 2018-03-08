@@ -5,8 +5,11 @@ import dao.UserDao
 import domain.Kweet
 import domain.KwetterUser
 import dto.KweetFacade
+import dto.SimpleKweetFacade
 import util.now
+import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
+import javax.ws.rs.DELETE
 import javax.ws.rs.GET
 import javax.ws.rs.POST
 import javax.ws.rs.Path
@@ -81,5 +84,18 @@ class KweetService @Inject constructor(
         kweetDao.like(kweet, user.profile!!)
 
         return Response.ok(KweetFacade(kweet)).build()
+    }
+
+    @DELETE
+    @Path("{id}")
+    @RolesAllowed("admin")
+    fun deleteTweet(
+        @PathParam("id") id: Int
+    ): Response {
+        val kweet = kweetDao.getById(id) ?: return Response.noContent().build()
+
+        kweetDao.delete(kweet)
+
+        return Response.ok(SimpleKweetFacade(kweet)).build()
     }
 }
