@@ -6,7 +6,10 @@ import hankProfile
 import org.junit.Before
 import org.junit.Test
 import util.now
-import kotlin.test.*
+import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class KweetFacadeTest {
     val profile = Profile(
@@ -19,13 +22,13 @@ class KweetFacadeTest {
         message = "Hello world"
     )
 
-
     @Before
-    fun setup(){
+    fun setup() {
         kweet.profile = profile
         profile.kweets += kweet
         kweet.likedBy += profile
     }
+
     /**
      * Test the complete facade
      */
@@ -44,7 +47,7 @@ class KweetFacadeTest {
      * Test the simple facade
      */
     @Test
-    fun testSimpleFacade(){
+    fun testSimpleFacade() {
         val facade = SimpleKweetFacade(kweet)
 
         assertNotNull(facade.created)
@@ -56,7 +59,7 @@ class KweetFacadeTest {
      * Assert whether setters do not actually change anything. this is a proof of work for the other methods
      */
     @Test
-    fun testSetNotworks(){
+    fun testSetNotworks() {
         val facade = KweetFacade(kweet)
         // Assert set
         facade.message = "haha nee"

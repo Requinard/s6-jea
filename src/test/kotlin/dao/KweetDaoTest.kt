@@ -3,6 +3,7 @@ package dao
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
+import domain.Hashtag
 import domain.Kweet
 import domain.Profile
 import org.junit.Before
@@ -36,6 +37,14 @@ internal class KweetDaoTest {
             on { resultList } doReturn kweets.filter { it.message.contains("1") }
         }
 
+        val mockHashtagQueryFilter2 = mock<TypedQuery<Hashtag?>> {
+            on { singleResult } doReturn null as Hashtag?
+        }
+
+        val mockHashtagQueryFilter = mock<TypedQuery<Hashtag>> {
+            on { setParameter(any() as String?, any() as String?) } doReturn mockHashtagQueryFilter2
+        }
+
         val mockQuery = mock<TypedQuery<Kweet>> {
             on { resultList } doReturn kweets
             on { setParameter(any<String>(), any<String>()) } doReturn mockQueryFilter
@@ -43,6 +52,7 @@ internal class KweetDaoTest {
         val mock = mock<EntityManager> {
             on { createNamedQuery("Kweet.getAll", Kweet::class.java) } doReturn mockQuery
             on { createNamedQuery("Kweet.search", Kweet::class.java) } doReturn mockQuery
+            on { createNamedQuery("Hashtag.find", Hashtag::class.java) } doReturn mockHashtagQueryFilter
             on { find(Kweet::class.java, 1) } doReturn kweets[0]
             on { find(Profile::class.java, 1) } doReturn profile
         }
@@ -127,5 +137,17 @@ internal class KweetDaoTest {
 
         assertTrue(kweet.likedBy.isNotEmpty())
         assertTrue { profile.likes.isNotEmpty() }
+    }
+
+    @Test
+    fun testGetHashTags() {
+        val kweet = Kweet(
+            created = now(),
+            message = "Hello #world. This #is amazing"
+        )
+
+        val tags = kweetDao.createHashtags(kweet)
+
+        assertTrue { tags.count() == 2 }
     }
 }

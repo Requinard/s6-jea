@@ -11,7 +11,7 @@ import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class ProfileFacadeTest{
+class ProfileFacadeTest {
     val profile = Profile(
         created = now(),
         screenname = "john"
@@ -23,7 +23,7 @@ class ProfileFacadeTest{
     )
 
     @Before
-    fun setup(){
+    fun setup() {
         kweet.profile = profile
         profile.kweets += kweet
         kweet.likedBy += profile
@@ -32,7 +32,7 @@ class ProfileFacadeTest{
     }
 
     @Test
-    fun testSimpleFacade(){
+    fun testSimpleFacade() {
         val facade = SimpleProfileFacade(profile)
 
         assertEquals(facade.screenname, profile.screenname)
@@ -43,7 +43,7 @@ class ProfileFacadeTest{
     }
 
     @Test
-    fun testFacade(){
+    fun testFacade() {
         val facade = ProfileFacade(profile)
 
         assertTrue { facade.kweets.count() == 1 }
