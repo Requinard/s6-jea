@@ -12,5 +12,5 @@ data class KwetterGroup (
         joinColumns = [(JoinColumn(name = "groupname", referencedColumnName = "groupname"))],
         inverseJoinColumns = [(JoinColumn(name = "username", referencedColumnName = "username"))]
     )
-    var users: List<KwetterUser> = emptyList()
+    var users: Set<KwetterUser> = emptySet()
 )
