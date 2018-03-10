@@ -1,9 +1,20 @@
 package domain
 
-import javax.persistence.* // ktlint-disable no-wildcard-imports
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.JoinTable
+import javax.persistence.ManyToMany
+import javax.persistence.NamedQueries
+import javax.persistence.NamedQuery
 
-@Entity
-data class KwetterGroup (
+@Entity(name = "kwettergroup")
+@NamedQueries(
+    value = [
+        (NamedQuery(name = "Kwettergroup.find", query = "select g from group g where g.groupname LIKE {:name}"))
+    ]
+)
+data class KwetterGroup(
     @Id
     var groupname: String,
     @ManyToMany
@@ -12,5 +23,5 @@ data class KwetterGroup (
         joinColumns = [(JoinColumn(name = "groupname", referencedColumnName = "groupname"))],
         inverseJoinColumns = [(JoinColumn(name = "username", referencedColumnName = "username"))]
     )
-    var users: Set<KwetterUser> = emptySet()
+    var users: MutableSet<KwetterUser> = mutableSetOf()
 )

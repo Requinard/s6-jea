@@ -13,7 +13,7 @@ data class KwetterUser(
     var username: String,
     var password: String,
     @ManyToMany(mappedBy = "users")
-    var groups: Set<KwetterGroup> = emptySet()
+    var groups: MutableSet<KwetterGroup> = mutableSetOf()
 ) {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "profile_id", nullable = true)
