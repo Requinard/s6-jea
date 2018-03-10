@@ -1,6 +1,7 @@
 package service
 
 import dao.UserDao
+import dto.UserFacade
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
 import javax.ws.rs.DELETE
@@ -28,9 +29,8 @@ class UserService @Inject constructor(
     fun getUserById(
         @PathParam("screenname") screenname: String
     ): Response {
-        userDao.getUser(screenname) ?: return Response.status(404, "User not found").build()
-        // todo: add userFacade
-        return Response.ok().build()
+        val user = userDao.getUser(screenname) ?: return Response.status(404, "User not found").build()
+        return Response.ok(UserFacade(user)).build()
     }
 
     /**
@@ -51,7 +51,7 @@ class UserService @Inject constructor(
 
         val success = userDao.addToGroup(user, group)
 
-        if (success) return Response.ok().build()
+        if (success) return Response.ok(UserFacade(user)).build()
         return Response.notModified("User already in group").build()
     }
 
@@ -67,7 +67,7 @@ class UserService @Inject constructor(
 
         val success = userDao.removeFromGroup(user, group)
 
-        if (success) return Response.ok().build()
+        if (success) return Response.ok(UserFacade(user)).build()
         return Response.notModified("User already in group").build()
     }
 }
