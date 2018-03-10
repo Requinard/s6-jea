@@ -48,11 +48,11 @@ internal class KweetServiceTest {
         user.profile = profile
         kweet1.profile = profile
 
-        profile.follows = listOf(
+        profile.follows = setOf(
             Profile(
                 created = now(),
                 screenname = "hank"
-            ).apply { kweets = listOf(kweet1, kweet2) }
+            ).apply { kweets = setOf(kweet1, kweet2) }
         )
 
         val kweetDaoMock = mock<KweetDao> {

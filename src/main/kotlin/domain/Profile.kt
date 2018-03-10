@@ -40,7 +40,7 @@ data class Profile(
     var profileImage: ByteArray? = null
 
     @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
-    var kweets: Collection<Kweet> = emptyList()
+    var kweets: Set<Kweet> = emptySet()
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
     @JoinTable(
@@ -48,7 +48,7 @@ data class Profile(
         joinColumns = [(JoinColumn(name = "profile_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "kweet_id", referencedColumnName = "id"))]
     )
-    var likes: Collection<Kweet> = emptyList()
+    var likes: Set<Kweet> = emptySet()
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
     @JoinTable(
@@ -56,10 +56,10 @@ data class Profile(
         joinColumns = [(JoinColumn(name = "follower_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "followed_id", referencedColumnName = "id"))]
     )
-    var follows: Collection<Profile> = emptyList()
+    var follows: Set<Profile> = emptySet()
 
     @ManyToMany(mappedBy = "follows", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
-    var followers: Collection<Profile> = emptyList()
+    var followers: Set<Profile> = emptySet()
 
     @OneToOne(mappedBy = "profile")
     @JoinColumn(name = "user_id", nullable = true)
