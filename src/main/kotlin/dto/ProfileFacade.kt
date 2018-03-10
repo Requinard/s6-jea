@@ -14,7 +14,9 @@ class ProfileFacade(
         set(value) = Unit
 
     var kweets: List<SimpleKweetFacade>
-        get() = profile.kweets.map { SimpleKweetFacade(it) }
+        get() = profile.kweets.take(10)
+            .sortedBy { it.created }
+            .map { SimpleKweetFacade(it) }
         set(value) = Unit
 
     var likedTweets: List<SimpleKweetFacade>
