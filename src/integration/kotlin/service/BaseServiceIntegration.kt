@@ -4,7 +4,7 @@ import io.restassured.RestAssured
 import io.restassured.RestAssured.basic
 import org.junit.Before
 
-abstract class BaseServiceTest {
+abstract class BaseServiceIntegration {
     @Before
     fun setupRestAssured() {
         RestAssured.baseURI = "http://localhost"

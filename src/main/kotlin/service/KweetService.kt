@@ -34,7 +34,7 @@ class KweetService @Inject constructor(
     }
 
     @POST
-    @Path("{message}")
+    @Path("create/{message}")
     @Produces(MediaType.APPLICATION_JSON)
     @CensorKweetInterceptorBinding
     fun postMessage(
@@ -61,6 +61,20 @@ class KweetService @Inject constructor(
         return Response.ok(KweetFacade(kweet)).build()
     }
 
+    @POST
+    @Path("{id}")
+    fun likeTweetById(
+        @PathParam("id") id: Int
+    ): Response {
+        val kweet = kweetDao.getById(id) ?: return Response
+            .status(404)
+            .build()
+
+        kweetDao.like(kweet, user.profile!!)
+
+        return Response.ok(KweetFacade(kweet)).build()
+    }
+
     @GET
     @Path("search/{query}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -69,18 +83,6 @@ class KweetService @Inject constructor(
     ) = kweetDao.search(query)
         .map { KweetFacade(it) }
         .toList()
-
-    @POST
-    @Path("{id}")
-    fun likeTweetById(
-        @PathParam("id") id: Int
-    ): Response {
-        val kweet = kweetDao.getById(id) ?: return Response.noContent().build()
-
-        kweetDao.like(kweet, user.profile!!)
-
-        return Response.ok(KweetFacade(kweet)).build()
-    }
 
     @DELETE
     @Path("{id}")

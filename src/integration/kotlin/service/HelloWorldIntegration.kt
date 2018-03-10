@@ -5,7 +5,7 @@ import io.restassured.RestAssured.post
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class HelloWorldIntegration : BaseServiceTest() {
+class HelloWorldIntegration : BaseServiceIntegration() {
 
     @Test
     fun test() {

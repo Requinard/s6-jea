@@ -6,10 +6,10 @@ import io.restassured.RestAssured.post
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class KweetServiceTest : BaseServiceTest() {
+class KweetServiceIntegration : BaseServiceIntegration() {
     @Test
     fun postMessage() {
-        val response = post("/kweets/hello world")
+        val response = post("/kweets/create/hello world")
 
         assertEquals(200, response.statusCode)
     }
@@ -29,11 +29,11 @@ class KweetServiceTest : BaseServiceTest() {
     @Test
     fun likeTweetById() {
         // Non existant tweet
-        val response = post("/kweets/52105021402")
+        val response = post("/kweets/5210/")
 
-        assertEquals(200, response.statusCode)
+        assertEquals(404, response.statusCode)
 
-        val response2 = post("/kweets/5")
+        val response2 = post("/kweets/5/")
 
         assertEquals(200, response2.statusCode)
     }
