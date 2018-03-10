@@ -68,5 +68,9 @@ class KweetDao : BaseDao() {
         .setParameter("query", "%$query%")
         .resultList
 
-    fun delete(kweet: Kweet) = em.remove(kweet)
+    fun delete(kweet: Kweet) {
+        val stock = if (em.contains(kweet)) kweet else em.merge(kweet)
+        stock.profile.kweets.remove(kweet)
+        em.merge(stock.profile)
+    }
 }

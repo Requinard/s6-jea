@@ -31,10 +31,10 @@ data class Kweet(
     @JoinColumn(name = "profile_id")
     lateinit var profile: Profile
 
-    @ManyToMany(mappedBy = "likes", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
+    @ManyToMany(mappedBy = "likes", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
     var likedBy = mutableSetOf<Profile>()
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = [(CascadeType.REMOVE)])
     @JoinTable(
         name = "kweet_hashtag",
         joinColumns = [(JoinColumn(name = "kweet_id", referencedColumnName = "id"))],

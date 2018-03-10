@@ -39,7 +39,7 @@ data class Profile(
     @Column(nullable = true)
     var profileImage: ByteArray? = null
 
-    @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
+    @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE], orphanRemoval = true)
     var kweets = mutableSetOf<Kweet>()
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])

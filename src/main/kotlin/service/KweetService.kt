@@ -80,7 +80,7 @@ class KweetService @Inject constructor(
 
     @DELETE
     @Path("{id}")
-    @RolesAllowed("admin")
+    @RolesAllowed("{admins,moderators}")
     fun deleteTweet(
         @PathParam("id") id: Int
     ): Response {

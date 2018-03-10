@@ -34,6 +34,12 @@ class DbPopulator @Inject constructor(
     val group1 = KwetterGroup(
         groupname = "regulars"
     )
+    val admins = KwetterGroup(
+        groupname = "admins"
+    )
+    val mods = KwetterGroup(
+        groupname = "moderators"
+    )
 
     val john = Profile(
         screenname = "john",
@@ -62,6 +68,7 @@ class DbPopulator @Inject constructor(
         userDao.createGroup(group1)
         userDao.createUser(johnUser, john)
         userDao.addToGroup(johnUser, group1)
+        userDao.addToGroup(johnUser, mods)
         userDao.createUser(hankUser, hank)
         userDao.addToGroup(hankUser, group1)
 
