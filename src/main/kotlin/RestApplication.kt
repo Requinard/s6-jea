@@ -1,6 +1,7 @@
 import service.HelloWorldService
 import service.KweetService
 import service.ProfileService
+import service.UserService
 import javax.ws.rs.ApplicationPath
 import javax.ws.rs.core.Application
 
@@ -11,5 +12,6 @@ class RestApplication : Application() {
             add(HelloWorldService::class.java)
             add(KweetService::class.java)
             add(ProfileService::class.java)
+            add(UserService::class.java)
         }
 }

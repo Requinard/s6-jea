@@ -56,4 +56,6 @@ class UserDao : BaseDao() {
 
         return success
     }
+
+    fun getAllUsers() = em.createNamedQuery("User.getAll", KwetterUser::class.java).resultList
 }

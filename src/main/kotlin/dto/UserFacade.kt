@@ -1,8 +1,11 @@
 package dto
 
 import domain.KwetterUser
+import util.Open
+import java.io.Serializable
 
-class UserFacade(private val user: KwetterUser) {
+@Open
+class UserFacade(private val user: KwetterUser) : Serializable {
     var profile: ProfileFacade
         get() = ProfileFacade(user.profile!!)
         set(value) = Unit

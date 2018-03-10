@@ -5,6 +5,8 @@ import dao.UserDao
 import domain.Kweet
 import dto.KweetFacade
 import dto.SimpleKweetFacade
+import interceptors.bindings.CensorKweetInterceptorBinding
+import util.Open
 import util.now
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
@@ -17,6 +19,7 @@ import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
+@Open
 @Path("kweets")
 class KweetService @Inject constructor(
     val kweetDao: KweetDao,
@@ -33,6 +36,7 @@ class KweetService @Inject constructor(
     @POST
     @Path("{message}")
     @Produces(MediaType.APPLICATION_JSON)
+    @CensorKweetInterceptorBinding
     fun postMessage(
         @PathParam("message") message: String
     ): Response {

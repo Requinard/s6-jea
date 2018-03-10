@@ -1,10 +1,21 @@
 package domain
 
-import javax.persistence.* // ktlint-disable no-wildcard-imports
+import javax.persistence.Entity
+import javax.persistence.FetchType
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToMany
+import javax.persistence.NamedQueries
+import javax.persistence.NamedQuery
+import javax.persistence.OneToOne
 
 @Entity(name = "kwetteruser")
 @NamedQueries(
-    NamedQuery(name = "User.getByUsername", query = "select u from kwetteruser u where u.username LIKE :username")
+    value = [
+        NamedQuery(name = "User.getAll", query = "select u from kwetteruser u"),
+        NamedQuery(name = "User.getByUsername", query = "select u from kwetteruser u where u.username LIKE :username")
+    ]
 )
 data class KwetterUser(
     @Id

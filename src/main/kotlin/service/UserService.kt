@@ -20,12 +20,13 @@ class UserService @Inject constructor(
 ) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("admin")
-    fun get() = Response.ok().build()
+    @RolesAllowed("{admins,moderators}")
+    fun get() = userDao.getAllUsers().map { UserFacade(it) }.toList()
 
     @GET
     @Path("{screenname}")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("{admins,moderators}")
     fun getUserById(
         @PathParam("screenname") screenname: String
     ): Response {
@@ -42,6 +43,7 @@ class UserService @Inject constructor(
     @POST
     @Path("{screenname}/{group}")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("{admins}")
     fun postUserToGroup(
         @PathParam("screenname") screenname: String,
         @PathParam("group") groupname: String
@@ -58,6 +60,7 @@ class UserService @Inject constructor(
     @DELETE
     @Path("{screenname}/{group}")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("{admins")
     fun removeUserFromGroup(
         @PathParam("screenname") screenname: String,
         @PathParam("group") groupname: String
