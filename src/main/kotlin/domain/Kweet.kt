@@ -32,7 +32,7 @@ data class Kweet(
     lateinit var profile: Profile
 
     @ManyToMany(mappedBy = "likes", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
-    var likedBy: Set<Profile> = emptySet()
+    var likedBy = mutableSetOf<Profile>()
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -40,7 +40,7 @@ data class Kweet(
         joinColumns = [(JoinColumn(name = "kweet_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "hashtag_id", referencedColumnName = "id"))]
     )
-    var hashtags: Set<Hashtag> = emptySet()
+    var hashtags = mutableSetOf<Hashtag>()
 
     override fun toString(): String = "Field(id:$Id,message:$message"
 }

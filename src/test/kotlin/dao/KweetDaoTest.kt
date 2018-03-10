@@ -13,6 +13,7 @@ import util.now
 import javax.persistence.EntityManager
 import javax.persistence.TypedQuery
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -111,14 +112,23 @@ internal class KweetDaoTest {
             now()
         )
 
+        // Test to start empty
+
         assertTrue { kweet.likedBy.isEmpty() }
         assertTrue { profile.likes.isEmpty() }
 
         kweetDao.create(kweet, profile)
-        kweetDao.like(kweet, profile)
+        val success = kweetDao.like(kweet, profile)
 
+        // Verify we liked
+        assertTrue { success }
         assertTrue(kweet.likedBy.isNotEmpty())
         assertTrue { profile.likes.isNotEmpty() }
+
+        // Test that  we  cannot refollow
+        val fail = kweetDao.like(kweet, profile)
+
+        assertFalse { fail }
     }
 
     @Test

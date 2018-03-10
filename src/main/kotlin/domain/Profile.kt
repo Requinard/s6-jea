@@ -40,7 +40,7 @@ data class Profile(
     var profileImage: ByteArray? = null
 
     @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
-    var kweets: Set<Kweet> = emptySet()
+    var kweets = mutableSetOf<Kweet>()
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
     @JoinTable(
@@ -48,7 +48,7 @@ data class Profile(
         joinColumns = [(JoinColumn(name = "profile_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "kweet_id", referencedColumnName = "id"))]
     )
-    var likes: Set<Kweet> = emptySet()
+    var likes = mutableSetOf<Kweet>()
 
     /**
      * A set of profiles that this profile follows
@@ -59,13 +59,13 @@ data class Profile(
         joinColumns = [(JoinColumn(name = "follower_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "followed_id", referencedColumnName = "id"))]
     )
-    var follows: MutableSet<Profile> = mutableSetOf()
+    var follows = mutableSetOf<Profile>()
 
     /**
      * A set of profiles that are following this user
      */
     @ManyToMany(mappedBy = "follows", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
-    var followers: MutableSet<Profile> = mutableSetOf()
+    var followers = mutableSetOf<Profile>()
 
     @OneToOne(mappedBy = "profile")
     @JoinColumn(name = "user_id", nullable = true)

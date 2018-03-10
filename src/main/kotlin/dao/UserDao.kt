@@ -1,6 +1,5 @@
 package dao
 
-import com.sun.org.apache.xpath.internal.operations.Bool
 import domain.KwetterGroup
 import domain.KwetterUser
 import domain.Profile

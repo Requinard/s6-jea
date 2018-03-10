@@ -24,8 +24,8 @@ class ProfileFacadeTest {
     @Before
     fun setup() {
         kweet.profile = profile
-        profile.kweets += kweet
-        kweet.likedBy += profile
+        profile.kweets.add(kweet)
+        kweet.likedBy.add(profile)
 
         profile.follows.add(profile)
     }

@@ -7,7 +7,7 @@ import javax.ejb.Stateless
 
 @Stateless
 class KweetDao : BaseDao() {
-    val hashtagRegex = Regex("""\s(#\w+)""")
+    private val hashtagRegex = Regex("""\s(#\w+)""")
 
     fun getAll(): List<Kweet> = em.createNamedQuery("Kweet.getAll", Kweet::class.java).resultList
 
@@ -15,8 +15,9 @@ class KweetDao : BaseDao() {
 
     fun create(kweet: Kweet, profile: Profile) {
         kweet.profile = profile
-        profile.kweets += kweet
+        profile.kweets.add(kweet)
         em.persist(kweet)
+        em.merge(profile)
 
         createHashtags(kweet)
     }
@@ -34,8 +35,8 @@ class KweetDao : BaseDao() {
             .singleResult ?: Hashtag(hashtag = it).apply { em.persist(it) }
     }.map {
         // Save the results
-        kweet.hashtags += it
-        it.relevantKweets += kweet
+        kweet.hashtags.add(it)
+        it.relevantKweets.add(kweet)
 
         em.merge(kweet)
         em.merge(it)
@@ -43,14 +44,20 @@ class KweetDao : BaseDao() {
         it
     }
 
-    fun like(kweet: Kweet, profile: Profile) {
-        kweet.likedBy += profile
-        profile.likes += kweet
+    /**
+     * Tries to link a profile to a liked kweet
+     * @return true if user has now liked kweet, false if user already liked kweet
+     */
+    fun like(kweet: Kweet, profile: Profile): Boolean {
+        val success = kweet.likedBy.add(profile)
+        profile.likes.add(kweet)
         em.persist(kweet)
         em.persist(profile)
+
+        return success
     }
 
-    fun like(kweet: Kweet, profileId: Int) {
+    fun like(kweet: Kweet, profileId: Int): Boolean {
         return like(
             kweet,
             em.find(Profile::class.java, profileId)

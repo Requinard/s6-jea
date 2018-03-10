@@ -16,12 +16,13 @@ import javax.persistence.NamedQuery
 )
 data class KwetterGroup(
     @Id
-    var groupname: String,
+    var groupname: String
+) {
     @ManyToMany
     @JoinTable(
         name = "user_group",
         joinColumns = [(JoinColumn(name = "groupname", referencedColumnName = "groupname"))],
         inverseJoinColumns = [(JoinColumn(name = "username", referencedColumnName = "username"))]
     )
-    var users: MutableSet<KwetterUser> = mutableSetOf()
-)
+    var users = mutableSetOf<KwetterUser>()
+}
