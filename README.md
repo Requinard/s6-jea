@@ -28,3 +28,13 @@ For the backend
 
 - CDI Interceptors to censor a tweet
 - A build enviroment (Travis and Gitlab)
+
+## Integration test
+
+Integration tests need a special runtime for now. Follow these steps
+
+- Build the  application
+- Deploy the application to remote
+- Run `gradle integrationTest`
+
+This test needs a fresh payara deployment each time due to database relations being tested for real

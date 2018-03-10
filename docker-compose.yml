@@ -14,6 +14,14 @@ services:
       - '5432:5432'
     volumes:
       - 'database:/var/lib/postgresql/data'
+  testdb:
+      image: postgres:alpine
+      environment:
+        - POSTGRES_PASSWORD=haraka
+        - POSTGRES_USER=haraka
+        - POSTGRES_DB=haraka
+      ports:
+        - '5433:5432'
   ldap:
     image: dinkel/openldap
     environment:

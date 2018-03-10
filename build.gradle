@@ -94,6 +94,7 @@ dependencies {
     integrationTestCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     integrationTestCompile group: 'org.eclipse.persistence', name: 'eclipselink', version: '2.5.0'
     integrationTestCompile group: 'org.postgresql', name: 'postgresql', version: '42.2.1'
+    integrationTestCompile 'io.rest-assured:rest-assured:3.0.7'
     ktlint "com.github.shyiko:ktlint:0.18.0"
 }
 

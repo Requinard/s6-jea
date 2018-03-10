@@ -10,10 +10,11 @@
         <class>domain.Profile</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1/haraka"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5433/haraka"/>
             <property name="javax.persistence.jdbc.password" value="haraka"/>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="javax.persistence.jdbc.user" value="haraka"/>
+            <property name="javax.persistence.jdbc.port" value="5433" />
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
             <property name="eclipselink.logging.logger" value="DefaultLogger"/>
             <property name="eclipselink.logging.level" value="FINE"/></properties>

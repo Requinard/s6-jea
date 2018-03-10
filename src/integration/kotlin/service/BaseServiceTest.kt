@@ -1,0 +1,15 @@
+package service
+
+import io.restassured.RestAssured
+import io.restassured.RestAssured.basic
+import org.junit.Before
+
+abstract class BaseServiceTest {
+    @Before
+    fun setupRestAssured() {
+        RestAssured.baseURI = "http://localhost"
+        RestAssured.basePath = "/jea-kwetter-1.0-SNAPSHOT"
+        RestAssured.port = 8080
+        RestAssured.authentication = basic("steve", "steve")
+    }
+}
