@@ -48,16 +48,14 @@ class ProfileService @Inject constructor(
     fun postFollowScreenname(
         @PathParam("screenname") screenname: String
     ): Response {
-        val follower = user.profile
-
+        val follower = user.profile ?: return Response.status(404, "Did not find follower").build()
         val leader: Profile = profileDao.getByScreenname(screenname) ?: return Response.status(404, "Did not find leader").build()
 
-        if (follower == null) return Response.noContent().build()
-        if (follower.follows.contains(leader)) return Response.notModified("You already follow this user!").build()
+        val wasAdded = profileDao.follow(follower, leader)
 
-        profileDao.follow(follower, leader)
-
-        return Response.ok(ProfileFacade(follower))
-            .build()
+        if (wasAdded)
+            return Response.ok(ProfileFacade(follower))
+                .build()
+        return Response.notModified("Follower is already following leader!").build()
     }
 }

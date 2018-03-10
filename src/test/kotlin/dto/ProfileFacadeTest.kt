@@ -2,7 +2,6 @@ package dto
 
 import domain.Kweet
 import domain.Profile
-import hankProfile
 import org.junit.Before
 import org.junit.Test
 import util.now
@@ -28,7 +27,7 @@ class ProfileFacadeTest {
         profile.kweets += kweet
         kweet.likedBy += profile
 
-        profile.follows += hankProfile
+        profile.follows.add(profile)
     }
 
     @Test
@@ -48,7 +47,7 @@ class ProfileFacadeTest {
 
         assertTrue { facade.kweets.count() == 1 }
         assertTrue { facade.likedTweets.count() == 0 }
-        assertEquals(facade.follows, listOf("hank"))
+        assertEquals(facade.follows, listOf("john"))
         assertNotNull(profile.created)
     }
 }

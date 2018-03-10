@@ -17,9 +17,17 @@ class ProfileDao : BaseDao() {
 
     fun create(profile: Profile) = em.persist(profile)
 
-    fun follow(follower: Profile, leader: Profile) {
-        follower.follows += leader
-        leader.followers += follower
+    /**
+     * Bidirectionally follow a profile.
+     *
+     * @return whether user was already following leader
+     */
+    fun follow(follower: Profile, leader: Profile): Boolean {
+        val operation = follower.follows.add(leader)
+        leader.followers.add(follower)
         em.merge(follower)
+        em.merge(leader)
+
+        return operation
     }
 }

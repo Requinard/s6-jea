@@ -50,16 +50,22 @@ data class Profile(
     )
     var likes: Set<Kweet> = emptySet()
 
+    /**
+     * A set of profiles that this profile follows
+     */
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
     @JoinTable(
         name = "follows",
         joinColumns = [(JoinColumn(name = "follower_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "followed_id", referencedColumnName = "id"))]
     )
-    var follows: Set<Profile> = emptySet()
+    var follows: MutableSet<Profile> = mutableSetOf()
 
+    /**
+     * A set of profiles that are following this user
+     */
     @ManyToMany(mappedBy = "follows", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
-    var followers: Set<Profile> = emptySet()
+    var followers: MutableSet<Profile> = mutableSetOf()
 
     @OneToOne(mappedBy = "profile")
     @JoinColumn(name = "user_id", nullable = true)
