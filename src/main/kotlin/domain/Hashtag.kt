@@ -20,5 +20,5 @@ data class Hashtag(
     var hashtag: String
 ) {
     @ManyToMany(mappedBy = "hashtags")
-    var relevantKweets: List<Kweet> = emptyList()
+    var relevantKweets: Set<Kweet> = emptySet()
 }
