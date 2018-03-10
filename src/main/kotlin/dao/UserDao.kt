@@ -39,7 +39,7 @@ class UserDao : BaseDao() {
      *
      * @return relevant managed group
      */
-    fun getGroup(name: String) = em.createNamedQuery("KwetterGroup.find")
+    fun getGroup(name: String) = em.createNamedQuery("KwetterGroup.find", KwetterGroup::class.java)
         .setParameter("name", name)
         .singleResult ?: KwetterGroup(name).apply { em.persist(this) }
 

@@ -11,10 +11,11 @@ data class KwetterUser(
     @GeneratedValue
     val id: Long? = null,
     var username: String,
-    var password: String,
-    @ManyToMany(mappedBy = "users")
-    var groups: MutableSet<KwetterGroup> = mutableSetOf()
+    var password: String
 ) {
+    @ManyToMany(mappedBy = "users")
+    var groups = mutableSetOf<KwetterGroup>()
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "profile_id", nullable = true)
     var profile: Profile? = null
