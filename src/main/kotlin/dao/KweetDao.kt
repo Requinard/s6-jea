@@ -21,24 +21,26 @@ class KweetDao : BaseDao() {
         createHashtags(kweet)
     }
 
-    fun createHashtags(kweet: Kweet): List<Hashtag> {
-        val hashtags = hashtagRegex.findAll(kweet.message)
+    /**
+     * Takes an input kweet and links it to hashtags
+     */
+    fun createHashtags(kweet: Kweet) = hashtagRegex.findAll(kweet.message).map {
+        // Map the matched values to the actual string
+        it.value
+    }.map {
+        // Find a hashtag. If there is no hashtag found we create a new one
+        em.createNamedQuery("Hashtag.find", Hashtag::class.java)
+            .setParameter("tag", it)
+            .singleResult ?: Hashtag(hashtag = it).apply { em.persist(it) }
+    }.map {
+        // Save the results
+        kweet.hashtags += it
+        it.relevantKweets += kweet
 
-        return hashtags.map {
-            it.value
-        }.map {
-            em.createNamedQuery("Hashtag.find", Hashtag::class.java)
-                .setParameter("tag", it)
-                .singleResult ?: Hashtag(hashtag = it).apply { em.persist(it) }
-        }.map {
-            kweet.hashtags += it
-            it.relevantKweets += kweet
+        em.merge(kweet)
+        em.merge(it)
 
-            em.merge(kweet)
-            em.merge(it)
-
-            it
-        }.toList()
+        it
     }
 
     fun like(kweet: Kweet, profile: Profile) {
