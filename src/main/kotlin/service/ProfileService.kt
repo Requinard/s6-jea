@@ -5,8 +5,10 @@ import dao.UserDao
 import domain.Profile
 import dto.ProfileFacade
 import javax.inject.Inject
+import javax.ws.rs.Consumes
 import javax.ws.rs.GET
 import javax.ws.rs.POST
+import javax.ws.rs.PUT
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
@@ -21,6 +23,20 @@ class ProfileService @Inject constructor(
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun get() = ProfileFacade(profileDao.getByScreenname("john")!!)
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    fun putByScreenname(): Response {
+        val profile = user.profile!!
+        profile.bio = getParam("bio") ?: profile.bio
+        profile.website = getParam("website") ?: profile.website
+        profile.location = getParam("location") ?: profile.location
+
+        profileDao.merge(profile)
+
+        return Response.ok(ProfileFacade(profile)).build()
+    }
 
     @GET
     @Path("{screenname}")

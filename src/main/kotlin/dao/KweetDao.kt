@@ -52,7 +52,6 @@ class KweetDao : BaseDao() {
         val success = kweet.likedBy.add(profile)
         profile.likes.add(kweet)
         em.persist(kweet)
-        em.persist(profile)
 
         return success
     }

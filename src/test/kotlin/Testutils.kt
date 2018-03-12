@@ -1,11 +1,18 @@
 import domain.Kweet
 import domain.KwetterGroup
+import domain.KwetterUser
 import domain.Profile
 import util.now
+import util.sha256
 
 val johnProfile = Profile(
     created = now(),
     screenname = "john"
+)
+
+val johnUser = KwetterUser(
+    username = "john",
+    password = sha256("john")
 )
 
 val hankProfile = Profile(

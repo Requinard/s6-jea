@@ -34,6 +34,18 @@ class ProfileFacade(
     var userId: Long?
         get() = profile.user?.id
         set(value) = Unit
+
+    var bio: String
+        get() = profile.bio
+        set(value) = Unit
+
+    var website: String
+        get() = profile.website
+        set(value) = Unit
+
+    var location: String
+        get() = profile.location
+        set(value) = Unit
 }
 
 @Open
