@@ -1,48 +1,60 @@
 package service
 
-import io.restassured.RestAssured.delete
-import io.restassured.RestAssured.get
-import io.restassured.RestAssured.post
+import io.restassured.RestAssured.given
+import org.hamcrest.Matchers.equalTo
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class KweetServiceIntegration : BaseServiceIntegration() {
     @Test
     fun postMessage() {
-        val response = post("/kweets/create/hello world")
-
-        assertEquals(200, response.statusCode)
+        given()
+            .post("/kweets/create/hello world")
+            .then()
+            .statusCode(200)
+            .body("message", equalTo("hello world"))
     }
 
     @Test
     fun getAll() {
-        val response = get("/kweets")
-        assertEquals(200, response.statusCode)
+        given()
+            .get("/kweets")
+            .then()
+            .statusCode(200)
+            .body("", equalTo(emptyList<String>()))
     }
 
     @Test
     fun getById() {
-        val response = get("/kweets/5")
-        assertEquals(200, response.statusCode)
+        given()
+            .get("/kweets/5/")
+            .then()
+            .statusCode(200)
+            .body("message", equalTo("Automated entry message"))
+
+        given()
+            .get("/kweets/2150240")
+            .then()
+            .statusCode(404)
     }
 
     @Test
     fun likeTweetById() {
-        // Non existant tweet
-        val response = post("/kweets/5210/")
+        given()
+            .post("/kweets/512521")
+            .then()
+            .statusCode(404)
 
-        assertEquals(404, response.statusCode)
-
-        val response2 = post("/kweets/5/")
-
-        assertEquals(200, response2.statusCode)
+        given()
+            .post("/kweets/5/")
+            .then()
+            .statusCode(200)
     }
 
     @Test
     fun deleteTweet() {
-        val response = delete("/kweets/5")
-        assertEquals(200, response.statusCode)
-
+        given().delete("/kweets/5/")
+            .then()
+            .statusCode(200)
         //todo add test for user with different levels
     }
 }
