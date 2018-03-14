@@ -1,8 +1,8 @@
 package resources
 
-import bridges.ProfileBridge
 import models.ProfileModel
 import serializers.ProfileSerializer
+import services.ProfileService
 import services.UserService
 import javax.inject.Inject
 import javax.ws.rs.Consumes
@@ -17,12 +17,12 @@ import javax.ws.rs.core.Response
 
 @Path("profiles")
 class ProfileResource @Inject constructor(
-    val profileDao: ProfileBridge,
+    val profileService: ProfileService,
     userService: UserService
 ) : BaseResource(userService) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun get() = ProfileSerializer(profileDao.getByScreenname("john")!!)
+    fun get() = ProfileSerializer(profileService.getByScreenname("john")!!)
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -33,7 +33,7 @@ class ProfileResource @Inject constructor(
         profile.website = getParam("website") ?: profile.website
         profile.location = getParam("location") ?: profile.location
 
-        profileDao.merge(profile)
+        profileService.update(profile)
 
         return Response.ok(ProfileSerializer(profile)).build()
     }
@@ -44,7 +44,7 @@ class ProfileResource @Inject constructor(
     fun getByScreenName(
         @PathParam("screenname") screenname: String
     ): Response {
-        val profile = profileDao.getByScreenname(screenname)
+        val profile = profileService.getByScreenname(screenname)
 
         if (profile != null)
             return Response.ok(ProfileSerializer(profile)).build()
@@ -56,7 +56,7 @@ class ProfileResource @Inject constructor(
     @Produces(MediaType.APPLICATION_JSON)
     fun getKweetsByScreenName(
         @PathParam("screenname") screenname: String
-    ) = profileDao.getByScreenname(screenname)?.kweets
+    ) = profileService.getByScreenname(screenname)?.kweets
 
     @POST
     @Path("{screenname}")
@@ -65,9 +65,9 @@ class ProfileResource @Inject constructor(
         @PathParam("screenname") screenname: String
     ): Response {
         val follower = user.profileModel ?: return Response.status(404, "Did not find follower").build()
-        val leader: ProfileModel = profileDao.getByScreenname(screenname) ?: return Response.status(404, "Did not find leader").build()
+        val leader: ProfileModel = profileService.getByScreenname(screenname) ?: return Response.status(404, "Did not find leader").build()
 
-        val wasAdded = profileDao.follow(follower, leader)
+        val wasAdded = profileService.follow(follower, leader)
 
         if (wasAdded)
             return Response.ok(ProfileSerializer(follower))
