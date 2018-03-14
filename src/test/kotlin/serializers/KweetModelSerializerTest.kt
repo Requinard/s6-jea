@@ -5,7 +5,7 @@ import models.ProfileModel
 import hankProfile
 import org.junit.Before
 import org.junit.Test
-import util.now
+import utils.now
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull

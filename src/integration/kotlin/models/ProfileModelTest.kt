@@ -1,7 +1,7 @@
 package models
 
 import org.junit.Test
-import util.now
+import utils.now
 import kotlin.test.assertNotNull
 
 class ProfileModelTest : BaseDomainTest() {

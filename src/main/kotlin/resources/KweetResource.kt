@@ -6,8 +6,8 @@ import models.KweetModel
 import serializers.KweetSerializer
 import serializers.SimpleKweetSerializer
 import interceptors.bindings.CensorKweetInterceptorBinding
-import util.Open
-import util.now
+import annotations.Open
+import utils.now
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
 import javax.ws.rs.DELETE

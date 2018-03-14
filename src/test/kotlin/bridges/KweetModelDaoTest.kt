@@ -9,7 +9,7 @@ import models.ProfileModel
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
-import util.now
+import utils.now
 import javax.persistence.EntityManager
 import javax.persistence.TypedQuery
 import kotlin.test.assertEquals

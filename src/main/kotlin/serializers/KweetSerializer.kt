@@ -1,7 +1,7 @@
 package serializers
 
 import models.KweetModel
-import util.Open
+import annotations.Open
 import java.io.Serializable
 import java.sql.Timestamp
 

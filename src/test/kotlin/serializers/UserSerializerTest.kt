@@ -6,7 +6,7 @@ import johnProfile
 import org.junit.Before
 import org.junit.Test
 import regularGroup
-import util.sha256
+import utils.sha256
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 

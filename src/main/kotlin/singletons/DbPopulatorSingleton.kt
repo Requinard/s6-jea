@@ -7,8 +7,8 @@ import models.KweetModel
 import models.GroupModel
 import models.UserModel
 import models.ProfileModel
-import util.now
-import util.sha256
+import utils.now
+import utils.sha256
 import javax.annotation.PostConstruct
 import javax.ejb.Singleton
 import javax.ejb.Startup

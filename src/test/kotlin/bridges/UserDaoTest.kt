@@ -7,7 +7,7 @@ import models.UserModel
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
-import util.sha256
+import utils.sha256
 import javax.persistence.EntityManager
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue

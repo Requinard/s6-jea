@@ -11,8 +11,8 @@ import models.ProfileModel
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
-import util.now
-import util.sha256
+import utils.now
+import utils.sha256
 import java.nio.file.attribute.UserPrincipal
 import java.sql.Timestamp
 import java.time.Instant

@@ -6,7 +6,7 @@ import models.ProfileModel
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
-import util.now
+import utils.now
 import javax.persistence.EntityManager
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue

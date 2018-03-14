@@ -2,8 +2,8 @@ import models.KweetModel
 import models.GroupModel
 import models.UserModel
 import models.ProfileModel
-import util.now
-import util.sha256
+import utils.now
+import utils.sha256
 
 val johnProfile = ProfileModel(
     created = now(),

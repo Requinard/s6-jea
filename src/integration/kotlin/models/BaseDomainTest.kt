@@ -2,7 +2,7 @@ package models
 
 import org.junit.After
 import org.junit.Before
-import util.DatabaseCleaner
+import utils.DatabaseCleaner
 import javax.persistence.EntityManager
 import javax.persistence.EntityTransaction
 import javax.persistence.Persistence

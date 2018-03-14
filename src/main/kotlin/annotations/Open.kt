@@ -1,3 +1,3 @@
-package util
+package annotations
 
 annotation class Open()

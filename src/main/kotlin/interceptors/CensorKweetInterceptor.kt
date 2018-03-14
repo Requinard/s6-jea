@@ -1,7 +1,7 @@
 package interceptors
 
 import interceptors.bindings.CensorKweetInterceptorBinding
-import util.Open
+import annotations.Open
 import javax.interceptor.AroundInvoke
 import javax.interceptor.Interceptor
 import javax.interceptor.InvocationContext

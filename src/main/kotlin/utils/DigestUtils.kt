@@ -1,4 +1,4 @@
-package util
+package utils
 
 import com.google.common.hash.Hashing
 import java.nio.charset.StandardCharsets

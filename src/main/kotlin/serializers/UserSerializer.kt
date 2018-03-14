@@ -1,7 +1,7 @@
 package serializers
 
 import models.UserModel
-import util.Open
+import annotations.Open
 import java.io.Serializable
 
 @Open
