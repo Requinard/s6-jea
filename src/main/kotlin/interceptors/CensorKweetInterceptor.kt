@@ -1,5 +1,6 @@
-package interceptors.bindings
+package interceptors
 
+import interceptors.bindings.CensorKweetInterceptorBinding
 import util.Open
 import javax.interceptor.AroundInvoke
 import javax.interceptor.Interceptor

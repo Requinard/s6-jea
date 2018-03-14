@@ -2,7 +2,6 @@ package interceptors
 
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import interceptors.bindings.CensorKweetInterceptor
 import org.junit.Before
 import org.junit.Test
 import javax.interceptor.InvocationContext
