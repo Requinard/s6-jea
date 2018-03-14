@@ -11,7 +11,7 @@ class KweetBridge : BaseBridge() {
 
     fun getAll(): List<KweetModel> = em.createNamedQuery("KweetModel.getAll", KweetModel::class.java).resultList
 
-    fun getById(id: Int) = em.find(KweetModel::class.java, id)
+    fun getById(id: Int): KweetModel? = em.find(KweetModel::class.java, id)
 
     fun create(kweetModel: KweetModel, profileModel: ProfileModel) {
         kweetModel.profileModel = profileModel
@@ -24,6 +24,7 @@ class KweetBridge : BaseBridge() {
 
     /**
      * Takes an input kweetModel and links it to hashtags
+     * todo: Move this  to service layer
      */
     fun createHashtags(kweetModel: KweetModel) = hashtagRegex.findAll(kweetModel.message).map {
         // Map the matched values to the actual string
@@ -56,6 +57,7 @@ class KweetBridge : BaseBridge() {
         return success
     }
 
+    @Deprecated("Use the version with models instead")
     fun like(kweetModel: KweetModel, profileId: Int): Boolean {
         return like(
             kweetModel,
@@ -63,7 +65,7 @@ class KweetBridge : BaseBridge() {
         )
     }
 
-    fun search(query: String) = em.createNamedQuery("KweetModel.search", KweetModel::class.java)
+    fun search(query: String): Collection<KweetModel> = em.createNamedQuery("KweetModel.search", KweetModel::class.java)
         .setParameter("query", "%$query%")
         .resultList
 

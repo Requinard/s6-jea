@@ -1,7 +1,6 @@
 package resources
 
 import annotations.Open
-import bridges.KweetBridge
 import bridges.UserBridge
 import interceptors.bindings.CensorKweetInterceptorBinding
 import models.KweetModel
@@ -24,7 +23,6 @@ import javax.ws.rs.core.Response
 @Path("kweets")
 class KweetResource @Inject constructor(
     val kweetService: KweetService,
-    val kweetBridge: KweetBridge,
     userBridge: UserBridge
 ) : BaseResource(userBridge) {
     @GET
@@ -58,7 +56,7 @@ class KweetResource @Inject constructor(
     fun getById(
         @PathParam("id") id: Int
     ): Response {
-        val kweet = kweetBridge.getById(id) ?: return Response.noContent().build()
+        val kweet = kweetService.getKweetById(id) ?: return Response.noContent().build()
 
         return Response.ok(KweetSerializer(kweet)).build()
     }
@@ -68,11 +66,11 @@ class KweetResource @Inject constructor(
     fun likeTweetById(
         @PathParam("id") id: Int
     ): Response {
-        val kweet = kweetBridge.getById(id) ?: return Response
+        val kweet = kweetService.getKweetById(id) ?: return Response
             .status(404)
             .build()
 
-        kweetBridge.like(kweet, user.profileModel!!)
+        kweetService.likeKweet(kweet, user.profileModel!!)
 
         return Response.ok(KweetSerializer(kweet)).build()
     }
@@ -82,7 +80,7 @@ class KweetResource @Inject constructor(
     @Produces(MediaType.APPLICATION_JSON)
     fun getByQuery(
         @PathParam("query") query: String
-    ) = kweetBridge.search(query)
+    ) = kweetService.search(query)
         .map { KweetSerializer(it) }
         .toList()
 
@@ -92,9 +90,9 @@ class KweetResource @Inject constructor(
     fun deleteTweet(
         @PathParam("id") id: Int
     ): Response {
-        val kweet = kweetBridge.getById(id) ?: return Response.noContent().build()
+        val kweet = kweetService.getKweetById(id) ?: return Response.noContent().build()
 
-        kweetBridge.delete(kweet)
+        kweetService.delete(kweet)
 
         return Response.ok(SimpleKweetSerializer(kweet)).build()
     }

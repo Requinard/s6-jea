@@ -3,7 +3,6 @@ package resources
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import bridges.KweetBridge
 import bridges.UserBridge
 import models.KweetModel
 import models.UserModel
@@ -11,6 +10,7 @@ import models.ProfileModel
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
+import services.KweetService
 import utils.now
 import utils.sha256
 import java.nio.file.attribute.UserPrincipal
@@ -55,8 +55,8 @@ internal class KweetModelServiceTest {
             ).apply { kweets = mutableSetOf(kweet1, kweet2) }
         )
 
-        val kweetDaoMock = mock<KweetBridge> {
-            on { getAll() } doReturn listOf(kweet1)
+        val kweetDaoMock = mock<KweetService> {
+            on { getAllKweets() } doReturn listOf(kweet1)
             on { search("first") } doReturn listOf(kweet2)
         }.apply {
             Mockito.doNothing().`when`(this).create(any(), any())
@@ -75,7 +75,6 @@ internal class KweetModelServiceTest {
         }
 
         kweetService = KweetResource(
-            mock {},
             kweetDaoMock,
             userDaoMock
         )
