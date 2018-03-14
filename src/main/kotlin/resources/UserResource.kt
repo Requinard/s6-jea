@@ -1,6 +1,6 @@
 package resources
 
-import dao.UserDao
+import bridges.UserBridge
 import serializers.UserSerializer
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response
 @Path("users")
 @RolesAllowed("admin")
 class UserResource @Inject constructor(
-    val userDao: UserDao
+    val userDao: UserBridge
 ) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)

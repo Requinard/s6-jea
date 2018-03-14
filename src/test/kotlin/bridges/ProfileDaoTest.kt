@@ -1,4 +1,4 @@
-package dao
+package bridges
 
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
@@ -12,7 +12,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class ProfileDaoTest {
-    lateinit var profileDao: ProfileDao
+    lateinit var profileDao: ProfileBridge
 
     @Before
     fun setup() {
@@ -20,7 +20,7 @@ class ProfileDaoTest {
 
         Mockito.doNothing().`when`(em).persist(any())
 
-        profileDao = ProfileDao()
+        profileDao = ProfileBridge()
         profileDao.em = em
     }
 

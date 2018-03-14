@@ -1,4 +1,4 @@
-package dao
+package bridges
 
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
@@ -13,7 +13,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class UserDaoTest {
-    lateinit var userDao: UserDao
+    lateinit var userDao: UserBridge
 
     val kwetterUser = KwetterUser(
         username = "john",
@@ -31,7 +31,7 @@ class UserDaoTest {
 
         Mockito.doNothing().`when`(mock).persist(any())
 
-        userDao = UserDao().apply {
+        userDao = UserBridge().apply {
             em = mock
         }
     }

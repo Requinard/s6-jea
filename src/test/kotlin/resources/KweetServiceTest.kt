@@ -3,8 +3,8 @@ package resources
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import dao.KweetDao
-import dao.UserDao
+import bridges.KweetBridge
+import bridges.UserBridge
 import domain.Kweet
 import domain.KwetterUser
 import domain.Profile
@@ -55,14 +55,14 @@ internal class KweetServiceTest {
             ).apply { kweets = mutableSetOf(kweet1, kweet2) }
         )
 
-        val kweetDaoMock = mock<KweetDao> {
+        val kweetDaoMock = mock<KweetBridge> {
             on { getAll() } doReturn listOf(kweet1)
             on { search("first") } doReturn listOf(kweet2)
         }.apply {
             Mockito.doNothing().`when`(this).create(any(), any())
         }
 
-        val userDaoMock = mock<UserDao> {
+        val userDaoMock = mock<UserBridge> {
             on { getUser(any()) } doReturn user
         }
 

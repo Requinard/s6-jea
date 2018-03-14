@@ -1,4 +1,4 @@
-package dao
+package bridges
 
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
@@ -18,7 +18,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 internal class KweetDaoTest {
-    lateinit var kweetDao: KweetDao
+    lateinit var kweetDao: KweetBridge
 
     val kweets = listOf(
         Kweet(
@@ -60,7 +60,7 @@ internal class KweetDaoTest {
 
         Mockito.doNothing().`when`(mock).persist(any())
 
-        kweetDao = KweetDao()
+        kweetDao = KweetBridge()
         kweetDao.em = mock
     }
 

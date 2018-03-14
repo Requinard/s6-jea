@@ -1,7 +1,7 @@
 package resources
 
-import dao.ProfileDao
-import dao.UserDao
+import bridges.ProfileBridge
+import bridges.UserBridge
 import domain.Profile
 import serializers.ProfileSerializer
 import javax.inject.Inject
@@ -17,8 +17,8 @@ import javax.ws.rs.core.Response
 
 @Path("profiles")
 class ProfileResource @Inject constructor(
-    val profileDao: ProfileDao,
-    userDao: UserDao
+    val profileDao: ProfileBridge,
+    userDao: UserBridge
 ) : BaseResource(userDao) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)

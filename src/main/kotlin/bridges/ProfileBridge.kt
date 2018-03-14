@@ -1,10 +1,10 @@
-package dao
+package bridges
 
 import domain.Profile
 import javax.ejb.Stateless
 
 @Stateless
-class ProfileDao : BaseDao() {
+class ProfileBridge : BaseBridge() {
 
     fun getById(id: Int) = em.find(Profile::class.java, id)
 

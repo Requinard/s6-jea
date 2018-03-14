@@ -1,4 +1,4 @@
-package dao
+package bridges
 
 import domain.Hashtag
 import domain.Kweet
@@ -6,7 +6,7 @@ import domain.Profile
 import javax.ejb.Stateless
 
 @Stateless
-class KweetDao : BaseDao() {
+class KweetBridge : BaseBridge() {
     private val hashtagRegex = Regex("""\s(#\w+)""")
 
     fun getAll(): List<Kweet> = em.createNamedQuery("Kweet.getAll", Kweet::class.java).resultList

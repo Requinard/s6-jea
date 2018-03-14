@@ -1,7 +1,7 @@
 package resources
 
-import dao.KweetDao
-import dao.UserDao
+import bridges.KweetBridge
+import bridges.UserBridge
 import domain.Kweet
 import serializers.KweetSerializer
 import serializers.SimpleKweetSerializer
@@ -22,8 +22,8 @@ import javax.ws.rs.core.Response
 @Open
 @Path("kweets")
 class KweetResource @Inject constructor(
-    val kweetDao: KweetDao,
-    userDao: UserDao
+    val kweetDao: KweetBridge,
+    userDao: UserBridge
 ) : BaseResource(userDao) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)

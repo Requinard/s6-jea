@@ -1,4 +1,4 @@
-package dao
+package bridges
 
 import domain.KwetterGroup
 import domain.KwetterUser
@@ -6,7 +6,7 @@ import domain.Profile
 import javax.ejb.Stateless
 
 @Stateless
-class UserDao : BaseDao() {
+class UserBridge : BaseBridge() {
     fun getUser(username: String) = em.createNamedQuery("User.getByUsername", KwetterUser::class.java)
         .setParameter("username", username)
         .singleResult

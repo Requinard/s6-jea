@@ -3,8 +3,8 @@ package resources
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import dao.ProfileDao
-import dao.UserDao
+import bridges.ProfileBridge
+import bridges.UserBridge
 import johnProfile
 import johnUser
 import org.mockito.Mockito
@@ -27,8 +27,8 @@ class ProfileServiceTest {
         profile.user = user
         user.profile = profile
 
-        val profileDaoMock = mock<ProfileDao> {}
-        val userDaoMock = mock<UserDao> {
+        val profileDaoMock = mock<ProfileBridge> {}
+        val userDaoMock = mock<UserBridge> {
             on { getUser(any()) } doReturn user
         }
 

@@ -1,8 +1,8 @@
 package singleton
 
-import dao.KweetDao
-import dao.ProfileDao
-import dao.UserDao
+import bridges.KweetBridge
+import bridges.ProfileBridge
+import bridges.UserBridge
 import domain.Kweet
 import domain.KwetterGroup
 import domain.KwetterUser
@@ -17,9 +17,9 @@ import javax.inject.Inject
 @Singleton
 @Startup
 class DbPopulator @Inject constructor(
-    val profileDao: ProfileDao,
-    val kweetDao: KweetDao,
-    val userDao: UserDao
+    val profileDao: ProfileBridge,
+    val kweetDao: KweetBridge,
+    val userDao: UserBridge
 ) {
     val johnUser = KwetterUser(
         username = "steve",
