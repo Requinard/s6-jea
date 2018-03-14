@@ -1,4 +1,4 @@
-package singleton
+package singletons
 
 import bridges.KweetBridge
 import bridges.ProfileBridge
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @Singleton
 @Startup
-class DbPopulator @Inject constructor(
+class DbPopulatorSingleton @Inject constructor(
     val profileDao: ProfileBridge,
     val kweetDao: KweetBridge,
     val userDao: UserBridge
