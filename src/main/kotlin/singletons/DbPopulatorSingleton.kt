@@ -1,12 +1,12 @@
 package singletons
 
 import bridges.KweetBridge
-import bridges.ProfileBridge
 import bridges.UserBridge
 import models.KweetModel
 import models.GroupModel
 import models.UserModel
 import models.ProfileModel
+import services.ProfileService
 import utils.now
 import utils.sha256
 import javax.annotation.PostConstruct
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @Singleton
 @Startup
 class DbPopulatorSingleton @Inject constructor(
-    val profileDao: ProfileBridge,
+    val profileDao: ProfileService,
     val kweetDao: KweetBridge,
     val userDao: UserBridge
 ) {

@@ -15,5 +15,11 @@ class ProfileService @Inject constructor(
 
     fun getByScreenname(name: String) = profileBridge.getByScreenname(name)
 
-    fun follow(follower: ProfileModel, leader: ProfileModel) = profileBridge.follow(follower, leader)
+    fun follow(follower: ProfileModel, leader: ProfileModel): Boolean {
+        val operation = follower.follows.add(leader)
+        leader.followers.add(follower)
+
+        profileBridge.merge(follower)
+        return operation
+    }
 }

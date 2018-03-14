@@ -18,18 +18,4 @@ class ProfileBridge : BaseBridge() {
         .firstOrNull()
 
     fun create(profileModel: ProfileModel) = em.persist(profileModel)
-
-    /**
-     * Bidirectionally follow a profileModel.
-     *
-     * @return whether userModel was already following leader
-     */
-    fun follow(follower: ProfileModel, leader: ProfileModel): Boolean {
-        val operation = follower.follows.add(leader)
-        leader.followers.add(follower)
-        em.merge(follower)
-        em.merge(leader)
-
-        return operation
-    }
 }
