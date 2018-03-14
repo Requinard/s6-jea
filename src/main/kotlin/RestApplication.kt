@@ -5,7 +5,7 @@ import resources.UserResource
 import javax.ws.rs.ApplicationPath
 import javax.ws.rs.core.Application
 
-@ApplicationPath("/")
+@ApplicationPath("/api")
 class RestApplication : Application() {
     override fun getClasses(): MutableSet<Class<*>> =
         HashSet<Class<*>>().apply {

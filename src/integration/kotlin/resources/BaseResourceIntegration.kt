@@ -8,7 +8,7 @@ abstract class BaseResourceIntegration {
     @Before
     fun setupRestAssured() {
         RestAssured.baseURI = "http://localhost"
-        RestAssured.basePath = "/jea-kwetter-1.0-SNAPSHOT"
+        RestAssured.basePath = "api/jea-kwetter-1.0-SNAPSHOT"
         RestAssured.port = 8080
         RestAssured.authentication = basic("steve", "steve")
     }
