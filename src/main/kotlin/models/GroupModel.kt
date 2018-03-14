@@ -1,4 +1,4 @@
-package domain
+package models
 
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -14,7 +14,7 @@ import javax.persistence.NamedQuery
         (NamedQuery(name = "Kwettergroup.find", query = "select g from kwettergroup g where g.groupname LIKE :name"))
     ]
 )
-data class KwetterGroup(
+data class GroupModel(
     @Id
     var groupname: String
 ) {
@@ -24,5 +24,5 @@ data class KwetterGroup(
         joinColumns = [(JoinColumn(name = "groupname", referencedColumnName = "groupname"))],
         inverseJoinColumns = [(JoinColumn(name = "username", referencedColumnName = "username"))]
     )
-    var users = mutableSetOf<KwetterUser>()
+    var users = mutableSetOf<UserModel>()
 }

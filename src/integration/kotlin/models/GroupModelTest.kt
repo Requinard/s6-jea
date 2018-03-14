@@ -1,11 +1,11 @@
-package domain
+package models
 
 import org.junit.Test
 
-class KwetterGroupTest : BaseDomainTest() {
+class GroupModelTest : BaseDomainTest() {
     @Test
     fun createGroup() {
-        val group = KwetterGroup(
+        val group = GroupModel(
             "regular"
         )
 

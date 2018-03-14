@@ -1,4 +1,4 @@
-package domain
+package models
 
 import java.sql.Timestamp
 import javax.persistence.CascadeType
@@ -16,10 +16,10 @@ import javax.persistence.NamedQuery
 
 @Entity(name = "kweet")
 @NamedQueries(
-    NamedQuery(name = "Kweet.getAll", query = "select k from kweet k"),
-    NamedQuery(name = "Kweet.search", query = "select k from kweet k where lower(k.message) LIKE LOWER(:query)")
+    NamedQuery(name = "KweetModel.getAll", query = "select k from kweet k"),
+    NamedQuery(name = "KweetModel.search", query = "select k from kweet k where lower(k.message) LIKE LOWER(:query)")
 )
-data class Kweet(
+data class KweetModel(
     @Id
     @GeneratedValue()
     var Id: Int? = null,
@@ -29,10 +29,10 @@ data class Kweet(
 ) {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
-    lateinit var profile: Profile
+    lateinit var profileModel: ProfileModel
 
     @ManyToMany(mappedBy = "likes", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
-    var likedBy = mutableSetOf<Profile>()
+    var likedBy = mutableSetOf<ProfileModel>()
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [(CascadeType.REMOVE)])
     @JoinTable(
@@ -40,7 +40,7 @@ data class Kweet(
         joinColumns = [(JoinColumn(name = "kweet_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "hashtag_id", referencedColumnName = "id"))]
     )
-    var hashtags = mutableSetOf<Hashtag>()
+    var hashtags = mutableSetOf<HashtagModel>()
 
     override fun toString(): String = "Field(id:$Id,message:$message"
 }

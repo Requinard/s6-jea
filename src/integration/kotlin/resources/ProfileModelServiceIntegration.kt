@@ -4,7 +4,7 @@ import io.restassured.RestAssured.given
 import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 
-class ProfileServiceIntegration : BaseResourceIntegration() {
+class ProfileModelServiceIntegration : BaseResourceIntegration() {
     @Test
     fun getBasic() {
         given()

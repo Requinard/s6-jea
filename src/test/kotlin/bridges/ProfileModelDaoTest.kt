@@ -2,7 +2,7 @@ package bridges
 
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
-import domain.Profile
+import models.ProfileModel
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
@@ -11,7 +11,7 @@ import javax.persistence.EntityManager
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class ProfileDaoTest {
+class ProfileModelDaoTest {
     lateinit var profileDao: ProfileBridge
 
     @Before
@@ -26,17 +26,17 @@ class ProfileDaoTest {
 
     @Test
     fun follow() {
-        val profileNotFollowing = Profile(
+        val profileNotFollowing = ProfileModel(
             created = now(),
             screenname = "john"
         )
 
-        val profileFollowing = Profile(
+        val profileFollowing = ProfileModel(
             created = now(),
             screenname = "mary"
         )
 
-        val leader = Profile(
+        val leader = ProfileModel(
             created = now(),
             screenname = "hank"
         )

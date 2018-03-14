@@ -1,12 +1,12 @@
 package serializers
 
-import domain.Profile
+import models.ProfileModel
 import util.Open
 import java.io.Serializable
 
 @Open
-class SimpleProfileSerializer(private val profile: Profile) : Serializable {
+class SimpleProfileSerializer(private val profileModel: ProfileModel) : Serializable {
     var screenname: String
-        get() = profile.screenname
+        get() = profileModel.screenname
         set(value) = Unit
 }

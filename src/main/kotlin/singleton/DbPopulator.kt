@@ -3,10 +3,10 @@ package singleton
 import bridges.KweetBridge
 import bridges.ProfileBridge
 import bridges.UserBridge
-import domain.Kweet
-import domain.KwetterGroup
-import domain.KwetterUser
-import domain.Profile
+import models.KweetModel
+import models.GroupModel
+import models.UserModel
+import models.ProfileModel
 import util.now
 import util.sha256
 import javax.annotation.PostConstruct
@@ -21,37 +21,37 @@ class DbPopulator @Inject constructor(
     val kweetDao: KweetBridge,
     val userDao: UserBridge
 ) {
-    val johnUser = KwetterUser(
+    val johnUser = UserModel(
         username = "steve",
         password = sha256("steve")
     )
 
-    val hankUser = KwetterUser(
+    val hankUser = UserModel(
         username = "hank",
         password = sha256("hank")
     )
 
-    val group1 = KwetterGroup(
+    val group1 = GroupModel(
         groupname = "regulars"
     )
-    val admins = KwetterGroup(
+    val admins = GroupModel(
         groupname = "admins"
     )
-    val mods = KwetterGroup(
+    val mods = GroupModel(
         groupname = "moderators"
     )
 
-    val john = Profile(
+    val john = ProfileModel(
         screenname = "john",
         created = now()
     )
 
-    val hank = Profile(
+    val hank = ProfileModel(
         screenname = "hank",
         created = now()
     )
 
-    val kweet = Kweet(
+    val kweet = KweetModel(
         created = now(),
         message = "Automated entry message"
     )

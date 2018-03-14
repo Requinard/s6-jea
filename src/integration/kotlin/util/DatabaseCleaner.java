@@ -1,7 +1,7 @@
 package util;
 
 
-import domain.*;
+import models.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.metamodel.EntityType;
@@ -13,11 +13,11 @@ import java.sql.SQLException;
 public class DatabaseCleaner {
 
     private static final Class<?>[] ENTITY_TYPES = {
-        Hashtag.class,
-        Kweet.class,
-        KwetterUser.class,
-        KwetterGroup.class,
-        Profile.class
+        HashtagModel.class,
+        KweetModel.class,
+        UserModel.class,
+        GroupModel.class,
+        ProfileModel.class
     };
     private final EntityManager em;
 

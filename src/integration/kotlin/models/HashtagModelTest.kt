@@ -1,13 +1,13 @@
-package domain
+package models
 
 import org.junit.Test
 import kotlin.test.assertNotNull
 
-class HashtagTest : BaseDomainTest() {
+class HashtagModelTest : BaseDomainTest() {
 
     @Test
     fun persist() {
-        val hashtag = Hashtag(null, "swag")
+        val hashtag = HashtagModel(null, "swag")
 
         tx.begin()
         em.persist(hashtag)

@@ -1,4 +1,4 @@
-package domain
+package models
 
 import java.sql.Timestamp
 import javax.persistence.CascadeType
@@ -16,12 +16,12 @@ import javax.persistence.NamedQuery
 import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 
-@Entity(name = "profile")
+@Entity(name = "profileModel")
 @NamedQueries(
-    (NamedQuery(name = "Profile.getByScreenName", query = "select p from profile p where p.screenname LIKE :screenname")),
-    (NamedQuery(name = "Profile.getAll", query = "select p from profile p"))
+    (NamedQuery(name = "ProfileModel.getByScreenName", query = "select p from profileModel p where p.screenname LIKE :screenname")),
+    (NamedQuery(name = "ProfileModel.getAll", query = "select p from profileModel p"))
 )
-data class Profile(
+data class ProfileModel(
     @Id
     @GeneratedValue
     var id: Int? = null,
@@ -39,8 +39,8 @@ data class Profile(
     @Column(nullable = true)
     var profileImage: ByteArray? = null
 
-    @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE], orphanRemoval = true)
-    var kweets = mutableSetOf<Kweet>()
+    @OneToMany(mappedBy = "profileModel", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE], orphanRemoval = true)
+    var kweets = mutableSetOf<KweetModel>()
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
     @JoinTable(
@@ -48,10 +48,10 @@ data class Profile(
         joinColumns = [(JoinColumn(name = "profile_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "kweet_id", referencedColumnName = "id"))]
     )
-    var likes = mutableSetOf<Kweet>()
+    var likes = mutableSetOf<KweetModel>()
 
     /**
-     * A set of profiles that this profile follows
+     * A set of profiles that this profileModel follows
      */
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
     @JoinTable(
@@ -59,15 +59,15 @@ data class Profile(
         joinColumns = [(JoinColumn(name = "follower_id", referencedColumnName = "id"))],
         inverseJoinColumns = [(JoinColumn(name = "followed_id", referencedColumnName = "id"))]
     )
-    var follows = mutableSetOf<Profile>()
+    var follows = mutableSetOf<ProfileModel>()
 
     /**
-     * A set of profiles that are following this user
+     * A set of profiles that are following this userModel
      */
     @ManyToMany(mappedBy = "follows", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
-    var followers = mutableSetOf<Profile>()
+    var followers = mutableSetOf<ProfileModel>()
 
-    @OneToOne(mappedBy = "profile")
+    @OneToOne(mappedBy = "profileModel")
     @JoinColumn(name = "user_id", nullable = true)
-    var user: KwetterUser? = null
+    var userModel: UserModel? = null
 }

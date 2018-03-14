@@ -35,10 +35,10 @@ class UserResource @Inject constructor(
     }
 
     /**
-     * Adds a user to a group
+     * Adds a userModel to a group
      * @param screenname screenname to look for
      * @param group group name to look for
-     * @return 404 if no user, ok if user not in group, not modified if user already in group
+     * @return 404 if no userModel, ok if userModel not in group, not modified if userModel already in group
      */
     @POST
     @Path("{screenname}/{group}")

@@ -5,9 +5,9 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import bridges.KweetBridge
 import bridges.UserBridge
-import domain.Kweet
-import domain.KwetterUser
-import domain.Profile
+import models.KweetModel
+import models.UserModel
+import models.ProfileModel
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
@@ -20,36 +20,36 @@ import javax.ws.rs.core.SecurityContext
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-internal class KweetServiceTest {
+internal class KweetModelServiceTest {
     lateinit var kweetService: KweetResource
 
-    val kweet1 = Kweet(
+    val kweet1 = KweetModel(
         created = now(),
         message = "Hi john"
     )
 
-    val kweet2 = Kweet(
+    val kweet2 = KweetModel(
         created = Timestamp.from(Instant.MAX),
         message = "first"
     )
 
-    val user = KwetterUser(
+    val user = UserModel(
         username = "john",
         password = sha256("john")
     )
 
-    val profile = Profile(
+    val profile = ProfileModel(
         created = now(),
         screenname = "john"
     )
 
     @Before
     fun setup() {
-        user.profile = profile
-        kweet1.profile = profile
+        user.profileModel = profile
+        kweet1.profileModel = profile
 
         profile.follows = mutableSetOf(
-            Profile(
+            ProfileModel(
                 created = now(),
                 screenname = "hank"
             ).apply { kweets = mutableSetOf(kweet1, kweet2) }

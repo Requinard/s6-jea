@@ -24,8 +24,8 @@ class ProfileServiceTest {
     lateinit var profileService: ProfileResource
 
     fun setup() {
-        profile.user = user
-        user.profile = profile
+        profile.userModel = user
+        user.profileModel = profile
 
         val profileDaoMock = mock<ProfileBridge> {}
         val userDaoMock = mock<UserBridge> {

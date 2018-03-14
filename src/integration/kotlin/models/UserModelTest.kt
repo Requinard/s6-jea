@@ -1,12 +1,12 @@
-package domain
+package models
 
 import org.junit.Test
 import kotlin.test.assertNotNull
 
-class KwetterUserTest : BaseDomainTest() {
+class UserModelTest : BaseDomainTest() {
     @Test
     fun createUser() {
-        val user = KwetterUser(
+        val user = UserModel(
             username = "john",
             password = "test"
         )

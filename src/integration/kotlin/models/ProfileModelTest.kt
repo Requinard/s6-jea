@@ -1,13 +1,13 @@
-package domain
+package models
 
 import org.junit.Test
 import util.now
 import kotlin.test.assertNotNull
 
-class ProfileTest : BaseDomainTest() {
+class ProfileModelTest : BaseDomainTest() {
     @Test
     fun createProfile() {
-        val profile = Profile(
+        val profile = ProfileModel(
             created = now(),
             screenname = "john"
         )

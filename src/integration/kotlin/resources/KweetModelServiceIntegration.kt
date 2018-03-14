@@ -4,7 +4,7 @@ import io.restassured.RestAssured.given
 import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 
-class KweetServiceIntegration : BaseResourceIntegration() {
+class KweetModelServiceIntegration : BaseResourceIntegration() {
     @Test
     fun postMessage() {
         given()
@@ -55,6 +55,6 @@ class KweetServiceIntegration : BaseResourceIntegration() {
         given().delete("/kweets/5/")
             .then()
             .statusCode(200)
-        //todo add test for user with different levels
+        //todo add test for userModel with different levels
     }
 }

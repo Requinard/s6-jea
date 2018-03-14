@@ -1,7 +1,7 @@
 package serializers
 
-import domain.Kweet
-import domain.Profile
+import models.KweetModel
+import models.ProfileModel
 import hankProfile
 import org.junit.Before
 import org.junit.Test
@@ -11,20 +11,20 @@ import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class KweetSerializerTest {
-    val profile = Profile(
+class KweetModelSerializerTest {
+    val profile = ProfileModel(
         created = now(),
         screenname = "john"
     )
 
-    val kweet = Kweet(
+    val kweet = KweetModel(
         created = now(),
         message = "Hello world"
     )
 
     @Before
     fun setup() {
-        kweet.profile = profile
+        kweet.profileModel = profile
         profile.kweets.add(kweet)
         kweet.likedBy.add(profile)
     }

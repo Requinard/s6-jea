@@ -3,17 +3,17 @@
 
     <persistence-unit name="integration-local" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>domain.Hashtag</class>
-        <class>domain.Kweet</class>
-        <class>domain.KwetterGroup</class>
-        <class>domain.KwetterUser</class>
-        <class>domain.Profile</class>
+        <class>models.HashtagModel</class>
+        <class>models.KweetModel</class>
+        <class>models.GroupModel</class>
+        <class>models.UserModel</class>
+        <class>models.ProfileModel</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5433/haraka"/>
             <property name="javax.persistence.jdbc.password" value="haraka"/>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="javax.persistence.jdbc.user" value="haraka"/>
+            <property name="javax.persistence.jdbc.userModel" value="haraka"/>
             <property name="javax.persistence.jdbc.port" value="5433" />
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
             <property name="eclipselink.logging.logger" value="DefaultLogger"/>

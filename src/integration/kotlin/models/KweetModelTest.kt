@@ -1,13 +1,13 @@
-package domain
+package models
 
 import org.junit.Test
 import util.now
 import kotlin.test.assertNotNull
 
-class KweetTest : BaseDomainTest() {
+class KweetModelTest : BaseDomainTest() {
     @Test
     fun createKweet() {
-        val kweet = Kweet(
+        val kweet = KweetModel(
             created = now(),
             message = "hello world"
         )

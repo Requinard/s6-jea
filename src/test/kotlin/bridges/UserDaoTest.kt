@@ -2,8 +2,8 @@ package bridges
 
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
-import domain.KwetterGroup
-import domain.KwetterUser
+import models.GroupModel
+import models.UserModel
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
@@ -15,12 +15,12 @@ import kotlin.test.assertTrue
 class UserDaoTest {
     lateinit var userDao: UserBridge
 
-    val kwetterUser = KwetterUser(
+    val kwetterUser = UserModel(
         username = "john",
         password = sha256("john")
     )
 
-    val kwetterGroup = KwetterGroup(
+    val kwetterGroup = GroupModel(
         groupname = "regular"
     )
 

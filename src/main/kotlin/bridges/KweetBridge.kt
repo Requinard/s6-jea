@@ -1,75 +1,75 @@
 package bridges
 
-import domain.Hashtag
-import domain.Kweet
-import domain.Profile
+import models.HashtagModel
+import models.KweetModel
+import models.ProfileModel
 import javax.ejb.Stateless
 
 @Stateless
 class KweetBridge : BaseBridge() {
     private val hashtagRegex = Regex("""\s(#\w+)""")
 
-    fun getAll(): List<Kweet> = em.createNamedQuery("Kweet.getAll", Kweet::class.java).resultList
+    fun getAll(): List<KweetModel> = em.createNamedQuery("KweetModel.getAll", KweetModel::class.java).resultList
 
-    fun getById(id: Int) = em.find(Kweet::class.java, id)
+    fun getById(id: Int) = em.find(KweetModel::class.java, id)
 
-    fun create(kweet: Kweet, profile: Profile) {
-        kweet.profile = profile
-        profile.kweets.add(kweet)
-        em.persist(kweet)
-        em.merge(profile)
+    fun create(kweetModel: KweetModel, profileModel: ProfileModel) {
+        kweetModel.profileModel = profileModel
+        profileModel.kweets.add(kweetModel)
+        em.persist(kweetModel)
+        em.merge(profileModel)
 
-        createHashtags(kweet)
+        createHashtags(kweetModel)
     }
 
     /**
-     * Takes an input kweet and links it to hashtags
+     * Takes an input kweetModel and links it to hashtags
      */
-    fun createHashtags(kweet: Kweet) = hashtagRegex.findAll(kweet.message).map {
+    fun createHashtags(kweetModel: KweetModel) = hashtagRegex.findAll(kweetModel.message).map {
         // Map the matched values to the actual string
         it.value
     }.map {
         // Find a hashtag. If there is no hashtag found we create a new one
-        em.createNamedQuery("Hashtag.find", Hashtag::class.java)
+        em.createNamedQuery("HashtagModel.find", HashtagModel::class.java)
             .setParameter("tag", it)
-            .singleResult ?: Hashtag(hashtag = it).apply { em.persist(it) }
+            .singleResult ?: HashtagModel(hashtag = it).apply { em.persist(it) }
     }.map {
         // Save the results
-        kweet.hashtags.add(it)
-        it.relevantKweets.add(kweet)
+        kweetModel.hashtags.add(it)
+        it.relevantKweets.add(kweetModel)
 
-        em.merge(kweet)
+        em.merge(kweetModel)
         em.merge(it)
 
         it
     }
 
     /**
-     * Tries to link a profile to a liked kweet
-     * @return true if user has now liked kweet, false if user already liked kweet
+     * Tries to link a profileModel to a liked kweetModel
+     * @return true if userModel has now liked kweetModel, false if userModel already liked kweetModel
      */
-    fun like(kweet: Kweet, profile: Profile): Boolean {
-        val success = kweet.likedBy.add(profile)
-        profile.likes.add(kweet)
-        em.persist(kweet)
+    fun like(kweetModel: KweetModel, profileModel: ProfileModel): Boolean {
+        val success = kweetModel.likedBy.add(profileModel)
+        profileModel.likes.add(kweetModel)
+        em.persist(kweetModel)
 
         return success
     }
 
-    fun like(kweet: Kweet, profileId: Int): Boolean {
+    fun like(kweetModel: KweetModel, profileId: Int): Boolean {
         return like(
-            kweet,
-            em.find(Profile::class.java, profileId)
+            kweetModel,
+            em.find(ProfileModel::class.java, profileId)
         )
     }
 
-    fun search(query: String) = em.createNamedQuery("Kweet.search", Kweet::class.java)
+    fun search(query: String) = em.createNamedQuery("KweetModel.search", KweetModel::class.java)
         .setParameter("query", "%$query%")
         .resultList
 
-    fun delete(kweet: Kweet) {
-        val stock = if (em.contains(kweet)) kweet else em.merge(kweet)
-        stock.profile.kweets.remove(kweet)
-        em.merge(stock.profile)
+    fun delete(kweetModel: KweetModel) {
+        val stock = if (em.contains(kweetModel)) kweetModel else em.merge(kweetModel)
+        stock.profileModel.kweets.remove(kweetModel)
+        em.merge(stock.profileModel)
     }
 }

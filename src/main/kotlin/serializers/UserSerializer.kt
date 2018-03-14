@@ -1,16 +1,16 @@
 package serializers
 
-import domain.KwetterUser
+import models.UserModel
 import util.Open
 import java.io.Serializable
 
 @Open
-class UserSerializer(private val user: KwetterUser) : Serializable {
+class UserSerializer(private val userModel: UserModel) : Serializable {
     var profile: ProfileSerializer
-        get() = ProfileSerializer(user.profile!!)
+        get() = ProfileSerializer(userModel.profileModel!!)
         set(value) = Unit
 
     var groups: List<String>
-        get() = user.groups.map { it.groupname }
+        get() = userModel.groups.map { it.groupname }
         set(value) = Unit
 }

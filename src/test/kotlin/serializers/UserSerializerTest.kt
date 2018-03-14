@@ -1,7 +1,7 @@
 package serializers
 
 import adminGrou
-import domain.KwetterUser
+import models.UserModel
 import johnProfile
 import org.junit.Before
 import org.junit.Test
@@ -13,14 +13,14 @@ import kotlin.test.assertNotNull
 class UserSerializerTest {
     val profile = johnProfile
 
-    val user = KwetterUser(
+    val user = UserModel(
         username = "john",
         password = sha256("john")
     )
 
     @Before
     fun setup() {
-        user.profile = profile
+        user.profileModel = profile
         user.groups.add(regularGroup)
     }
 

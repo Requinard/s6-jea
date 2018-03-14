@@ -2,7 +2,7 @@ package resources
 
 import bridges.ProfileBridge
 import bridges.UserBridge
-import domain.Profile
+import models.ProfileModel
 import serializers.ProfileSerializer
 import javax.inject.Inject
 import javax.ws.rs.Consumes
@@ -28,7 +28,7 @@ class ProfileResource @Inject constructor(
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     fun putByScreenname(): Response {
-        val profile = user.profile!!
+        val profile = user.profileModel!!
         profile.bio = getParam("bio") ?: profile.bio
         profile.website = getParam("website") ?: profile.website
         profile.location = getParam("location") ?: profile.location
@@ -64,8 +64,8 @@ class ProfileResource @Inject constructor(
     fun postFollowScreenname(
         @PathParam("screenname") screenname: String
     ): Response {
-        val follower = user.profile ?: return Response.status(404, "Did not find follower").build()
-        val leader: Profile = profileDao.getByScreenname(screenname) ?: return Response.status(404, "Did not find leader").build()
+        val follower = user.profileModel ?: return Response.status(404, "Did not find follower").build()
+        val leader: ProfileModel = profileDao.getByScreenname(screenname) ?: return Response.status(404, "Did not find leader").build()
 
         val wasAdded = profileDao.follow(follower, leader)
 

@@ -2,7 +2,7 @@ package resources
 
 import bridges.KweetBridge
 import bridges.UserBridge
-import domain.Kweet
+import models.KweetModel
 import serializers.KweetSerializer
 import serializers.SimpleKweetSerializer
 import interceptors.bindings.CensorKweetInterceptorBinding
@@ -28,7 +28,7 @@ class KweetResource @Inject constructor(
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun getAll(): List<KweetSerializer> {
-        return user.profile!!.follows.flatMap { it.kweets }
+        return user.profileModel!!.follows.flatMap { it.kweets }
             .sortedBy { it.created }
             .map { KweetSerializer(it) }
     }
@@ -40,12 +40,12 @@ class KweetResource @Inject constructor(
     fun postMessage(
         @PathParam("message") message: String
     ): Response {
-        val kweet = Kweet(
+        val kweet = KweetModel(
             created = now(),
             message = message
         )
 
-        kweetDao.create(kweet, user.profile!!)
+        kweetDao.create(kweet, user.profileModel!!)
 
         return Response.ok(KweetSerializer(kweet)).build()
     }
@@ -70,7 +70,7 @@ class KweetResource @Inject constructor(
             .status(404)
             .build()
 
-        kweetDao.like(kweet, user.profile!!)
+        kweetDao.like(kweet, user.profileModel!!)
 
         return Response.ok(KweetSerializer(kweet)).build()
     }

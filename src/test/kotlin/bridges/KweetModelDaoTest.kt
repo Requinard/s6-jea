@@ -3,9 +3,9 @@ package bridges
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import domain.Hashtag
-import domain.Kweet
-import domain.Profile
+import models.HashtagModel
+import models.KweetModel
+import models.ProfileModel
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
@@ -17,45 +17,45 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-internal class KweetDaoTest {
+internal class KweetModelDaoTest {
     lateinit var kweetDao: KweetBridge
 
     val kweets = listOf(
-        Kweet(
+        KweetModel(
             created = now(),
             message = "message 1"
         ),
-        Kweet(
+        KweetModel(
             created = now(),
             message = "message 2"
         )
     )
-    val profile = Profile(null, "john", now())
+    val profile = ProfileModel(null, "john", now())
 
     @Before
     fun setup() {
-        val mockQueryFilter = mock<TypedQuery<Kweet>> {
+        val mockQueryFilter = mock<TypedQuery<KweetModel>> {
             on { resultList } doReturn kweets.filter { it.message.contains("1") }
         }
 
-        val mockHashtagQueryFilter2 = mock<TypedQuery<Hashtag?>> {
-            on { singleResult } doReturn null as Hashtag?
+        val mockHashtagQueryFilter2 = mock<TypedQuery<HashtagModel?>> {
+            on { singleResult } doReturn null as HashtagModel?
         }
 
-        val mockHashtagQueryFilter = mock<TypedQuery<Hashtag>> {
+        val mockHashtagQueryFilter = mock<TypedQuery<HashtagModel>> {
             on { setParameter(any() as String?, any() as String?) } doReturn mockHashtagQueryFilter2
         }
 
-        val mockQuery = mock<TypedQuery<Kweet>> {
+        val mockQuery = mock<TypedQuery<KweetModel>> {
             on { resultList } doReturn kweets
             on { setParameter(any<String>(), any<String>()) } doReturn mockQueryFilter
         }
         val mock = mock<EntityManager> {
-            on { createNamedQuery("Kweet.getAll", Kweet::class.java) } doReturn mockQuery
-            on { createNamedQuery("Kweet.search", Kweet::class.java) } doReturn mockQuery
-            on { createNamedQuery("Hashtag.find", Hashtag::class.java) } doReturn mockHashtagQueryFilter
-            on { find(Kweet::class.java, 1) } doReturn kweets[0]
-            on { find(Profile::class.java, 1) } doReturn profile
+            on { createNamedQuery("KweetModel.getAll", KweetModel::class.java) } doReturn mockQuery
+            on { createNamedQuery("KweetModel.search", KweetModel::class.java) } doReturn mockQuery
+            on { createNamedQuery("HashtagModel.find", HashtagModel::class.java) } doReturn mockHashtagQueryFilter
+            on { find(KweetModel::class.java, 1) } doReturn kweets[0]
+            on { find(ProfileModel::class.java, 1) } doReturn profile
         }
 
         Mockito.doNothing().`when`(mock).persist(any())
@@ -87,7 +87,7 @@ internal class KweetDaoTest {
 
     @Test
     fun create() {
-        val kweet = Kweet(
+        val kweet = KweetModel(
             null,
             now(),
             "Hello world"
@@ -95,18 +95,18 @@ internal class KweetDaoTest {
 
         kweetDao.create(kweet, profile)
 
-        assertNotNull(kweet.profile)
+        assertNotNull(kweet.profileModel)
         assertTrue { profile.kweets.isNotEmpty() }
     }
 
     @Test
     fun likeByProfile() {
-        val kweet = Kweet(
+        val kweet = KweetModel(
             null,
             now(),
             "Hello world"
         )
-        val profile = Profile(
+        val profile = ProfileModel(
             null,
             "john",
             now()
@@ -133,7 +133,7 @@ internal class KweetDaoTest {
 
     @Test
     fun likeById() {
-        val kweet = Kweet(
+        val kweet = KweetModel(
             null,
             now(),
             "Hello world"
@@ -151,7 +151,7 @@ internal class KweetDaoTest {
 
     @Test
     fun testGetHashTags() {
-        val kweet = Kweet(
+        val kweet = KweetModel(
             created = now(),
             message = "Hello #world. This #is amazing"
         )

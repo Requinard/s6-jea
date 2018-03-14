@@ -1,35 +1,35 @@
 package bridges
 
-import domain.KwetterGroup
-import domain.KwetterUser
-import domain.Profile
+import models.GroupModel
+import models.UserModel
+import models.ProfileModel
 import javax.ejb.Stateless
 
 @Stateless
 class UserBridge : BaseBridge() {
-    fun getUser(username: String) = em.createNamedQuery("User.getByUsername", KwetterUser::class.java)
+    fun getUser(username: String) = em.createNamedQuery("User.getByUsername", UserModel::class.java)
         .setParameter("username", username)
         .singleResult
 
-    fun createUser(user: KwetterUser, profile: Profile) {
-        em.persist(user)
-        user.profile = profile
-        em.persist(user)
-        profile.user = user
-        em.persist(profile)
+    fun createUser(userModel: UserModel, profileModel: ProfileModel) {
+        em.persist(userModel)
+        userModel.profileModel = profileModel
+        em.persist(userModel)
+        profileModel.userModel = userModel
+        em.persist(profileModel)
     }
 
-    fun createGroup(group: KwetterGroup) = em.persist(group)
+    fun createGroup(groupModel: GroupModel) = em.persist(groupModel)
 
     /**
-     * Add a user to a group
-     * @return true if user was added, false if user already in group
+     * Add a userModel to a groupModel
+     * @return true if userModel was added, false if userModel already in groupModel
      */
-    fun addToGroup(user: KwetterUser, group: KwetterGroup): Boolean {
-        val success = group.users.add(user)
-        user.groups.add(group)
-        em.persist(group)
-        em.persist(user)
+    fun addToGroup(userModel: UserModel, groupModel: GroupModel): Boolean {
+        val success = groupModel.users.add(userModel)
+        userModel.groups.add(groupModel)
+        em.persist(groupModel)
+        em.persist(userModel)
 
         return success
     }
@@ -39,23 +39,23 @@ class UserBridge : BaseBridge() {
      *
      * @return relevant managed group
      */
-    fun getGroup(name: String) = em.createNamedQuery("KwetterGroup.find", KwetterGroup::class.java)
+    fun getGroup(name: String) = em.createNamedQuery("GroupModel.find", GroupModel::class.java)
         .setParameter("name", name)
-        .singleResult ?: KwetterGroup(name).apply { em.persist(this) }
+        .singleResult ?: GroupModel(name).apply { em.persist(this) }
 
     /**
-     * Tries to remove a user from a group
+     * Tries to remove a userModel from a groupModel
      *
-     *  @return Whether the  user was removed from the group or if it was never in it
+     *  @return Whether the  userModel was removed from the groupModel or if it was never in it
      */
-    fun removeFromGroup(user: KwetterUser, group: KwetterGroup): Boolean {
-        val success = group.users.remove(user)
-        user.groups.remove(group)
-        em.merge(group)
-        em.merge(user)
+    fun removeFromGroup(userModel: UserModel, groupModel: GroupModel): Boolean {
+        val success = groupModel.users.remove(userModel)
+        userModel.groups.remove(groupModel)
+        em.merge(groupModel)
+        em.merge(userModel)
 
         return success
     }
 
-    fun getAllUsers() = em.createNamedQuery("User.getAll", KwetterUser::class.java).resultList
+    fun getAllUsers() = em.createNamedQuery("User.getAll", UserModel::class.java).resultList
 }

@@ -1,39 +1,39 @@
-import domain.Kweet
-import domain.KwetterGroup
-import domain.KwetterUser
-import domain.Profile
+import models.KweetModel
+import models.GroupModel
+import models.UserModel
+import models.ProfileModel
 import util.now
 import util.sha256
 
-val johnProfile = Profile(
+val johnProfile = ProfileModel(
     created = now(),
     screenname = "john"
 )
 
-val johnUser = KwetterUser(
+val johnUser = UserModel(
     username = "john",
     password = sha256("john")
 )
 
-val hankProfile = Profile(
+val hankProfile = ProfileModel(
     created = now(),
     screenname = "hank"
 )
 
-val regularGroup = KwetterGroup(
+val regularGroup = GroupModel(
     groupname = "regular"
 )
 
-val adminGrou = KwetterGroup(
+val adminGrou = GroupModel(
     groupname = "admin"
 )
 
-val helloWorldKweet = Kweet(
+val helloWorldKweet = KweetModel(
     created = now(),
     message = "hello world"
 )
 
-val salveMundiKweet = Kweet(
+val salveMundiKweet = KweetModel(
     created = now(),
     message = "salve mundi"
 )

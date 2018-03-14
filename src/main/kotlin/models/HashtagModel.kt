@@ -1,4 +1,4 @@
-package domain
+package models
 
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -10,15 +10,15 @@ import javax.persistence.NamedQuery
 @Entity(name = "hashtag")
 @NamedQueries(
     value = [
-        (NamedQuery(name = "Hashtag.find", query = "select h from hashtag h where h.hashtag LIKE :tag"))
+        (NamedQuery(name = "HashtagModel.find", query = "select h from hashtag h where h.hashtag LIKE :tag"))
     ]
 )
-data class Hashtag(
+data class HashtagModel(
     @Id
     @GeneratedValue
     var id: Long? = null,
     var hashtag: String
 ) {
     @ManyToMany(mappedBy = "hashtags")
-    var relevantKweets = mutableSetOf<Kweet>()
+    var relevantKweets = mutableSetOf<KweetModel>()
 }

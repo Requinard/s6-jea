@@ -8,7 +8,7 @@ import org.junit.Test
 import javax.interceptor.InvocationContext
 import kotlin.test.assertNotEquals
 
-internal class KweetInterceptorTest {
+internal class KweetModelInterceptorTest {
     lateinit var icMock: InvocationContext
     val interceptor = CensorKweetInterceptor()
 

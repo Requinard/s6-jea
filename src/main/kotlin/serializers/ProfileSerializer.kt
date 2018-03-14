@@ -1,49 +1,49 @@
 package serializers
 
-import domain.Profile
+import models.ProfileModel
 import util.Open
 import java.io.Serializable
 import java.sql.Timestamp
 
 @Open
 class ProfileSerializer(
-    private val profile: Profile
+    private val profileModel: ProfileModel
 ) : Serializable {
     var screenname: String
-        get() = profile.screenname
+        get() = profileModel.screenname
         set(value) = Unit
 
     var kweets: List<SimpleKweetSerializer>
-        get() = profile.kweets.take(10)
+        get() = profileModel.kweets.take(10)
             .sortedBy { it.created }
             .map { SimpleKweetSerializer(it) }
         set(value) = Unit
 
     var likedTweets: List<SimpleKweetSerializer>
-        get() = profile.likes.map { SimpleKweetSerializer(it) }
+        get() = profileModel.likes.map { SimpleKweetSerializer(it) }
         set(value) = Unit
 
     var follows: List<String>
-        get() = profile.follows.map { it.screenname }
+        get() = profileModel.follows.map { it.screenname }
         set(value) = Unit
 
     var created: Timestamp
-        get() = profile.created
+        get() = profileModel.created
         set(value) = Unit
 
     var userId: Long?
-        get() = profile.user?.id
+        get() = profileModel.userModel?.id
         set(value) = Unit
 
     var bio: String
-        get() = profile.bio
+        get() = profileModel.bio
         set(value) = Unit
 
     var website: String
-        get() = profile.website
+        get() = profileModel.website
         set(value) = Unit
 
     var location: String
-        get() = profile.location
+        get() = profileModel.location
         set(value) = Unit
 }

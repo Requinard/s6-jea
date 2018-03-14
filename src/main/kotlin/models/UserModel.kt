@@ -1,4 +1,4 @@
-package domain
+package models
 
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -17,7 +17,7 @@ import javax.persistence.OneToOne
         NamedQuery(name = "User.getByUsername", query = "select u from kwetteruser u where u.username LIKE :username")
     ]
 )
-data class KwetterUser(
+data class UserModel(
     @Id
     @GeneratedValue
     val id: Long? = null,
@@ -25,9 +25,9 @@ data class KwetterUser(
     var password: String
 ) {
     @ManyToMany(mappedBy = "users")
-    var groups = mutableSetOf<KwetterGroup>()
+    var groups = mutableSetOf<GroupModel>()
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "profile_id", nullable = true)
-    var profile: Profile? = null
+    var profileModel: ProfileModel? = null
 }

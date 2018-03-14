@@ -1,4 +1,4 @@
-package domain
+package models
 
 import org.junit.After
 import org.junit.Before
