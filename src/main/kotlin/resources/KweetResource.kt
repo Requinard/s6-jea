@@ -1,12 +1,12 @@
 package resources
 
 import annotations.Open
-import bridges.UserBridge
 import interceptors.bindings.CensorKweetInterceptorBinding
 import models.KweetModel
 import serializers.KweetSerializer
 import serializers.SimpleKweetSerializer
 import services.KweetService
+import services.UserService
 import utils.now
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
@@ -23,8 +23,8 @@ import javax.ws.rs.core.Response
 @Path("kweets")
 class KweetResource @Inject constructor(
     val kweetService: KweetService,
-    userBridge: UserBridge
-) : BaseResource(userBridge) {
+    userService: UserService
+) : BaseResource(userService) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun getAll(): List<KweetSerializer> {

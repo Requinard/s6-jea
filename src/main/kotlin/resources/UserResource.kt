@@ -1,7 +1,7 @@
 package resources
 
-import bridges.UserBridge
 import serializers.UserSerializer
+import services.UserService
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
 import javax.ws.rs.DELETE
@@ -16,12 +16,12 @@ import javax.ws.rs.core.Response
 @Path("users")
 @RolesAllowed("admin")
 class UserResource @Inject constructor(
-    val userDao: UserBridge
+    val userService: UserService
 ) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("{admins,moderators}")
-    fun get() = userDao.getAllUsers().map { UserSerializer(it) }.toList()
+    fun get() = userService.getAllUsers().map { UserSerializer(it) }.toList()
 
     @GET
     @Path("{screenname}")
@@ -30,7 +30,7 @@ class UserResource @Inject constructor(
     fun getUserById(
         @PathParam("screenname") screenname: String
     ): Response {
-        val user = userDao.getUser(screenname) ?: return Response.status(404, "User not found").build()
+        val user = userService.getByUsername(screenname) ?: return Response.status(404, "User not found").build()
         return Response.ok(UserSerializer(user)).build()
     }
 
@@ -48,10 +48,10 @@ class UserResource @Inject constructor(
         @PathParam("screenname") screenname: String,
         @PathParam("group") groupname: String
     ): Response {
-        val user = userDao.getUser(screenname) ?: return Response.status(404, "User not found").build()
-        val group = userDao.getGroup(groupname)
+        val user = userService.getByUsername(screenname) ?: return Response.status(404, "User not found").build()
+        val group = userService.getGroup(groupname)
 
-        val success = userDao.addToGroup(user, group)
+        val success = userService.addtoGroup(user, group)
 
         if (success) return Response.ok(UserSerializer(user)).build()
         return Response.notModified("User already in group").build()
@@ -65,10 +65,10 @@ class UserResource @Inject constructor(
         @PathParam("screenname") screenname: String,
         @PathParam("group") groupname: String
     ): Response {
-        val user = userDao.getUser(screenname) ?: return Response.status(404, "User not found").build()
-        val group = userDao.getGroup(groupname)
+        val user = userService.getByUsername(screenname) ?: return Response.status(404, "User not found").build()
+        val group = userService.getGroup(groupname)
 
-        val success = userDao.removeFromGroup(user, group)
+        val success = userService.removeFromGroup(user, group)
 
         if (success) return Response.ok(UserSerializer(user)).build()
         return Response.notModified("User already in group").build()

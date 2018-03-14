@@ -1,9 +1,9 @@
 package resources
 
 import bridges.ProfileBridge
-import bridges.UserBridge
 import models.ProfileModel
 import serializers.ProfileSerializer
+import services.UserService
 import javax.inject.Inject
 import javax.ws.rs.Consumes
 import javax.ws.rs.GET
@@ -18,8 +18,8 @@ import javax.ws.rs.core.Response
 @Path("profiles")
 class ProfileResource @Inject constructor(
     val profileDao: ProfileBridge,
-    userDao: UserBridge
-) : BaseResource(userDao) {
+    userService: UserService
+) : BaseResource(userService) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun get() = ProfileSerializer(profileDao.getByScreenname("john")!!)

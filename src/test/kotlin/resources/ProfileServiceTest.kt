@@ -4,10 +4,10 @@ import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import bridges.ProfileBridge
-import bridges.UserBridge
 import johnProfile
 import johnUser
 import org.mockito.Mockito
+import services.UserService
 import java.nio.file.attribute.UserPrincipal
 import javax.ws.rs.core.MultivaluedHashMap
 import javax.ws.rs.core.SecurityContext
@@ -28,8 +28,8 @@ class ProfileServiceTest {
         user.profileModel = profile
 
         val profileDaoMock = mock<ProfileBridge> {}
-        val userDaoMock = mock<UserBridge> {
-            on { getUser(any()) } doReturn user
+        val userDaoMock = mock<UserService> {
+            on { getByUsername(any()) } doReturn user
         }
 
         val scMock = mock<SecurityContext> {

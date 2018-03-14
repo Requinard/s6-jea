@@ -1,11 +1,12 @@
 package resources
 
-import bridges.UserBridge
+import models.UserModel
+import services.UserService
 import javax.ws.rs.core.Context
 import javax.ws.rs.core.SecurityContext
 import javax.ws.rs.core.UriInfo
 
-abstract class BaseResource(private val userDao: UserBridge) {
+abstract class BaseResource(private val userService: UserService) {
     @Context
     lateinit var request: UriInfo
 
@@ -15,6 +16,6 @@ abstract class BaseResource(private val userDao: UserBridge) {
     val params by lazy { request.queryParameters }
     fun getParam(value: String) = params.get(value)?.first()
 
-    val user get() = userDao.getUser(username)
-    val username get() = sc.userPrincipal.name
+    val user: UserModel get() = userService.getByUsername(username)
+    val username: String get() = sc.userPrincipal.name
 }
