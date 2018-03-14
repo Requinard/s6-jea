@@ -1,10 +1,10 @@
-package service
+package resources
 
 import io.restassured.RestAssured.get
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class HelloWorldIntegration : BaseServiceIntegration() {
+class HelloWorldIntegration : BaseResourceIntegration() {
 
     @Test
     fun test() {

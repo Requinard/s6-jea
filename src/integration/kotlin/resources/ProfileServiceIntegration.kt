@@ -1,10 +1,10 @@
-package service
+package resources
 
 import io.restassured.RestAssured.given
 import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 
-class ProfileServiceIntegration : BaseServiceIntegration() {
+class ProfileServiceIntegration : BaseResourceIntegration() {
     @Test
     fun getBasic() {
         given()

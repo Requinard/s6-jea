@@ -1,4 +1,4 @@
-package service
+package resources
 
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
@@ -21,7 +21,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 internal class KweetServiceTest {
-    lateinit var kweetService: KweetService
+    lateinit var kweetService: KweetResource
 
     val kweet1 = Kweet(
         created = now(),
@@ -74,7 +74,7 @@ internal class KweetServiceTest {
             on { userPrincipal } doReturn userPrincipalMock
         }
 
-        kweetService = KweetService(
+        kweetService = KweetResource(
             kweetDaoMock,
             userDaoMock
         )

@@ -1,4 +1,4 @@
-package service
+package resources
 
 import dao.UserDao
 import dto.UserFacade
@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response
 
 @Path("users")
 @RolesAllowed("admin")
-class UserService @Inject constructor(
+class UserResource @Inject constructor(
     val userDao: UserDao
 ) {
     @GET

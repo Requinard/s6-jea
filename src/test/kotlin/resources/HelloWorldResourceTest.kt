@@ -1,16 +1,16 @@
-package service
+package resources
 
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class HelloWorldServiceTest {
-    lateinit var helloWorldService: HelloWorldService
+class HelloWorldResourceTest {
+    lateinit var helloWorldResource: HelloWorldResource
 
     @Before
     fun setup() {
-        helloWorldService = HelloWorldService()
+        helloWorldResource = HelloWorldResource()
     }
 
     @Test
@@ -20,6 +20,6 @@ class HelloWorldServiceTest {
 
     @Test
     fun helloWorldTest() {
-        assertEquals("Hello World", helloWorldService.get())
+        assertEquals("Hello World", helloWorldResource.get())
     }
 }

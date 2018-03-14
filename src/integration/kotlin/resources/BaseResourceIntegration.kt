@@ -1,10 +1,10 @@
-package service
+package resources
 
 import io.restassured.RestAssured
 import io.restassured.RestAssured.basic
 import org.junit.Before
 
-abstract class BaseServiceIntegration {
+abstract class BaseResourceIntegration {
     @Before
     fun setupRestAssured() {
         RestAssured.baseURI = "http://localhost"

@@ -1,4 +1,4 @@
-package service
+package resources
 
 import dao.ProfileDao
 import dao.UserDao
@@ -16,10 +16,10 @@ import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
 @Path("profiles")
-class ProfileService @Inject constructor(
+class ProfileResource @Inject constructor(
     val profileDao: ProfileDao,
     userDao: UserDao
-) : BaseService(userDao) {
+) : BaseResource(userDao) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun get() = ProfileFacade(profileDao.getByScreenname("john")!!)

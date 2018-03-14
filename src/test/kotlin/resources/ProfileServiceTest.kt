@@ -1,4 +1,4 @@
-package service
+package resources
 
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
@@ -21,7 +21,7 @@ class ProfileServiceTest {
     val profile = johnProfile
     val user = johnUser
 
-    lateinit var profileService: ProfileService
+    lateinit var profileService: ProfileResource
 
     fun setup() {
         profile.user = user
@@ -38,7 +38,7 @@ class ProfileServiceTest {
             }
         }
 
-        profileService = ProfileService(
+        profileService = ProfileResource(
             profileDaoMock,
             userDaoMock
         ).apply {

@@ -1,4 +1,4 @@
-package service
+package resources
 
 import dao.KweetDao
 import dao.UserDao
@@ -21,10 +21,10 @@ import javax.ws.rs.core.Response
 
 @Open
 @Path("kweets")
-class KweetService @Inject constructor(
+class KweetResource @Inject constructor(
     val kweetDao: KweetDao,
     userDao: UserDao
-) : BaseService(userDao) {
+) : BaseResource(userDao) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun getAll(): List<KweetFacade> {
