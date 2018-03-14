@@ -1,12 +1,13 @@
 package resources
 
+import annotations.Open
 import bridges.KweetBridge
 import bridges.UserBridge
+import interceptors.bindings.CensorKweetInterceptorBinding
 import models.KweetModel
 import serializers.KweetSerializer
 import serializers.SimpleKweetSerializer
-import interceptors.bindings.CensorKweetInterceptorBinding
-import annotations.Open
+import services.KweetService
 import utils.now
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
@@ -22,9 +23,10 @@ import javax.ws.rs.core.Response
 @Open
 @Path("kweets")
 class KweetResource @Inject constructor(
-    val kweetDao: KweetBridge,
-    userDao: UserBridge
-) : BaseResource(userDao) {
+    val kweetService: KweetService,
+    val kweetBridge: KweetBridge,
+    userBridge: UserBridge
+) : BaseResource(userBridge) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun getAll(): List<KweetSerializer> {
@@ -45,7 +47,7 @@ class KweetResource @Inject constructor(
             message = message
         )
 
-        kweetDao.create(kweet, user.profileModel!!)
+        kweetService.create(kweet, user.profileModel!!)
 
         return Response.ok(KweetSerializer(kweet)).build()
     }
@@ -56,7 +58,7 @@ class KweetResource @Inject constructor(
     fun getById(
         @PathParam("id") id: Int
     ): Response {
-        val kweet = kweetDao.getById(id) ?: return Response.noContent().build()
+        val kweet = kweetBridge.getById(id) ?: return Response.noContent().build()
 
         return Response.ok(KweetSerializer(kweet)).build()
     }
@@ -66,11 +68,11 @@ class KweetResource @Inject constructor(
     fun likeTweetById(
         @PathParam("id") id: Int
     ): Response {
-        val kweet = kweetDao.getById(id) ?: return Response
+        val kweet = kweetBridge.getById(id) ?: return Response
             .status(404)
             .build()
 
-        kweetDao.like(kweet, user.profileModel!!)
+        kweetBridge.like(kweet, user.profileModel!!)
 
         return Response.ok(KweetSerializer(kweet)).build()
     }
@@ -80,7 +82,7 @@ class KweetResource @Inject constructor(
     @Produces(MediaType.APPLICATION_JSON)
     fun getByQuery(
         @PathParam("query") query: String
-    ) = kweetDao.search(query)
+    ) = kweetBridge.search(query)
         .map { KweetSerializer(it) }
         .toList()
 
@@ -90,9 +92,9 @@ class KweetResource @Inject constructor(
     fun deleteTweet(
         @PathParam("id") id: Int
     ): Response {
-        val kweet = kweetDao.getById(id) ?: return Response.noContent().build()
+        val kweet = kweetBridge.getById(id) ?: return Response.noContent().build()
 
-        kweetDao.delete(kweet)
+        kweetBridge.delete(kweet)
 
         return Response.ok(SimpleKweetSerializer(kweet)).build()
     }

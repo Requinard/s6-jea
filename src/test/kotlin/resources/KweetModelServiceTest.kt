@@ -75,6 +75,7 @@ internal class KweetModelServiceTest {
         }
 
         kweetService = KweetResource(
+            mock {},
             kweetDaoMock,
             userDaoMock
         )
