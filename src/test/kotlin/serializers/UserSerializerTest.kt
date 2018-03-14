@@ -1,4 +1,4 @@
-package dto
+package serializers
 
 import adminGrou
 import domain.KwetterUser
@@ -10,7 +10,7 @@ import util.sha256
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class UserFacadeTest {
+class UserSerializerTest {
     val profile = johnProfile
 
     val user = KwetterUser(
@@ -26,7 +26,7 @@ class UserFacadeTest {
 
     @Test
     fun testFacade() {
-        val facade = UserFacade(user)
+        val facade = UserSerializer(user)
 
         assertEquals(facade.groups, listOf("regular"))
 

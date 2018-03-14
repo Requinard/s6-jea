@@ -1,4 +1,4 @@
-package dto
+package serializers
 
 import domain.Kweet
 import domain.Profile
@@ -10,7 +10,7 @@ import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class ProfileFacadeTest {
+class ProfileSerializerTest {
     val profile = Profile(
         created = now(),
         screenname = "john"
@@ -32,7 +32,7 @@ class ProfileFacadeTest {
 
     @Test
     fun testSimpleFacade() {
-        val facade = SimpleProfileFacade(profile)
+        val facade = SimpleProfileSerializer(profile)
 
         assertEquals(facade.screenname, profile.screenname)
 
@@ -43,7 +43,7 @@ class ProfileFacadeTest {
 
     @Test
     fun testFacade() {
-        val facade = ProfileFacade(profile)
+        val facade = ProfileSerializer(profile)
 
         assertTrue { facade.kweets.count() == 1 }
         assertTrue { facade.likedTweets.count() == 0 }

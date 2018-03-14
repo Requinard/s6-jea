@@ -1,4 +1,4 @@
-package dto
+package serializers
 
 import domain.Kweet
 import domain.Profile
@@ -11,7 +11,7 @@ import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class KweetFacadeTest {
+class KweetSerializerTest {
     val profile = Profile(
         created = now(),
         screenname = "john"
@@ -34,7 +34,7 @@ class KweetFacadeTest {
      */
     @Test
     fun testFacade() {
-        val facade = KweetFacade(kweet)
+        val facade = KweetSerializer(kweet)
 
         // Assert get
         assertNotNull(facade.created)
@@ -48,7 +48,7 @@ class KweetFacadeTest {
      */
     @Test
     fun testSimpleFacade() {
-        val facade = SimpleKweetFacade(kweet)
+        val facade = SimpleKweetSerializer(kweet)
 
         assertNotNull(facade.created)
         assertEquals(facade.profile, profile.screenname)
@@ -60,11 +60,11 @@ class KweetFacadeTest {
      */
     @Test
     fun testSetNotworks() {
-        val facade = KweetFacade(kweet)
+        val facade = KweetSerializer(kweet)
         // Assert set
         facade.message = "haha nee"
-        facade.profile = SimpleProfileFacade(hankProfile)
+        facade.profile = SimpleProfileSerializer(hankProfile)
         assertNotEquals(facade.message, "haha nee")
-        assertNotEquals(facade.profile, SimpleProfileFacade(hankProfile))
+        assertNotEquals(facade.profile, SimpleProfileSerializer(hankProfile))
     }
 }

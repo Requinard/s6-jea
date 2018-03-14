@@ -1,7 +1,7 @@
 package resources
 
 import dao.UserDao
-import dto.UserFacade
+import serializers.UserSerializer
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
 import javax.ws.rs.DELETE
@@ -21,7 +21,7 @@ class UserResource @Inject constructor(
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("{admins,moderators}")
-    fun get() = userDao.getAllUsers().map { UserFacade(it) }.toList()
+    fun get() = userDao.getAllUsers().map { UserSerializer(it) }.toList()
 
     @GET
     @Path("{screenname}")
@@ -31,7 +31,7 @@ class UserResource @Inject constructor(
         @PathParam("screenname") screenname: String
     ): Response {
         val user = userDao.getUser(screenname) ?: return Response.status(404, "User not found").build()
-        return Response.ok(UserFacade(user)).build()
+        return Response.ok(UserSerializer(user)).build()
     }
 
     /**
@@ -53,7 +53,7 @@ class UserResource @Inject constructor(
 
         val success = userDao.addToGroup(user, group)
 
-        if (success) return Response.ok(UserFacade(user)).build()
+        if (success) return Response.ok(UserSerializer(user)).build()
         return Response.notModified("User already in group").build()
     }
 
@@ -70,7 +70,7 @@ class UserResource @Inject constructor(
 
         val success = userDao.removeFromGroup(user, group)
 
-        if (success) return Response.ok(UserFacade(user)).build()
+        if (success) return Response.ok(UserSerializer(user)).build()
         return Response.notModified("User already in group").build()
     }
 }

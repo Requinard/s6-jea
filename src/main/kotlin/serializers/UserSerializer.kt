@@ -1,13 +1,13 @@
-package dto
+package serializers
 
 import domain.KwetterUser
 import util.Open
 import java.io.Serializable
 
 @Open
-class UserFacade(private val user: KwetterUser) : Serializable {
-    var profile: ProfileFacade
-        get() = ProfileFacade(user.profile!!)
+class UserSerializer(private val user: KwetterUser) : Serializable {
+    var profile: ProfileSerializer
+        get() = ProfileSerializer(user.profile!!)
         set(value) = Unit
 
     var groups: List<String>

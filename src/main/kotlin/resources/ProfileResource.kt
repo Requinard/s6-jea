@@ -3,7 +3,7 @@ package resources
 import dao.ProfileDao
 import dao.UserDao
 import domain.Profile
-import dto.ProfileFacade
+import serializers.ProfileSerializer
 import javax.inject.Inject
 import javax.ws.rs.Consumes
 import javax.ws.rs.GET
@@ -22,7 +22,7 @@ class ProfileResource @Inject constructor(
 ) : BaseResource(userDao) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun get() = ProfileFacade(profileDao.getByScreenname("john")!!)
+    fun get() = ProfileSerializer(profileDao.getByScreenname("john")!!)
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -35,7 +35,7 @@ class ProfileResource @Inject constructor(
 
         profileDao.merge(profile)
 
-        return Response.ok(ProfileFacade(profile)).build()
+        return Response.ok(ProfileSerializer(profile)).build()
     }
 
     @GET
@@ -47,7 +47,7 @@ class ProfileResource @Inject constructor(
         val profile = profileDao.getByScreenname(screenname)
 
         if (profile != null)
-            return Response.ok(ProfileFacade(profile)).build()
+            return Response.ok(ProfileSerializer(profile)).build()
         else return Response.noContent().build()
     }
 
@@ -70,7 +70,7 @@ class ProfileResource @Inject constructor(
         val wasAdded = profileDao.follow(follower, leader)
 
         if (wasAdded)
-            return Response.ok(ProfileFacade(follower))
+            return Response.ok(ProfileSerializer(follower))
                 .build()
         return Response.notModified("Follower is already following leader!").build()
     }

@@ -1,4 +1,4 @@
-package dto
+package serializers
 
 import domain.Profile
 import util.Open
@@ -6,21 +6,21 @@ import java.io.Serializable
 import java.sql.Timestamp
 
 @Open
-class ProfileFacade(
+class ProfileSerializer(
     private val profile: Profile
 ) : Serializable {
     var screenname: String
         get() = profile.screenname
         set(value) = Unit
 
-    var kweets: List<SimpleKweetFacade>
+    var kweets: List<SimpleKweetSerializer>
         get() = profile.kweets.take(10)
             .sortedBy { it.created }
-            .map { SimpleKweetFacade(it) }
+            .map { SimpleKweetSerializer(it) }
         set(value) = Unit
 
-    var likedTweets: List<SimpleKweetFacade>
-        get() = profile.likes.map { SimpleKweetFacade(it) }
+    var likedTweets: List<SimpleKweetSerializer>
+        get() = profile.likes.map { SimpleKweetSerializer(it) }
         set(value) = Unit
 
     var follows: List<String>
@@ -45,12 +45,5 @@ class ProfileFacade(
 
     var location: String
         get() = profile.location
-        set(value) = Unit
-}
-
-@Open
-class SimpleProfileFacade(private val profile: Profile) : Serializable {
-    var screenname: String
-        get() = profile.screenname
         set(value) = Unit
 }

@@ -3,8 +3,8 @@ package resources
 import dao.KweetDao
 import dao.UserDao
 import domain.Kweet
-import dto.KweetFacade
-import dto.SimpleKweetFacade
+import serializers.KweetSerializer
+import serializers.SimpleKweetSerializer
 import interceptors.bindings.CensorKweetInterceptorBinding
 import util.Open
 import util.now
@@ -27,10 +27,10 @@ class KweetResource @Inject constructor(
 ) : BaseResource(userDao) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun getAll(): List<KweetFacade> {
+    fun getAll(): List<KweetSerializer> {
         return user.profile!!.follows.flatMap { it.kweets }
             .sortedBy { it.created }
-            .map { KweetFacade(it) }
+            .map { KweetSerializer(it) }
     }
 
     @POST
@@ -47,7 +47,7 @@ class KweetResource @Inject constructor(
 
         kweetDao.create(kweet, user.profile!!)
 
-        return Response.ok(KweetFacade(kweet)).build()
+        return Response.ok(KweetSerializer(kweet)).build()
     }
 
     @GET
@@ -58,7 +58,7 @@ class KweetResource @Inject constructor(
     ): Response {
         val kweet = kweetDao.getById(id) ?: return Response.noContent().build()
 
-        return Response.ok(KweetFacade(kweet)).build()
+        return Response.ok(KweetSerializer(kweet)).build()
     }
 
     @POST
@@ -72,7 +72,7 @@ class KweetResource @Inject constructor(
 
         kweetDao.like(kweet, user.profile!!)
 
-        return Response.ok(KweetFacade(kweet)).build()
+        return Response.ok(KweetSerializer(kweet)).build()
     }
 
     @GET
@@ -81,7 +81,7 @@ class KweetResource @Inject constructor(
     fun getByQuery(
         @PathParam("query") query: String
     ) = kweetDao.search(query)
-        .map { KweetFacade(it) }
+        .map { KweetSerializer(it) }
         .toList()
 
     @DELETE
@@ -94,6 +94,6 @@ class KweetResource @Inject constructor(
 
         kweetDao.delete(kweet)
 
-        return Response.ok(SimpleKweetFacade(kweet)).build()
+        return Response.ok(SimpleKweetSerializer(kweet)).build()
     }
 }
