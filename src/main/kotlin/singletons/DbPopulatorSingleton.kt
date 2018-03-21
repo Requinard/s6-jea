@@ -71,6 +71,7 @@ class DbPopulatorSingleton @Inject constructor(
         userDao.addToGroup(johnUser, mods)
         userDao.createUser(hankUser, hank)
         userDao.addToGroup(hankUser, group1)
+        userDao.addToGroup(johnUser, admins)
 
         profileDao.follow(hank, john)
 

@@ -4,14 +4,14 @@ GlassFish Application Server 3.1 Servlet 3.0//EN"
 <glassfish-web-app>
     <security-role-mapping>
         <role-name>regular_role</role-name>
-        <groupModel-name>regulars</groupModel-name>
+        <group-name>regulars</group-name>
     </security-role-mapping>
     <security-role-mapping>
         <role-name>admin_role</role-name>
-        <groupModel-name>admins</groupModel-name>
+        <group-name>admins</group-name>
     </security-role-mapping>
     <security-role-mapping>
         <role-name>moderator_role</role-name>
-        <groupModel-name>moderators</groupModel-name>
+        <group-name>moderators</group-name>
     </security-role-mapping>
 </glassfish-web-app>
