@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui"
 >
 <h:body>
-    <p:dataTable var="user" value="#{userController.allUsers}">
+    <p:dataTable var="user" value="#{userController.allUsers}" id="users">
         <p:column headerText="ID">
             <h:outputText value="#{user.id}"/>
         </p:column>
@@ -14,7 +14,15 @@
             <h:outputText value="#{user.username}"/>
         </p:column>
         <p:column headerText="groups">
-            <h:outputText value="#{user.groupsAsString()}" />
+            <h:outputText value="#{user.groupsAsString()}"/>
+        </p:column>
+        <p:column headerText="Actions">
+            <h:form>
+                <h:commandButton value="Promote to moderator" actionListener="#{userController.makeModerator(user)}"
+                                 rendered="#{!user.moderator}"/>
+                <h:commandButton value="Demote from moderator" actionListener="#{userController.demoteModerator(user)}"
+                                 rendered="#{user.moderator}"/>
+            </h:form>
         </p:column>
     </p:dataTable>
 </h:body>

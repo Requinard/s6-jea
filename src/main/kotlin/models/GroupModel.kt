@@ -11,7 +11,7 @@ import javax.persistence.NamedQuery
 @Entity(name = "kwettergroup")
 @NamedQueries(
     value = [
-        (NamedQuery(name = "Kwettergroup.find", query = "select g from kwettergroup g where g.groupname LIKE :name"))
+        (NamedQuery(name = "GroupModel.find", query = "select g from kwettergroup g where g.groupname LIKE :name"))
     ]
 )
 data class GroupModel(

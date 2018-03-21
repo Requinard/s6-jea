@@ -1,8 +1,9 @@
 package bridges
 
 import models.GroupModel
-import models.UserModel
 import models.ProfileModel
+import models.UserModel
+import utils.extensions.logger
 import javax.ejb.Stateless
 
 @Stateless
@@ -28,8 +29,10 @@ class UserBridge : BaseBridge() {
     fun addToGroup(userModel: UserModel, groupModel: GroupModel): Boolean {
         val success = groupModel.users.add(userModel)
         userModel.groups.add(groupModel)
-        em.persist(groupModel)
-        em.persist(userModel)
+        em.merge(groupModel)
+        em.merge(userModel)
+        logger.info("Adding user $userModel to group $groupModel")
+        logger.info("User is added: $success")
 
         return success
     }
@@ -54,6 +57,8 @@ class UserBridge : BaseBridge() {
         em.merge(groupModel)
         em.merge(userModel)
 
+        logger.info("Removing user $userModel from group $groupModel")
+        logger.info("Group was removed: $success")
         return success
     }
 

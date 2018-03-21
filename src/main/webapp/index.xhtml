@@ -14,7 +14,9 @@
             <h:outputText value="#{kweet.profileModel.userModel.username}"/>
         </p:column>
         <p:column headerText="Actions">
-            <h:form> <h:commandButton value="delete" actionListener="#{kweetController.delete(kweet)}"/></h:form>
+            <h:form>
+                <h:commandButton value="delete" actionListener="#{kweetController.delete(kweet)}"/>
+            </h:form>
         </p:column>
     </p:dataGrid>
 </h:body>

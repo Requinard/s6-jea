@@ -32,4 +32,6 @@ data class UserModel(
     var profileModel: ProfileModel? = null
 
     fun groupsAsString() = groups.map { it.groupname }.joinToString(",")
+
+    val moderator get() = groupsAsString().contains("moderators")
 }
