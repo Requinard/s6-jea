@@ -1,7 +1,6 @@
 package resources
 
 import annotations.Open
-import interceptors.bindings.CensorKweetInterceptorBinding
 import models.KweetModel
 import serializers.KweetSerializer
 import serializers.SimpleKweetSerializer
@@ -36,7 +35,6 @@ class KweetResource @Inject constructor(
     @POST
     @Path("create/{message}")
     @Produces(MediaType.APPLICATION_JSON)
-    @CensorKweetInterceptorBinding
     fun postMessage(
         @PathParam("message") message: String
     ): Response {

@@ -30,4 +30,6 @@ data class UserModel(
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "profile_id", nullable = true)
     var profileModel: ProfileModel? = null
+
+    fun groupsAsString() = groups.map { it.groupname }.joinToString(",")
 }

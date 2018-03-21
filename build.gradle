@@ -85,6 +85,9 @@ dependencies {
     compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
     compile group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
     compile group: 'com.google.guava', name: 'guava', version: '23.5-jre'
+    compile group: 'org.primefaces', name: 'primefaces', version: '6.0'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+    compile group: 'org.slf4j', name: 'log4j-over-slf4j', version: '1.7.25'
     providedCompile group: 'javax', name: 'javaee-api', version: '8.0'
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"

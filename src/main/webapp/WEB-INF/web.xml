@@ -11,11 +11,20 @@
         <web-resource-collection>
             <web-resource-name>Secure Pages</web-resource-name>
             <description/>
-            <url-pattern>/*</url-pattern>
+            <url-pattern>/api/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>regular_role</role-name>
             <role-name>admin_role</role-name>
         </auth-constraint>
     </security-constraint>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/app/*</url-pattern>
+    </servlet-mapping>
 </web-app>

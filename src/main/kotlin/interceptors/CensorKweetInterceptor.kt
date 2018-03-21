@@ -9,7 +9,7 @@ import javax.interceptor.InvocationContext
 @Open
 @Interceptor
 @CensorKweetInterceptorBinding
-class CensorKweetInterceptor {
+open class CensorKweetInterceptor {
     val badWords = mapOf(
         "oracle" to "sodexo"
     )

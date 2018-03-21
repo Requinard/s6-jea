@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+>
+<h:body>
+    <p:dataGrid var="kweet" value="#{kweetController.timeline}">
+        <p:column headerText="Kweet">
+            <h:outputText value="#{kweet.message}"/>
+        </p:column>
+        <p:column headerText="Username">
+            <h:outputText value="#{kweet.profileModel.userModel.username}"/>
+        </p:column>
+        <p:column headerText="Actions">
+            <h:form> <h:commandButton value="delete" actionListener="#{kweetController.delete(kweet)}"/></h:form>
+        </p:column>
+    </p:dataGrid>
+</h:body>
+</html>

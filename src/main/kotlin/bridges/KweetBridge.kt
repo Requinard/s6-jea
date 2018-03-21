@@ -6,6 +6,7 @@ import models.ProfileModel
 import javax.ejb.Stateless
 
 @Stateless
+
 class KweetBridge : BaseBridge() {
     private val hashtagRegex = Regex("""\s(#\w+)""")
 
