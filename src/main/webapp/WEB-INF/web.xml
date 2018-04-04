@@ -3,43 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-    <login-config>
-        <auth-method>BASIC</auth-method>
-        <realm-name>kwetter_realm</realm-name>
-    </login-config>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Admin pages</web-resource-name>
-            <description/>
-            <url-pattern>/app/users.xhtml</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>admin_role</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Moderator Pages</web-resource-name>
-            <description/>
-            <url-pattern>/app/index.xhtml</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>moderator_role</role-name>
-            <role-name>admin_role</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Regular pages</web-resource-name>
-            <description/>
-            <url-pattern>/api/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>moderator_role</role-name>
-            <role-name>admin_role</role-name>
-            <role-name>regular_role</role-name>
-        </auth-constraint>
-    </security-constraint>
+
 
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>

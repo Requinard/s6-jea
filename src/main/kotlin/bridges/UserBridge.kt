@@ -5,9 +5,14 @@ import models.ProfileModel
 import models.UserModel
 import utils.extensions.logger
 import javax.ejb.Stateless
+import javax.persistence.EntityManager
+import javax.persistence.PersistenceContext
 
 @Stateless
-class UserBridge : BaseBridge() {
+class UserBridge {
+    @PersistenceContext
+    lateinit var em: EntityManager
+
     fun getUser(username: String) = em.createNamedQuery("User.getByUsername", UserModel::class.java)
         .setParameter("username", username)
         .singleResult

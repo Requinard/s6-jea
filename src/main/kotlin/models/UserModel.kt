@@ -18,13 +18,13 @@ import javax.persistence.OneToOne
     ]
 )
 data class UserModel(
-    @Id
     @GeneratedValue
     val id: Long? = null,
+    @Id
     var username: String,
     var password: String
 ) {
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     var groups = mutableSetOf<GroupModel>()
 
     @OneToOne(fetch = FetchType.EAGER)

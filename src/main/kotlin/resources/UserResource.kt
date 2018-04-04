@@ -1,5 +1,6 @@
 package resources
 
+import annotations.Open
 import serializers.UserSerializer
 import services.UserService
 import javax.annotation.security.RolesAllowed
@@ -15,6 +16,7 @@ import javax.ws.rs.core.Response
 
 @Path("users")
 @RolesAllowed("admin")
+@Open
 class UserResource @Inject constructor(
     val userService: UserService
 ) {

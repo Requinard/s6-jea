@@ -1,5 +1,6 @@
 package services
 
+import annotations.Open
 import bridges.KweetBridge
 import bridges.UserBridge
 import models.KweetModel
@@ -8,6 +9,7 @@ import javax.ejb.Stateless
 import javax.inject.Inject
 
 @Stateless
+@Open
 class KweetService @Inject constructor(
     val kweetBridge: KweetBridge,
     val userBridge: UserBridge

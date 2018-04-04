@@ -1,20 +1,22 @@
 package resources
 
+import annotations.Open
 import models.UserModel
 import services.UserService
 import javax.ws.rs.core.Context
 import javax.ws.rs.core.SecurityContext
 import javax.ws.rs.core.UriInfo
 
+@Open
 abstract class BaseResource(private val userService: UserService) {
     @Context
-    lateinit var request: UriInfo
+    private lateinit var request: UriInfo
 
     @Context
-    lateinit var sc: SecurityContext
+    private lateinit var sc: SecurityContext
 
-    val params by lazy { request.queryParameters }
-    fun getParam(value: String) = params.get(value)?.first()
+    private val params by lazy { request.queryParameters }
+    internal fun getParam(value: String) = params[value]?.first()
 
     val user: UserModel get() = userService.getByUsername(username)
     val username: String get() = sc.userPrincipal.name

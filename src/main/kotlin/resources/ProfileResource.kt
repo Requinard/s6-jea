@@ -1,5 +1,6 @@
 package resources
 
+import annotations.Open
 import models.ProfileModel
 import serializers.ProfileSerializer
 import services.ProfileService
@@ -16,6 +17,7 @@ import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
 @Path("profiles")
+@Open
 class ProfileResource @Inject constructor(
     val profileService: ProfileService,
     userService: UserService

@@ -27,11 +27,11 @@ data class KweetModel(
     @Column(length = 280)
     var message: String
 ) {
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "profile_id")
     lateinit var profileModel: ProfileModel
 
-    @ManyToMany(mappedBy = "likes", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+    @ManyToMany(mappedBy = "likes", fetch = FetchType.EAGER, cascade = [CascadeType.REMOVE])
     var likedBy = mutableSetOf<ProfileModel>()
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [(CascadeType.REMOVE)])

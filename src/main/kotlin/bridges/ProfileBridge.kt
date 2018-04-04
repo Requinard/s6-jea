@@ -2,9 +2,13 @@ package bridges
 
 import models.ProfileModel
 import javax.ejb.Stateless
+import javax.persistence.EntityManager
+import javax.persistence.PersistenceContext
 
 @Stateless
-class ProfileBridge : BaseBridge() {
+class ProfileBridge {
+    @PersistenceContext
+    lateinit var em: EntityManager
 
     fun getById(id: Int) = em.find(ProfileModel::class.java, id)
 

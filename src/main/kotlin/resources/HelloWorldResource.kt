@@ -5,7 +5,7 @@ import javax.ws.rs.Path
 import javax.ws.rs.Produces
 
 @Path("helloworld")
-class HelloWorldResource {
+open class HelloWorldResource {
     @GET
     @Produces("text/plain")
     fun get(): String {

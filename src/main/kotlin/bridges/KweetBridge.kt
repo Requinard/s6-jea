@@ -4,10 +4,14 @@ import models.HashtagModel
 import models.KweetModel
 import models.ProfileModel
 import javax.ejb.Stateless
+import javax.persistence.EntityManager
+import javax.persistence.PersistenceContext
 
 @Stateless
+class KweetBridge {
+    @PersistenceContext
+    lateinit var em: EntityManager
 
-class KweetBridge : BaseBridge() {
     private val hashtagRegex = Regex("""\s(#\w+)""")
 
     fun getAll(): List<KweetModel> = em.createNamedQuery("KweetModel.getAll", KweetModel::class.java).resultList
