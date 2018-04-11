@@ -1,3 +1,6 @@
 package annotations
 
-annotation class Open()
+import kotlin.annotation.AnnotationTarget.CLASS
+
+@Target(CLASS)
+annotation class Open

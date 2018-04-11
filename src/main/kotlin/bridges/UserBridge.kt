@@ -13,9 +13,13 @@ class UserBridge {
     @PersistenceContext
     lateinit var em: EntityManager
 
-    fun getUser(username: String) = em.createNamedQuery("User.getByUsername", UserModel::class.java)
-        .setParameter("username", username)
-        .singleResult
+    fun getUser(username: String): UserModel? = try {
+        em.createNamedQuery("User.getByUsername", UserModel::class.java)
+            .setParameter("username", username)
+            .singleResult
+    } catch (ex: Exception) {
+        null
+    }
 
     fun createUser(userModel: UserModel, profileModel: ProfileModel) {
         em.persist(userModel)

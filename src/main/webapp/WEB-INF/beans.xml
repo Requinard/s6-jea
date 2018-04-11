@@ -49,4 +49,5 @@
     <interceptors>
         <class>interceptors.CensorKweetInterceptor</class>
     </interceptors>
+    <scan/>
 </beans>

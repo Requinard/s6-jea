@@ -16,12 +16,8 @@ import javax.ws.rs.POST
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
-import javax.ws.rs.client.Entity
-import javax.ws.rs.core.Context
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
-import javax.ws.rs.core.SecurityContext
-import javax.ws.rs.core.UriInfo
 
 @Path("kweets")
 @Open
@@ -29,19 +25,7 @@ class KweetResource @Inject constructor(
     val kweetService: KweetService,
     val userService: UserService
 ) {
-    @Context
-    private lateinit var request: UriInfo
-
-    @Context
-    private lateinit var sc: SecurityContext
-
-    private val params by lazy { request.queryParameters }
-    internal fun getParam(value: String) = params[value]?.first()
-
-    internal fun user() = userService.getByUsername(username)
-    private val username: String by lazy { sc.userPrincipal.name }
-
-    private fun success(entity: Any) = Response.ok(Entity.text(entity)).build()
+    fun user() = userService.getByUsername("john")!!
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

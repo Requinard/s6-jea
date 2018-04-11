@@ -3,6 +3,7 @@ import org.glassfish.jersey.server.ResourceConfig
 import resources.HelloWorldResource
 import resources.KweetResource
 import resources.ProfileResource
+import rest.AuthResource
 import javax.ws.rs.ApplicationPath
 import javax.ws.rs.core.Application
 
@@ -15,6 +16,7 @@ open class RestApplication() : Application() { init {
     override fun getClasses(): MutableSet<Class<*>> = mutableSetOf(
         HelloWorldResource::class.java,
         KweetResource::class.java,
-        ProfileResource::class.java
+        ProfileResource::class.java,
+        AuthResource::class.java
     )
 }

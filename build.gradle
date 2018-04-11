@@ -84,6 +84,7 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile 'com.auth0:java-jwt:3.3.0'
     compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
     compile group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
     compile group: 'com.google.guava', name: 'guava', version: '23.5-jre'

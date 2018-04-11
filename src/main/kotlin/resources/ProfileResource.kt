@@ -20,8 +20,9 @@ import javax.ws.rs.core.Response
 @Open
 class ProfileResource @Inject constructor(
     val profileService: ProfileService,
-    userService: UserService
-) : BaseResource(userService) {
+    val userService: UserService
+) {
+    fun user() = userService.getByUsername("john")!!
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun get() = ProfileSerializer(profileService.getByScreenname("john")!!)
@@ -30,10 +31,8 @@ class ProfileResource @Inject constructor(
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     fun putByScreenname(): Response {
-        val profile = user.profileModel!!
-        profile.bio = getParam("bio") ?: profile.bio
-        profile.website = getParam("website") ?: profile.website
-        profile.location = getParam("location") ?: profile.location
+        val profile = user().profileModel!!
+        // todo refactor to serializer
 
         profileService.update(profile)
 
@@ -66,7 +65,7 @@ class ProfileResource @Inject constructor(
     fun postFollowScreenname(
         @PathParam("screenname") screenname: String
     ): Response {
-        val follower = user.profileModel ?: return Response.status(404, "Did not find follower").build()
+        val follower = user().profileModel ?: return Response.status(404, "Did not find follower").build()
         val leader: ProfileModel = profileService.getByScreenname(screenname) ?: return Response.status(404, "Did not find leader").build()
 
         val wasAdded = profileService.follow(follower, leader)
