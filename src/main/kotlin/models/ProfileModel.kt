@@ -1,10 +1,9 @@
 package models
 
 import java.sql.Timestamp
-import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
+import javax.persistence.FetchType.EAGER
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
@@ -39,10 +38,10 @@ data class ProfileModel(
     @Column(nullable = true)
     var profileImage: ByteArray? = null
 
-    @OneToMany(mappedBy = "profileModel", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE], orphanRemoval = true)
+    @OneToMany(mappedBy = "profileModel", fetch = EAGER)
     var kweets = mutableSetOf<KweetModel>()
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
+    @ManyToMany(fetch = EAGER)
     @JoinTable(
         name = "liked_kweets",
         joinColumns = [(JoinColumn(name = "profile_id", referencedColumnName = "id"))],
@@ -53,7 +52,7 @@ data class ProfileModel(
     /**
      * A set of profiles that this profileModel follows
      */
-    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
+    @ManyToMany(fetch = EAGER)
     @JoinTable(
         name = "follows",
         joinColumns = [(JoinColumn(name = "follower_id", referencedColumnName = "id"))],
@@ -64,10 +63,10 @@ data class ProfileModel(
     /**
      * A set of profiles that are following this userModel
      */
-    @ManyToMany(mappedBy = "follows", fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
+    @ManyToMany(mappedBy = "follows", fetch = EAGER)
     var followers = mutableSetOf<ProfileModel>()
 
-    @OneToOne(mappedBy = "profileModel")
+    @OneToOne(mappedBy = "profileModel", fetch = EAGER)
     @JoinColumn(name = "user_id", nullable = true)
     var userModel: UserModel? = null
 }

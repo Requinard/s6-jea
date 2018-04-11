@@ -1,10 +1,9 @@
 package models
 
 import java.sql.Timestamp
-import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
+import javax.persistence.FetchType.EAGER
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
@@ -27,14 +26,14 @@ data class KweetModel(
     @Column(length = 280)
     var message: String
 ) {
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "profile_id")
     lateinit var profileModel: ProfileModel
 
-    @ManyToMany(mappedBy = "likes", fetch = FetchType.EAGER, cascade = [CascadeType.REMOVE])
+    @ManyToMany(mappedBy = "likes", fetch = EAGER)
     var likedBy = mutableSetOf<ProfileModel>()
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = [(CascadeType.REMOVE)])
+    @ManyToMany(fetch = EAGER)
     @JoinTable(
         name = "kweet_hashtag",
         joinColumns = [(JoinColumn(name = "kweet_id", referencedColumnName = "id"))],

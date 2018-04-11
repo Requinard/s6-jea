@@ -1,11 +1,15 @@
 package resources
 
+import annotations.JwtTokenNeeded
 import annotations.Open
+import com.google.gson.Gson
 import models.KweetModel
 import serializers.KweetSerializer
+import serializers.MessageSerializer
 import serializers.SimpleKweetSerializer
 import services.KweetService
 import services.UserService
+import utils.JwtUtils
 import utils.now
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
@@ -16,6 +20,8 @@ import javax.ws.rs.POST
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
+import javax.ws.rs.core.Context
+import javax.ws.rs.core.HttpHeaders
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
@@ -23,30 +29,38 @@ import javax.ws.rs.core.Response
 @Open
 class KweetResource @Inject constructor(
     val kweetService: KweetService,
-    val userService: UserService
+    val userService: UserService,
+    val jwtutils: JwtUtils
 ) {
-    fun user() = userService.getByUsername("john")!!
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun getAll(): List<KweetSerializer> {
-        return user().profileModel!!.follows.flatMap { it.kweets }
+    @JwtTokenNeeded
+    fun getAll(
+        @Context header: HttpHeaders
+    ): List<KweetSerializer> {
+        return jwtutils.loggedInUser(header).profileModel!!.follows.flatMap { it.kweets }
             .sortedBy { it.created }
             .map { KweetSerializer(it) }
     }
 
     @POST
-    @Path("create/{message}")
+    @Path("create")
+    @JwtTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
     fun postMessage(
-        @PathParam("message") message: String
+        message: String,
+        @Context headers: HttpHeaders
     ): Response {
+        val messageSerializer = Gson().fromJson(message, MessageSerializer::class.java)
+        val user = jwtutils.loggedInUser(headers)
+
         val kweet = KweetModel(
             created = now(),
-            message = message
+            message = messageSerializer.message
         )
 
-        kweetService.create(kweet, user().profileModel!!)
+        kweetService.create(kweet, user.profileModel!!)
 
         return Response.ok(KweetSerializer(kweet)).build()
     }
@@ -66,13 +80,15 @@ class KweetResource @Inject constructor(
     @POST
     @Path("{id}")
     fun likeTweetById(
-        @PathParam("id") id: Int
+        @PathParam("id") id: Int,
+        @Context headers: HttpHeaders
     ): Response {
+        val user = jwtutils.loggedInUser(headers)
         val kweet = kweetService.getKweetById(id) ?: return Response
             .status(404)
             .build()
 
-        kweetService.likeKweet(kweet, user().profileModel!!)
+        kweetService.likeKweet(kweet, user.profileModel!!)
 
         return Response.ok(SimpleKweetSerializer(kweet)).build()
     }

@@ -9,6 +9,7 @@ import services.UserService
 import javax.ejb.Stateless
 import javax.inject.Inject
 import javax.inject.Named
+import javax.ws.rs.core.HttpHeaders
 
 private val algorithm by lazy { Algorithm.HMAC256("Waarom is java EE zo'n absolute  kutzooi? Ik snap er echt geen flikker van") }
 private val issuer = "kwetter-widlfly"
@@ -88,12 +89,18 @@ class JwtUtils @Inject constructor(val userService: UserService) {
      * @param token JWT token
      * @return Logged in user. Null when user is not present or token is invalid
      */
-    fun loggedInUser(token: String): UserModel? {
-        val verifiedToken = verifyToken(token) ?: return null
+    fun loggedInUser(token: String): UserModel {
+        val verifiedToken = verifyToken(token) ?: throw Exception("There was no verifiable token!")
 
         val username = verifiedToken.getClaim("username").asString()
 
-        return userService.getByUsername(username)
+        return userService.getByUsername(username) ?: throw Exception("There was no user when there  has to be a user!")
+    }
+
+    fun loggedInUser(header: HttpHeaders): UserModel {
+        val authHeader = header.getHeaderString(HttpHeaders.AUTHORIZATION).substring("Bearer".length).trim()
+
+        return loggedInUser(authHeader)
     }
 
     /**
