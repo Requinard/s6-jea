@@ -1,10 +1,12 @@
 package resources
 
+import annotations.JwtTokenNeeded
 import annotations.Open
 import models.ProfileModel
 import serializers.ProfileSerializer
 import services.ProfileService
 import services.UserService
+import utils.JwtUtils
 import javax.inject.Inject
 import javax.ws.rs.Consumes
 import javax.ws.rs.GET
@@ -13,6 +15,8 @@ import javax.ws.rs.PUT
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
+import javax.ws.rs.core.Context
+import javax.ws.rs.core.HttpHeaders
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
@@ -20,12 +24,19 @@ import javax.ws.rs.core.Response
 @Open
 class ProfileResource @Inject constructor(
     val profileService: ProfileService,
-    val userService: UserService
+    val userService: UserService,
+    val jwtUtils: JwtUtils
 ) {
     fun user() = userService.getByUsername("john")!!
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun get() = ProfileSerializer(profileService.getByScreenname("john")!!)
+    @JwtTokenNeeded
+    fun get(
+        @Context headers: HttpHeaders
+    ): Response {
+        val user = jwtUtils.loggedInUser(headers)
+        return Response.ok(ProfileSerializer(user.profileModel!!)).build()
+    }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -66,9 +77,10 @@ class ProfileResource @Inject constructor(
         @PathParam("screenname") screenname: String
     ): Response {
         val follower = user().profileModel ?: return Response.status(404, "Did not find follower").build()
-        val leader: ProfileModel = profileService.getByScreenname(screenname) ?: return Response.status(404, "Did not find leader").build()
+        val leader: ProfileModel = profileService.getByScreenname(screenname)
+            ?: return Response.status(404, "Did not find leader").build()
 
-        val wasAdded = profileService.follow(follower, leader)
+             val wasAdded = profileService.follow(follower, leader)
 
         if (wasAdded)
             return Response.ok(ProfileSerializer(follower))
