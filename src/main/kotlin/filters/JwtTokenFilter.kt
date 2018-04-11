@@ -1,4 +1,5 @@
 import annotations.JwtTokenNeeded
+import annotations.Open
 import utils.extensions.logger
 import utils.isValidJwt
 import javax.annotation.Priority
@@ -13,10 +14,12 @@ import javax.ws.rs.ext.Provider
 @Provider
 @JwtTokenNeeded
 @Priority(Priorities.AUTHENTICATION)
-class JwtTokenFilter : ContainerRequestFilter {
+@Open
+open class JwtTokenFilter : ContainerRequestFilter {
     override fun filter(requestContext: ContainerRequestContext) {
         logger.info("Validating JWT token")
         val authHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION)
+            ?: "HAHA JA ER IS HELEMAAL GEEN HEADER"
         val token = authHeader.substring("Bearer".length).trim()
 
         if (isValidJwt(token)) {

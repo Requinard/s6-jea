@@ -1,4 +1,4 @@
-package rest
+package resources
 
 import annotations.JwtTokenNeeded
 import annotations.Open
@@ -23,13 +23,13 @@ class AuthResource @Inject constructor(val jwtUtils: JwtUtils) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @JwtTokenNeeded
-    fun get() = Response.ok().build()
+        fun get() = Response.ok().build()
 
     /**
      * Log a user in
      */
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
     fun login(
         input: String
