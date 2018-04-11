@@ -13,10 +13,10 @@ class ProfileSerializer(
         get() = profileModel.screenname
         set(value) = Unit
 
-    var kweets: List<SimpleKweetSerializer>
+    var kweets: List<KweetSerializer>
         get() = profileModel.kweets.take(10)
             .sortedBy { it.created }
-            .map { SimpleKweetSerializer(it) }
+            .map { KweetSerializer(it) }
         set(value) = Unit
 
     var likedTweets: List<SimpleKweetSerializer>

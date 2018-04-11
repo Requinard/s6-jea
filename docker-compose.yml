@@ -3,6 +3,7 @@ volumes:
   database:
   ldap-data:
   ldap-conf:
+  jboss:
 services:
   db:
     image: postgres:alpine
@@ -20,8 +21,6 @@ services:
         - POSTGRES_PASSWORD=haraka
         - POSTGRES_USER=haraka
         - POSTGRES_DB=haraka
-      ports:
-        - '5433:5432'
   ldap:
     image: dinkel/openldap
     environment:
@@ -32,3 +31,18 @@ services:
       - 'ldap-conf:/etc/ldap'
     ports:
       - '389:389'
+  jboss:
+    image: jboss/wildfly
+    command: /opt/jboss/wildfly/bin/standalone.sh -bmanagement 0.0.0.0
+    links:
+      - db
+      - ldap
+    depends_on:
+      - db
+      - ldap
+    ports:
+      - "8081:8080"
+      - "9991:9990"
+    volumes:
+      - 'jboss:/opt/jboss/wildfly/standalone/configuration'
+      - './build/deployment:/opt/jboss/wildfly/standalone/deployments'

@@ -1,12 +1,15 @@
 package serializers
 
-import models.KweetModel
 import annotations.Open
+import models.KweetModel
 import java.io.Serializable
 import java.sql.Timestamp
 
 @Open
 class SimpleKweetSerializer(private val kweetModel: KweetModel) : Serializable {
+    var id: Int
+        get() = kweetModel.Id!!
+        set(value) = Unit
     var message: String
         get() = kweetModel.message
         set(value) = Unit

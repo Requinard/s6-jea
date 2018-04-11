@@ -79,6 +79,7 @@ class KweetResource @Inject constructor(
 
     @POST
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
     fun likeTweetById(
         @PathParam("id") id: Int,
         @Context headers: HttpHeaders
@@ -90,7 +91,7 @@ class KweetResource @Inject constructor(
 
         kweetService.likeKweet(kweet, user.profileModel!!)
 
-        return Response.ok(SimpleKweetSerializer(kweet)).build()
+        return Response.ok(KweetSerializer (kweet)).build()
     }
 
     @GET

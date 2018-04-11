@@ -57,7 +57,7 @@ class KweetBridge {
     fun like(kweetModel: KweetModel, profileModel: ProfileModel): Boolean {
         val success = kweetModel.likedBy.add(profileModel)
         profileModel.likes.add(kweetModel)
-        em.persist(kweetModel)
+        em.merge(kweetModel)
 
         return success
     }
