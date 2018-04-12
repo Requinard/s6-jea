@@ -1,7 +1,7 @@
 package serializers
 
-import models.ProfileModel
 import annotations.Open
+import models.ProfileModel
 import java.io.Serializable
 import java.sql.Timestamp
 
@@ -9,6 +9,10 @@ import java.sql.Timestamp
 class ProfileSerializer(
     private val profileModel: ProfileModel
 ) : Serializable {
+    var icon: String
+        get() = profileModel.profileImage
+        set(value) = Unit
+
     var screenname: String
         get() = profileModel.screenname
         set(value) = Unit
