@@ -27,8 +27,12 @@ class ProfileSerializer(
         get() = profileModel.likes.map { SimpleKweetSerializer(it) }
         set(value) = Unit
 
-    var follows: List<String>
-        get() = profileModel.follows.map { it.screenname }
+    var follows: List<SimpleProfileSerializer>
+        get() = profileModel.follows.map { SimpleProfileSerializer(it) }
+        set(value) = Unit
+
+    var followers: List<SimpleProfileSerializer>
+        get() = profileModel.followers.map { SimpleProfileSerializer(it) }
         set(value) = Unit
 
     var created: Timestamp

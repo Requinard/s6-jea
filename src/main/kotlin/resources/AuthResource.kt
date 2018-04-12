@@ -37,7 +37,7 @@ class AuthResource @Inject constructor(val jwtUtils: JwtUtils) {
         val loginSerializer = Gson().fromJson(input, LoginSerializer::class.java)
 
         val token = jwtUtils.login(loginSerializer.username, loginSerializer.password)
-            ?: return Response.noContent().build()
+            ?: return Response.status(404).build()
 
         return Response.ok(token).build()
     }

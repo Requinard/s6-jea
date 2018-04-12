@@ -27,7 +27,6 @@ class ProfileResource @Inject constructor(
     val userService: UserService,
     val jwtUtils: JwtUtils
 ) {
-    fun user() = userService.getByUsername("john")!!
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @JwtTokenNeeded
@@ -41,8 +40,10 @@ class ProfileResource @Inject constructor(
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    fun putByScreenname(): Response {
-        val profile = user().profileModel!!
+    fun putByScreenname(
+        @Context headers: HttpHeaders
+    ): Response {
+        val profile = jwtUtils.loggedInUser(headers).profileModel!!
         // todo refactor to serializer
 
         profileService.update(profile)
@@ -73,14 +74,16 @@ class ProfileResource @Inject constructor(
     @POST
     @Path("{screenname}")
     @Produces(MediaType.APPLICATION_JSON)
+    @JwtTokenNeeded
     fun postFollowScreenname(
-        @PathParam("screenname") screenname: String
+        @PathParam("screenname") screenname: String,
+        @Context headers: HttpHeaders
     ): Response {
-        val follower = user().profileModel ?: return Response.status(404, "Did not find follower").build()
+        val follower = jwtUtils.loggedInUser(headers).profileModel ?: return Response.status(404, "Did not find follower").build()
         val leader: ProfileModel = profileService.getByScreenname(screenname)
             ?: return Response.status(404, "Did not find leader").build()
 
-             val wasAdded = profileService.follow(follower, leader)
+        val wasAdded = profileService.follow(follower, leader)
 
         if (wasAdded)
             return Response.ok(ProfileSerializer(follower))
