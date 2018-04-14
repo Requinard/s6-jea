@@ -3,7 +3,7 @@ package resources
 import annotations.JwtTokenNeeded
 import annotations.Open
 import com.google.gson.Gson
-import serializers.LoginSerializer
+import serializers.`in`.LoginSerializer
 import utils.JwtUtils
 import javax.inject.Inject
 import javax.ws.rs.Consumes
