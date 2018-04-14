@@ -3,7 +3,7 @@ package resources
 import annotations.JwtTokenNeeded
 import annotations.Open
 import com.google.gson.Gson
-import serializers.`in`.LoginSerializer
+import serializers.inputs.LoginSerializer
 import utils.JwtUtils
 import javax.inject.Inject
 import javax.ws.rs.Consumes
@@ -26,7 +26,7 @@ class AuthResource @Inject constructor(val jwtUtils: JwtUtils) {
         fun get() = Response.ok().build()
 
     /**
-     * Log a user in
+     * Log a user inputs
      */
     @POST
     @Produces(MediaType.TEXT_PLAIN)

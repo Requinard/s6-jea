@@ -30,9 +30,9 @@ class JwtUtils @Inject constructor(val userService: UserService) {
 
     /**
      * Creates a signed JWT token
-     * @param userId user Id to be encoded in JWT
-     * @param username username to be encoded in JWT
-     * @param groups A list of groups to be encoded in JWT
+     * @param userId user Id to be encoded inputs JWT
+     * @param username username to be encoded inputs JWT
+     * @param groups A list of groups to be encoded inputs JWT
      * @return A signed and verified JWT with one month validity
      */
     fun createToken(
@@ -60,7 +60,7 @@ class JwtUtils @Inject constructor(val userService: UserService) {
 
     /**
      * Authenticate a user and create a JWT token
-     * @param username username to log in with
+     * @param username username to log inputs with
      * @param password unhashed password to check
      * @return Valid JWT. If user does not exists or password does not match null is returned
      */
@@ -79,15 +79,15 @@ class JwtUtils @Inject constructor(val userService: UserService) {
     }
 
     /**
-     * Check if there's a logged in user
+     * Check if there's a logged inputs user
      * @param token JWT token
      */
     fun isLoggedIn(token: String) = verifyToken(token) != null
 
     /**
-     * Get the currently logged in user
+     * Get the currently logged inputs user
      * @param token JWT token
-     * @return Logged in user. Null when user is not present or token is invalid
+     * @return Logged inputs user. Null when user is not present or token is invalid
      */
     fun loggedInUser(token: String): UserModel {
         val verifiedToken = verifyToken(token) ?: throw Exception("There was no verifiable token!")
@@ -104,10 +104,10 @@ class JwtUtils @Inject constructor(val userService: UserService) {
     }
 
     /**
-     * Check if the currently logged in user is part of a group
+     * Check if the currently logged inputs user is part of a group
      * @param token JWT token
      * @param groupname Groupname to check against
-     * @return If user in group. If no user present default to false
+     * @return If user inputs group. If no user present default to false
      */
     fun partOfGroup(token: String, groupname: String) = verifyToken(token)
         ?.getClaim("groups")

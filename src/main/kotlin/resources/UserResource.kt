@@ -1,8 +1,15 @@
 package resources
 
 import annotations.Open
+import com.google.gson.Gson
+import models.ProfileModel
+import models.UserModel
+import serializers.ProfileSerializer
 import serializers.UserSerializer
+import serializers.inputs.RegisterSerializer
 import services.UserService
+import utils.now
+import utils.sha256
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
 import javax.ws.rs.DELETE
@@ -13,9 +20,9 @@ import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
+import javax.ws.rs.core.Response.Status
 
 @Path("users")
-@RolesAllowed("admin")
 @Open
 class UserResource @Inject constructor(
     val userService: UserService
@@ -25,6 +32,29 @@ class UserResource @Inject constructor(
     @RolesAllowed("{admins,moderators}")
     fun get() = userService.getAllUsers().map { UserSerializer(it) }.toList()
 
+    @POST
+    @Path("/")
+    @Produces(MediaType.APPLICATION_JSON)
+    fun create(
+        body: String
+    ): Response {
+        val reg = Gson().fromJson(body, RegisterSerializer::class.java)
+        val user = UserModel(
+            username = reg.username,
+            password = sha256(reg.password)
+        )
+        val profile = ProfileModel(
+            screenname = reg.username,
+            created = now()
+        )
+        val result = userService.createUser(user, profile)
+
+        return if (result) {
+            Response.ok(ProfileSerializer(profile)).build()
+        } else {
+            Response.status(Status.NOT_ACCEPTABLE).build()
+        }
+    }
     @GET
     @Path("{screenname}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -40,7 +70,7 @@ class UserResource @Inject constructor(
      * Adds a userModel to a group
      * @param screenname screenname to look for
      * @param group group name to look for
-     * @return 404 if no userModel, ok if userModel not in group, not modified if userModel already in group
+     * @return 404 if no userModel, ok if userModel not inputs group, not modified if userModel already inputs group
      */
     @POST
     @Path("{screenname}/{group}")
@@ -56,7 +86,7 @@ class UserResource @Inject constructor(
         val success = userService.addtoGroup(user, group)
 
         if (success) return Response.ok(UserSerializer(user)).build()
-        return Response.notModified("User already in group").build()
+        return Response.notModified("User already inputs group").build()
     }
 
     @DELETE
@@ -73,6 +103,6 @@ class UserResource @Inject constructor(
         val success = userService.removeFromGroup(user, group)
 
         if (success) return Response.ok(UserSerializer(user)).build()
-        return Response.notModified("User already in group").build()
+        return Response.notModified("User already inputs group").build()
     }
 }

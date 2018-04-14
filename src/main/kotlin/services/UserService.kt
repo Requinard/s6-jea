@@ -14,7 +14,12 @@ class UserService @Inject constructor(
     fun getByUsername(username: String) = userBridge.getUser(username)
 
     // todo move logic here
-    fun createUser(userModel: UserModel, profileModel: ProfileModel) = userBridge.createUser(userModel, profileModel)
+    fun createUser(userModel: UserModel, profileModel: ProfileModel) = try {
+        userBridge.createUser(userModel, profileModel)
+        true
+    } catch (ex: Exception) {
+        false
+    }
 
     fun createGroup(groupModel: GroupModel) = userBridge.createGroup(groupModel)
 

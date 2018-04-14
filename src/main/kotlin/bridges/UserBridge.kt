@@ -23,17 +23,19 @@ class UserBridge {
 
     fun createUser(userModel: UserModel, profileModel: ProfileModel) {
         em.persist(userModel)
-        userModel.profileModel = profileModel
-        em.persist(userModel)
-        profileModel.userModel = userModel
         em.persist(profileModel)
+
+        userModel.profileModel = profileModel
+        profileModel.userModel = userModel
+        em.merge(userModel)
+        em.merge(profileModel)
     }
 
     fun createGroup(groupModel: GroupModel) = em.persist(groupModel)
 
     /**
      * Add a userModel to a groupModel
-     * @return true if userModel was added, false if userModel already in groupModel
+     * @return true if userModel was added, false if userModel already inputs groupModel
      */
     fun addToGroup(userModel: UserModel, groupModel: GroupModel): Boolean {
         val success = groupModel.users.add(userModel)
@@ -58,7 +60,7 @@ class UserBridge {
     /**
      * Tries to remove a userModel from a groupModel
      *
-     *  @return Whether the  userModel was removed from the groupModel or if it was never in it
+     *  @return Whether the  userModel was removed from the groupModel or if it was never inputs it
      */
     fun removeFromGroup(userModel: UserModel, groupModel: GroupModel): Boolean {
         val success = groupModel.users.remove(userModel)

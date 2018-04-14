@@ -2,13 +2,14 @@ package resources
 
 import annotations.JwtTokenNeeded
 import annotations.Open
+import com.google.gson.Gson
 import models.ProfileModel
 import serializers.ProfileSerializer
+import serializers.inputs.ChangeProfileSerializer
 import services.ProfileService
 import services.UserService
 import utils.JwtUtils
 import javax.inject.Inject
-import javax.ws.rs.Consumes
 import javax.ws.rs.GET
 import javax.ws.rs.POST
 import javax.ws.rs.PUT
@@ -38,13 +39,18 @@ class ProfileResource @Inject constructor(
     }
 
     @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
+    @JwtTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
-    fun putByScreenname(
+    fun put(
+        body: String,
         @Context headers: HttpHeaders
     ): Response {
+        val newProfile = Gson().fromJson(body, ChangeProfileSerializer::class.java)
         val profile = jwtUtils.loggedInUser(headers).profileModel!!
-        // todo refactor to serializer
+
+        profile.location = newProfile.location ?: profile.location
+        profile.bio = newProfile.bio ?: profile.bio
+        profile.website = newProfile.website ?: profile.website
 
         profileService.update(profile)
 
@@ -54,6 +60,7 @@ class ProfileResource @Inject constructor(
     @GET
     @Path("{screenname}")
     @Produces(MediaType.APPLICATION_JSON)
+    @JwtTokenNeeded
     fun getByScreenName(
         @PathParam("screenname") screenname: String
     ): Response {
@@ -67,6 +74,7 @@ class ProfileResource @Inject constructor(
     @GET
     @Path("{screenname}/kweets")
     @Produces(MediaType.APPLICATION_JSON)
+    @JwtTokenNeeded
     fun getKweetsByScreenName(
         @PathParam("screenname") screenname: String
     ) = profileService.getByScreenname(screenname)?.kweets

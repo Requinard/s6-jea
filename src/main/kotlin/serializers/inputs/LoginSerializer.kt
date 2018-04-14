@@ -1,4 +1,4 @@
-package serializers.`in`
+package serializers.inputs
 
 data class LoginSerializer (
     val username: String,

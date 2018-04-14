@@ -3,6 +3,7 @@ package resources
 import io.restassured.RestAssured.given
 import org.hamcrest.Matchers.equalTo
 import org.junit.Test
+import serializers.inputs.ChangeProfileSerializer
 
 class ProfileModelServiceIntegration : BaseResourceIntegration() {
     @Test
@@ -17,20 +18,15 @@ class ProfileModelServiceIntegration : BaseResourceIntegration() {
 
     @Test
     fun putNewProfile() {
-        //Assert is empty
-        given()
-            .`when`()
-            .get("/profiles")
-            .then()
-            .body("bio", equalTo(""))
-            .body("website", equalTo("www.kwetter.nl"))
-            .body("location", equalTo("Kwetter!"))
+        val firstProfileSerializer = ChangeProfileSerializer(
+            "haha ja",
+            "http://google.com",
+            "Fontys"
+        )
 
         // Run
-        given()
-            .param("bio", "haha ja")
-            .param("website", "http://google.com")
-            .param("location", "fontys")
+        given().body(firstProfileSerializer)
+            .header("Authorization", token)
             .`when`()
             .put("/profiles")
             .then()

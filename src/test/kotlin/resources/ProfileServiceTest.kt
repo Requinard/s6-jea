@@ -8,10 +8,8 @@ import johnUser
 import org.mockito.Mockito
 import services.ProfileService
 import services.UserService
-import java.nio.file.attribute.UserPrincipal
-import javax.ws.rs.core.MultivaluedHashMap
-import javax.ws.rs.core.SecurityContext
-import javax.ws.rs.core.UriInfo
+import utils.JwtUtils
+import javax.ws.rs.core.HttpHeaders
 import kotlin.test.assertEquals
 
 /**
@@ -32,35 +30,25 @@ class ProfileServiceTest {
             on { getByUsername(any()) } doReturn user
         }
 
-        val scMock = mock<SecurityContext> {
-            on { userPrincipal } doReturn com.nhaarman.mockito_kotlin.mock<UserPrincipal> {
-                on { name } doReturn "john"
-            }
+        val jwtUtilsMock = mock<JwtUtils> {
+            on { isLoggedIn(any()) } doReturn true
+            on { loggedInUser(Mockito.any(HttpHeaders::class.java)) } doReturn user
         }
 
         profileService = ProfileResource(
             profileDaoMock,
-            userDaoMock
-        ).apply {
-            sc = scMock
-        }
+            userDaoMock,
+            jwtUtilsMock
+        )
 
         Mockito.doNothing().`when`(profileDaoMock).update(any())
     }
 
     fun testPut() {
-        val map = MultivaluedHashMap<String, String>().apply {
-            add("bio", "hello world")
-        }
-        val queryparamsMock = mock<UriInfo> {
-            on { getQueryParameters() } doReturn map
-        }
-
-        profileService.request = queryparamsMock
 
         assertEquals("", profile.bio)
 
-        profileService.putByScreenname()
+        profileService.put("", mock())
 
         assertEquals("hello world", profile.bio)
     }
