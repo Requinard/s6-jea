@@ -22,7 +22,8 @@ data class UserModel(
     val id: Long? = null,
     @Id
     var username: String,
-    var password: String
+    var password: String,
+    var email: String = "test@kwetter.nl"
 ) {
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     var groups = mutableSetOf<GroupModel>()

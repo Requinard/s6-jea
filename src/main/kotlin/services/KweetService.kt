@@ -5,6 +5,7 @@ import bridges.KweetBridge
 import bridges.UserBridge
 import models.KweetModel
 import models.ProfileModel
+import utils.EmailUtils
 import javax.ejb.Stateless
 import javax.inject.Inject
 
@@ -12,7 +13,8 @@ import javax.inject.Inject
 @Open
 class KweetService @Inject constructor(
     val kweetBridge: KweetBridge,
-    val userBridge: UserBridge
+    val userBridge: UserBridge,
+    val emailUtils: EmailUtils
 ) {
     fun getAllKweets() = kweetBridge.getAll()
     /**
@@ -28,7 +30,9 @@ class KweetService @Inject constructor(
     /**
      * see Kweetbridge.like
      */
-    fun likeKweet(kweetModel: KweetModel, profile: ProfileModel) = kweetBridge.like(kweetModel, profile)
+    fun likeKweet(kweetModel: KweetModel, profile: ProfileModel) = kweetBridge.like(kweetModel, profile).apply {
+        emailUtils.likeKweet(kweetModel, profile)
+    }
 
     /**
      * Searches through tweets
