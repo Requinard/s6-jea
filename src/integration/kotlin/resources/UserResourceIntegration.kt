@@ -3,14 +3,15 @@ package resources
 import com.google.gson.Gson
 import io.restassured.RestAssured.given
 import org.junit.Test
-import serializers.inputs.RegisterSerializer
+import serializers.inputs.RegistrationSerializer
 
 class UserResourceIntegration : BaseResourceIntegration() {
     @Test
     fun testCreateUser() {
-        val data = Gson().toJson(RegisterSerializer(
+        val data = Gson().toJson(RegistrationSerializer(
             "sjors",
-            "sjors"
+            "sjors",
+            "test@test.com"
         ))
 
         given().body(data)

@@ -1,16 +1,18 @@
 package resources
 
+import annotations.AdminRequired
+import annotations.JwtTokenNeeded
+import annotations.ModeratorRequired
 import annotations.Open
 import com.google.gson.Gson
 import models.ProfileModel
 import models.UserModel
 import serializers.ProfileSerializer
 import serializers.UserSerializer
-import serializers.inputs.RegisterSerializer
+import serializers.inputs.RegistrationSerializer
 import services.UserService
 import utils.now
 import utils.sha256
-import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
 import javax.ws.rs.DELETE
 import javax.ws.rs.GET
@@ -29,7 +31,8 @@ class UserResource @Inject constructor(
 ) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("{admins,moderators}")
+    @ModeratorRequired
+    @JwtTokenNeeded
     fun get() = userService.getAllUsers().map { UserSerializer(it) }.toList()
 
     @POST
@@ -38,10 +41,11 @@ class UserResource @Inject constructor(
     fun create(
         body: String
     ): Response {
-        val reg = Gson().fromJson(body, RegisterSerializer::class.java)
+        val reg = Gson().fromJson(body, RegistrationSerializer::class.java)
         val user = UserModel(
             username = reg.username,
-            password = sha256(reg.password)
+            password = sha256(reg.password),
+            email = reg.email
         )
         val profile = ProfileModel(
             screenname = reg.username,
@@ -58,7 +62,8 @@ class UserResource @Inject constructor(
     @GET
     @Path("{screenname}")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("{admins,moderators}")
+    @ModeratorRequired
+    @JwtTokenNeeded
     fun getUserById(
         @PathParam("screenname") screenname: String
     ): Response {
@@ -75,7 +80,8 @@ class UserResource @Inject constructor(
     @POST
     @Path("{screenname}/{group}")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("{admins}")
+    @AdminRequired
+    @JwtTokenNeeded
     fun postUserToGroup(
         @PathParam("screenname") screenname: String,
         @PathParam("group") groupname: String
@@ -92,7 +98,8 @@ class UserResource @Inject constructor(
     @DELETE
     @Path("{screenname}/{group}")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("{admins")
+    @AdminRequired
+    @JwtTokenNeeded
     fun removeUserFromGroup(
         @PathParam("screenname") screenname: String,
         @PathParam("group") groupname: String

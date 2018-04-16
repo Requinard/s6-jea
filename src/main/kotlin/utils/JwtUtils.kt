@@ -21,6 +21,12 @@ fun isValidJwt(token: String) = try {
     false
 }
 
+fun verifyToken(token: String): DecodedJWT? = try {
+    verifier.verify(token)
+} catch (ex: Exception) {
+    null
+}
+
 @Named
 @Stateless
 class JwtUtils @Inject constructor(val userService: UserService) {
