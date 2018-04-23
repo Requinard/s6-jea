@@ -39,8 +39,10 @@ class KweetResource @Inject constructor(
     fun getAll(
         @Context header: HttpHeaders
     ): List<KweetSerializer> {
-        return jwtutils.loggedInUser(header).profileModel!!.follows.flatMap { it.kweets }
-            .sortedBy { it.created }
+        return (
+            jwtutils.loggedInUser(header).profileModel!!.follows.flatMap { it.kweets } +
+                jwtutils.loggedInUser(header).profileModel!!.kweets
+            ).sortedByDescending { it.created }
             .map { KweetSerializer(it) }
     }
 
@@ -91,7 +93,7 @@ class KweetResource @Inject constructor(
 
         kweetService.likeKweet(kweet, user.profileModel!!)
 
-        return Response.ok(KweetSerializer (kweet)).build()
+        return Response.ok(KweetSerializer(kweet)).build()
     }
 
     @GET

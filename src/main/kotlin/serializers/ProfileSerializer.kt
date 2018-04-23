@@ -19,7 +19,7 @@ class ProfileSerializer(
 
     var kweets: List<KweetSerializer>
         get() = profileModel.kweets.take(10)
-            .sortedBy { it.created }
+            .sortedByDescending { it.created }
             .map { KweetSerializer(it) }
         set(value) = Unit
 
