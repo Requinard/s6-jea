@@ -2,9 +2,10 @@ package services
 
 import annotations.Open
 import bridges.KweetBridge
-import bridges.UserBridge
 import models.KweetModel
 import models.ProfileModel
+import resources.sockets.KweetWebSocket
+import serializers.SimpleKweetSerializer
 import utils.EmailUtils
 import javax.ejb.Stateless
 import javax.inject.Inject
@@ -13,8 +14,8 @@ import javax.inject.Inject
 @Open
 class KweetService @Inject constructor(
     val kweetBridge: KweetBridge,
-    val userBridge: UserBridge,
-    val emailUtils: EmailUtils
+    val emailUtils: EmailUtils,
+    val kweetWebSocket: KweetWebSocket
 ) {
     fun getAllKweets() = kweetBridge.getAll()
     /**
@@ -25,7 +26,10 @@ class KweetService @Inject constructor(
     /**
      * Create a new kweet
      */
-    fun create(kweet: KweetModel, profile: ProfileModel) = kweetBridge.create(kweet, profile)
+    fun create(kweet: KweetModel, profile: ProfileModel) {
+        kweetBridge.create(kweet, profile)
+        kweetWebSocket.sendAll(SimpleKweetSerializer(kweet))
+    }
 
     /**
      * see Kweetbridge.like

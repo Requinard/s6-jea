@@ -7,7 +7,10 @@ import java.io.Serializable
 import java.sql.Timestamp
 
 @Open
-class SimpleKweetSerializer(private val kweetModel: KweetModel) : Serializable {
+class SimpleKweetSerializer(
+    @Transient
+    private val kweetModel: KweetModel
+) : Serializable {
     var id: Int
         get() = kweetModel.Id!!
         set(value) = Unit
