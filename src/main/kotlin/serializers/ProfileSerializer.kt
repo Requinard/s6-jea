@@ -2,6 +2,7 @@ package serializers
 
 import annotations.Open
 import models.ProfileModel
+import serializers.links.ProfileLinks
 import java.io.Serializable
 import java.sql.Timestamp
 
@@ -54,4 +55,6 @@ class ProfileSerializer(
     var location: String
         get() = profileModel.location
         set(value) = Unit
+
+    var links = ProfileLinks(profileModel)
 }

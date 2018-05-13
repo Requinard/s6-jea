@@ -2,6 +2,7 @@ package serializers
 
 import models.KweetModel
 import annotations.Open
+import serializers.links.KweetLinks
 import java.io.Serializable
 import java.sql.Timestamp
 
@@ -26,4 +27,6 @@ class KweetSerializer(private val kweetModel: KweetModel) : Serializable {
     var likes: List<SimpleProfileSerializer>
         get() = kweetModel.likedBy.map { SimpleProfileSerializer(it) }
         set(value) = Unit
+
+    var links = KweetLinks(kweetModel)
 }

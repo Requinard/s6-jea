@@ -2,6 +2,7 @@ package serializers
 
 import annotations.Open
 import models.KweetModel
+import serializers.links.KweetLinks
 import java.io.Serializable
 import java.sql.Timestamp
 
@@ -21,4 +22,6 @@ class SimpleKweetSerializer(private val kweetModel: KweetModel) : Serializable {
     var created: Timestamp
         get() = kweetModel.created
         set(value) = Unit
+
+    var links = KweetLinks(kweetModel)
 }

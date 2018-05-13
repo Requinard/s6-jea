@@ -5,7 +5,7 @@ import annotations.Open
 import com.google.gson.Gson
 import models.KweetModel
 import serializers.KweetSerializer
-import serializers.MessageSerializer
+import serializers.inputs.MessageSerializer
 import serializers.SimpleKweetSerializer
 import services.KweetService
 import services.UserService

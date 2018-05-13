@@ -2,6 +2,7 @@ package serializers
 
 import models.ProfileModel
 import annotations.Open
+import serializers.links.ProfileLinks
 import java.io.Serializable
 
 @Open
@@ -13,4 +14,6 @@ class SimpleProfileSerializer(private val profileModel: ProfileModel) : Serializ
     var screenname: String
         get() = profileModel.screenname
         set(value) = Unit
+
+    var links = ProfileLinks(profileModel)
 }
