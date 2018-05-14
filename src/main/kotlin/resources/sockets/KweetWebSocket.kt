@@ -1,6 +1,7 @@
 package resources.sockets
 
 import annotations.Open
+import com.google.gson.Gson
 import models.KweetModel
 import services.ProfileService
 import services.UserService
@@ -74,7 +75,12 @@ open class KweetWebSocket @Inject constructor(
     fun send(message: KweetModel, peer: Session) {
         if (peer.isOpen) {
             logger.info("Sending message to ${peer.id}")
-            peer.basicRemote.sendText(message.message)
+            val msg = mapOf(
+                "message" to message.message,
+                "profile" to message.profileModel.screenname,
+                "created" to message.created.toString()
+            )
+            peer.basicRemote.sendText(Gson().toJson(msg))
         } else {
             logger.warn("Remote was closed! removing.")
             removePeer(peer)
