@@ -5,7 +5,6 @@ import bridges.KweetBridge
 import models.KweetModel
 import models.ProfileModel
 import resources.sockets.KweetWebSocket
-import serializers.SimpleKweetSerializer
 import utils.EmailUtils
 import javax.ejb.Stateless
 import javax.inject.Inject
@@ -28,7 +27,7 @@ class KweetService @Inject constructor(
      */
     fun create(kweet: KweetModel, profile: ProfileModel) {
         kweetBridge.create(kweet, profile)
-        kweetWebSocket.sendAll(SimpleKweetSerializer(kweet))
+        kweetWebSocket.sendAll(kweet)
     }
 
     /**
