@@ -76,9 +76,14 @@ open class KweetWebSocket @Inject constructor(
         if (peer.isOpen) {
             logger.info("Sending message to ${peer.id}")
             val msg = mapOf(
+                "id" to message.Id!!,
                 "message" to message.message,
-                "profile" to message.profileModel.screenname,
-                "created" to message.created.toString()
+                "profile" to mapOf(
+                    "screenname" to message.profileModel.screenname,
+                    "icon" to message.profileModel.profileImage
+                ),
+                "created" to message.created.time,
+                "likes" to emptyList<String>()
             )
             peer.basicRemote.sendText(Gson().toJson(msg))
         } else {
